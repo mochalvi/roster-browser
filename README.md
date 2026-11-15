@@ -1,185 +1,217 @@
 <div align="center">
-  <img src="assets/logo.png" alt="Donut Browser Logo" width="150">
-  <h1>Donut Browser</h1>
-  <strong>Open Source Anti-Detect Browser</strong>
-  <br>
-  <a href="https://donutbrowser.com">donutbrowser.com</a>
+  <img src="branding/logo.png" alt="Roster Browser logo" width="120" />
+  <h1>Roster Browser</h1>
+  <p><strong>Manage hundreds of Google accounts by account, not by profile.</strong></p>
+  <p><em>Kelola ratusan akun Google per akun, bukan per profil.</em></p>
 </div>
-<br>
 
-<p align="center">
-  <a style="text-decoration: none;" href="https://github.com/donutbrowser/donutbrowser/releases/latest" target="_blank"><img alt="GitHub release" src="https://img.shields.io/github/v/release/donutbrowser/donutbrowser">
-  </a>
-  <a style="text-decoration: none;" href="https://github.com/donutbrowser/donutbrowser/issues" target="_blank">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs Welcome">
-  </a>
-  <a style="text-decoration: none;" href="https://github.com/donutbrowser/donutbrowser/blob/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License">
-  </a>
-  <a style="text-decoration: none;" href="https://github.com/donutbrowser/donutbrowser/network/members" target="_blank">
-    <img src="https://img.shields.io/github/forks/donutbrowser/donutbrowser?style=social" alt="GitHub forks">
-  </a>
-</p>
+---
 
-<p align="center">
-  <img alt="Donut Browser starts three profiles. Each one opens its own browser window with the profile name in the address bar, and shows websites a different device." src="assets/readme/hero.svg" width="100%">
-</p>
+> **English below · [Bahasa Indonesia di bawah](#bahasa-indonesia)**
 
-<p align="center">
-  Unlimited browser profiles on one computer. Each one shows websites a different device,<br>
-  keeps its own cookies, extensions and proxy, and stays on your machine.
-</p>
+## English
 
-## Keep every account separate
+### Why Roster
 
-Websites link accounts that come from the same device, and then one ban can take all of them. In Donut, each account runs in its own profile with its own fingerprint, cookies and proxy or VPN, so every site sees a different device.
+Managing many Google accounts in anti-detect browsers is slow: you open a
+profile, wait for it to load, then check which account is inside — one profile at
+a time. Roster flips this around. It lists your **accounts** directly as cards.
+Click an account and it opens straight into Google signed in as that account. No
+hunting through profiles first.
 
-<img alt="In an ordinary browser, four accounts show websites the same device, so they are linked and one ban takes down all four. In Donut Browser, each account shows a different device, so the accounts stay separate." src="assets/readme/linking.svg" width="100%">
+Under the hood Roster still uses browser profiles (it is a fork of
+[Donut Browser](https://github.com/zhom/donutbrowser)), but it treats a profile
+as a *slot holder*: Google allows up to 10 accounts signed in at once per
+browser, so each profile holds up to 10 accounts and Roster opens a new hidden
+profile when the slots fill. You see accounts; the profiles stay out of your way.
 
-The fingerprints come from [Wayfern](https://wayfern.com), a privacy-focused Chromium fork that sets them inside the engine, not with scripts on the page.
+### Features
 
-## Your data stays on your device
+- **Account-first dashboard** — every Google account as a searchable card with
+  avatar, status, tags, and last-refresh time.
+- **One-click open** — opens `google.com` already signed in as the chosen
+  account (via `authuser`).
+- **Hidden profile slots** — up to 10 accounts per profile, auto-allocated, with
+  an option to group related accounts into the same profile.
+- **Sync / refresh** — keeps sessions warm in the background and shows a live
+  per-account result (⏳ queued → 🔄 running → ✅ done · ⚠️ needs verification ·
+  ❌ logged out).
+- **Per-profile proxy & consistent fingerprint** — inherited from Donut's
+  anti-detect engine; each account keeps a stable proxy, timezone, and
+  fingerprint.
+- **Import from an existing browser** — pull Google accounts you are already
+  signed into in Chrome, Edge, or Firefox (see the honesty note below).
+- **Encrypted export / import (`.roster`)** — move all your accounts to another
+  computer as one password-protected file. Export **moves** sessions (it locks
+  the source) rather than copying, so Google does not see the same session in two
+  places at once.
 
-<img alt="Profiles, with their cookies, logins, history and fingerprints, stay on your device. Optional sync sends only data that is encrypted with your password. The app sends no telemetry." src="assets/readme/local.svg" width="100%">
+### Keeping sessions alive — what actually works
 
-- No account needed: profiles, cookies, logins and history live on your computer.
-- Zero telemetry: the app sends no tracking or analytics.
-- Lock a profile with a password, or make it ephemeral so that nothing is left when it closes.
-- Sync is optional and end-to-end encrypted with a password only you know. Use Donut Sync or [run your own server](https://donutbrowser.com/docs/self-hosting).
+There is no trick that guarantees a Google session survives forever; Google can
+ask for verification at any time. What Roster does to maximise session lifetime:
 
-## Automate with code or with AI agents
+- **Export moves, it does not copy.** The same session running in two places is
+  the number-one cause of forced logout. After export the source is locked.
+- **The proxy travels with the account.** After import the browser will not open
+  until the proxy passes a check — no silent fallback to your home IP.
+- **Fingerprint and timezone stay constant** per account.
+- **Accounts are refreshed just before export** so the moved session is fresh.
+- **Camoufox (Firefox) is the default engine**, which avoids Chrome's
+  device-bound session binding.
 
-<img alt="Start a profile from the local REST API and connect Playwright to it over CDP, or let your AI agent work with profiles over remote MCP." src="assets/readme/automation.svg" width="100%">
+When an account still lands on ⚠️, the safe fallback is a manual re-login in the
+same profile — because the proxy and fingerprint are identical, Google usually
+does not challenge it hard.
 
-Start any profile from the local REST API on `127.0.0.1:10108`, then connect Playwright, Puppeteer or Selenium to it over CDP. Or connect Claude, Cursor, Codex or another MCP client over remote MCP, and watch what each agent does. Browser automation and remote MCP come with the paid plans. See the [quickstart](https://donutbrowser.com/docs/quickstart), [Playwright with Wayfern](https://donutbrowser.com/docs/wayfern) and [MCP](https://donutbrowser.com/docs/mcp) guides.
+### Import from Chrome / Edge / Firefox — honesty note
 
-## Features
+| Source | Result |
+|---|---|
+| Firefox / Camoufox | Reliable — sessions move cleanly. |
+| Chrome / Edge | Best-effort — recent Chrome binds data to the device (App-Bound Encryption), so some accounts will still ask for a re-login. |
 
-- Unlimited browser profiles: each fully isolated with its own fingerprint, cookies, extensions, and data
-- Anti-detect Chromium engine: powered by [Wayfern](https://wayfern.com), a privacy-focused Chromium fork whose fingerprint spoofing is not detected by Cloudflare, reCaptcha v3, or other browser fingerprinting and anti-bot services
-- DNS AdBlocker: block ads, trackers, and other unwanted content with per-profile DNS blocking
-- Proxy support: HTTP, HTTPS, SOCKS4, SOCKS5 per profile, with dynamic proxy URLs
-- VPN support: WireGuard configs per profile
-- REST API & remote MCP: a local REST API and a remote [Model Context Protocol](https://modelcontextprotocol.io) server for Claude, Cursor, automation tools and custom workflows
-- Profile groups: organize profiles and apply bulk settings
-- Import profiles: migrate from Chrome, Edge, Brave, or other Chromium browsers
-- Cookie & extension management: import/export cookies, manage extensions per profile
-- Default browser: set Donut as your default browser and choose which profile opens each link
-- Cloud sync: sync profiles, proxies, and groups across devices (self-hostable)
-- E2E encryption: optional end-to-end encrypted sync with a password only you know
-- Zero telemetry: no tracking or device fingerprinting
+After importing an account, **do not keep using it in the original browser**. A
+session active in two places looks suspicious to Google and can log out both.
 
-## Install
+### Status
 
-<!-- install-links-start -->
-### macOS
+This is an active fork in development. The account layer, launcher, refresh, and
+export/import are being built on top of Donut's profile engine.
 
-[Download DMG (Apple Silicon)](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_aarch64.dmg)
+### Build
 
-Or install via Homebrew:
+Roster is a [Tauri](https://tauri.app) app (Rust + Next.js). Requirements:
 
-```bash
-brew install --cask donut
-```
-
-### Windows
-
-[Download Windows Installer (x64)](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_x64-setup.exe) · [Portable (x64)](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_x64-portable.zip)
-
-### Linux
-
-| Format | x86_64 | ARM64 |
-|---|---|---|
-| **deb** | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_amd64.deb) | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_arm64.deb) |
-| **rpm** | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut-0.36.0-1.x86_64.rpm) | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut-0.36.0-1.aarch64.rpm) |
-| **AppImage** | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_amd64.AppImage) | [Download](https://github.com/donutbrowser/donutbrowser/releases/download/v0.36.0/Donut_0.36.0_aarch64.AppImage) |
-<!-- install-links-end -->
-
-Or install via package manager:
+- Node.js 20+ and `pnpm`
+- Rust (stable) and the platform C/C++ build tools
 
 ```bash
-curl -fsSL https://donutbrowser.com/install.sh | sh
+pnpm install
+pnpm tauri dev      # run
+pnpm tauri build    # package
 ```
 
-<details>
-<summary>Troubleshooting AppImage</summary>
+### License
 
-If the AppImage segfaults on launch, install libfuse2 (`sudo apt install libfuse2` / `yay -S libfuse2` / `sudo dnf install fuse-libs`), or bypass FUSE entirely:
+Roster Browser is licensed under the **GNU AGPL-3.0**, inherited from Donut
+Browser. The full text is in [LICENSE](LICENSE). If you distribute a modified
+version, including over a network, you must make your source available under the
+same license.
+
+Roster is a fork of **[Donut Browser](https://github.com/zhom/donutbrowser)** by
+zhom. Credit for the profile, proxy, and anti-detect engine goes to the Donut
+Browser project.
+
+### Disclaimer
+
+Roster Browser is a tool for managing **your own** Google accounts, or accounts
+you are authorised to manage (for example a client's). You are responsible for
+complying with Google's Terms of Service. Do not use it for mass account
+creation, spam, fake engagement, or evading bans. The project ships no
+account-creation automation and no CAPTCHA solving.
+
+---
+
+## Bahasa Indonesia
+
+### Kenapa Roster
+
+Mengelola banyak akun Google di anti-detect browser itu lambat: kamu buka
+profil, tunggu loading, baru cek akun di dalamnya — satu profil satu per satu.
+Roster membalik alur ini. Roster menampilkan **akun** langsung sebagai kartu.
+Klik sebuah akun, browser langsung terbuka dalam keadaan login sebagai akun itu.
+Tidak perlu buka-buka profil dulu.
+
+Di belakang layar Roster tetap memakai profil browser (ini fork dari
+[Donut Browser](https://github.com/zhom/donutbrowser)), tapi profil diperlakukan
+sebagai *wadah slot*: Google mengizinkan maksimal 10 akun login bersamaan di satu
+browser, jadi tiap profil menampung hingga 10 akun dan Roster otomatis membuat
+profil tersembunyi baru saat slotnya penuh. Yang kamu lihat akun; profilnya
+disembunyikan.
+
+### Fitur
+
+- **Dashboard berbasis akun** — tiap akun Google jadi kartu yang bisa dicari,
+  lengkap dengan avatar, status, tag, dan waktu refresh terakhir.
+- **Buka sekali klik** — langsung membuka `google.com` dalam keadaan login
+  sebagai akun yang dipilih (lewat `authuser`).
+- **Slot profil tersembunyi** — hingga 10 akun per profil, dialokasikan otomatis,
+  dengan opsi mengelompokkan akun terkait ke profil yang sama.
+- **Sync / refresh** — menjaga sesi tetap hidup di background dan menampilkan
+  hasil per akun secara langsung (⏳ antri → 🔄 proses → ✅ selesai ·
+  ⚠️ perlu verifikasi · ❌ logout).
+- **Proxy per profil & fingerprint konsisten** — diwarisi dari mesin anti-detect
+  Donut; tiap akun punya proxy, timezone, dan fingerprint yang tetap.
+- **Import dari browser yang sudah ada** — ambil akun Google yang sudah login di
+  Chrome, Edge, atau Firefox (lihat catatan kejujuran di bawah).
+- **Export / import terenkripsi (`.roster`)** — pindahkan semua akun ke komputer
+  lain sebagai satu file berpassword. Export **memindahkan** sesi (mengunci
+  sumbernya), bukan menyalin, supaya Google tidak melihat sesi yang sama aktif di
+  dua tempat.
+
+### Menjaga sesi tetap hidup — yang benar-benar berpengaruh
+
+Tidak ada trik yang menjamin sesi Google awet selamanya; Google bisa meminta
+verifikasi kapan pun. Yang Roster lakukan untuk memperpanjang umur sesi:
+
+- **Export memindahkan, bukan menyalin.** Sesi yang sama jalan di dua tempat
+  adalah penyebab utama logout paksa. Setelah export, sumbernya dikunci.
+- **Proxy ikut pindah bersama akun.** Setelah import, browser tidak akan terbuka
+  sampai proxy lolos cek — tanpa diam-diam jatuh ke IP rumahmu.
+- **Fingerprint dan timezone tetap** untuk tiap akun.
+- **Akun di-refresh tepat sebelum export** supaya sesi yang dipindah masih baru.
+- **Camoufox (Firefox) jadi engine default**, menghindari pengikatan sesi ke
+  perangkat seperti di Chrome.
+
+Kalau sebuah akun tetap berakhir ⚠️, jalan amannya adalah login ulang manual di
+profil yang sama — karena proxy dan fingerprint-nya identik, Google biasanya
+tidak meminta verifikasi berat.
+
+### Import dari Chrome / Edge / Firefox — catatan kejujuran
+
+| Sumber | Hasil |
+|---|---|
+| Firefox / Camoufox | Andal — sesi pindah dengan mulus. |
+| Chrome / Edge | Best-effort — Chrome versi baru mengikat data ke perangkat (App-Bound Encryption), jadi sebagian akun tetap akan minta login ulang. |
+
+Setelah mengimpor sebuah akun, **jangan lagi memakainya di browser asalnya**.
+Sesi yang aktif di dua tempat terlihat mencurigakan bagi Google dan bisa membuat
+keduanya logout.
+
+### Status
+
+Ini fork yang sedang aktif dikembangkan. Lapisan akun, launcher, refresh, dan
+export/import sedang dibangun di atas mesin profil Donut.
+
+### Build
+
+Roster adalah aplikasi [Tauri](https://tauri.app) (Rust + Next.js). Kebutuhan:
+
+- Node.js 20+ dan `pnpm`
+- Rust (stable) dan build tools C/C++ sesuai platform
 
 ```bash
-APPIMAGE_EXTRACT_AND_RUN=1 ./Donut.Browser_x.x.x_amd64.AppImage
+pnpm install
+pnpm tauri dev      # jalankan
+pnpm tauri build    # paket rilis
 ```
 
-If that gives an EGL display error, add `WEBKIT_DISABLE_DMABUF_RENDERER=1` or `GDK_BACKEND=x11` to the command above. If issues persist, the .deb and .rpm packages are more reliable.
+### Lisensi
 
-</details>
+Roster Browser berlisensi **GNU AGPL-3.0**, diwarisi dari Donut Browser. Teks
+lengkapnya ada di [LICENSE](LICENSE). Jika kamu mendistribusikan versi yang sudah
+dimodifikasi, termasuk lewat jaringan, kamu wajib menyediakan source code-nya
+dengan lisensi yang sama.
 
-### Flatpak and Snap
+Roster adalah fork dari **[Donut Browser](https://github.com/zhom/donutbrowser)**
+oleh zhom. Kredit untuk mesin profil, proxy, dan anti-detect ada pada proyek
+Donut Browser.
 
-Releases include an x86_64 Flatpak bundle and a Snap, built from the `.deb` and tested in their sandboxes by the [Linux Packages](https://github.com/donutbrowser/donutbrowser/actions/workflows/linux-packages.yml) workflow. Download `Donut_*_x86_64.flatpak` or `Donut_*_amd64.snap` from the [releases](https://github.com/donutbrowser/donutbrowser/releases) (the nightly has them already) and install it:
+### Penafian
 
-```bash
-flatpak install --user Donut_*_x86_64.flatpak
-sudo snap install --dangerous Donut_*_amd64.snap
-```
-
-The Snap leaves the microphone, the camera and the keyring (used by profile import) disconnected until you run `sudo snap connect donutbrowser:audio-record`, `donutbrowser:camera` or `donutbrowser:password-manager-service`. The Flatpak cannot change the default browser, so choose Donut in your system settings instead.
-
-### Windows portable
-
-The portable version keeps its profiles, logins and settings in the `data` folder next to `Donut.exe`, and updates itself like the installed app. An update does not change `data`, `cache` or `logs`.
-
-Portable copies of v0.35.5 and older cannot update themselves. To update one, quit Donut and run this in PowerShell with the path of your portable folder:
-
-```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/donutbrowser/donutbrowser/main/scripts/update-portable.ps1))) -Path "D:\Donut-Portable"
-```
-
-Or download [update-portable.ps1](scripts/update-portable.ps1), right-click it and select **Run with PowerShell**. It asks for the folder.
-
-### Nix
-
-```bash
-nix run github:donutbrowser/donutbrowser#release-start
-```
-
-## Self-Hosting Sync
-
-Run your own sync server to sync profiles, proxies, and groups across devices for free. See the [Self-Hosting Donut Sync guide](https://donutbrowser.com/docs/self-hosting) for Docker-based setup instructions.
-
-## Contributing
-
-Donut Browser is built by the people who use it, and plenty of the most useful help involves no code at all.
-
-- Tell other people about Donut. Word of mouth is how most users find the project, so talking about it is a real contribution.
-- Report bugs and request features in [GitHub Issues](https://github.com/donutbrowser/donutbrowser/issues).
-- Answer questions in [GitHub Discussions](https://github.com/donutbrowser/donutbrowser/discussions).
-- Fix and improve translations in `src/i18n/locales`.
-- Write code. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
-- Star the repo so more people see it.
-
-## Star History
-
-<a href="https://gitdebt.com/donutbrowser/donutbrowser?ref=readme">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.gitdebt.com/api/repos/donutbrowser/donutbrowser/chart.svg?theme=dark&animate=1" />
-    <img alt="Cumulative GitHub stars for donutbrowser/donutbrowser over time" src="https://api.gitdebt.com/api/repos/donutbrowser/donutbrowser/chart.svg?theme=light&animate=1" />
-  </picture>
-</a>
-
-## Contributors
-
-<a href="https://gitdebt.com/donutbrowser/donutbrowser?ref=readme">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.gitdebt.com/api/repos/donutbrowser/donutbrowser/stats/contributors.svg?theme=dark&animate=1" />
-    <img alt="Everyone who has landed commits in donutbrowser/donutbrowser, ranked by commit count" src="https://api.gitdebt.com/api/repos/donutbrowser/donutbrowser/stats/contributors.svg?theme=light&animate=1" />
-  </picture>
-</a>
-
-## Contact
-
-For urgent questions or security vulnerability reports, email [contact@donutbrowser.com](mailto:contact@donutbrowser.com).
-
-## License
-
-This project is licensed under the AGPL-3.0 License. See the [LICENSE](LICENSE) file for details.
+Roster Browser adalah alat untuk mengelola akun Google **milikmu sendiri**, atau
+akun yang kamu diberi wewenang mengelolanya (misalnya milik klien). Kamu
+bertanggung jawab mematuhi Ketentuan Layanan Google. Jangan gunakan untuk
+pembuatan akun massal, spam, engagement palsu, atau mengakali banned. Proyek ini
+tidak menyertakan otomasi pembuatan akun maupun pemecah CAPTCHA.

@@ -165,6 +165,7 @@ fn e2e_automation_profile_dir() -> Option<std::path::PathBuf> {
     .flatten()
 }
 
+mod account_manager;
 mod api_client;
 mod api_server;
 mod app_auto_updater;
@@ -2745,7 +2746,7 @@ pub fn run_with_builder(
       }
       #[allow(unused_variables)]
       let win_builder = WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
-        .title("Donut Browser")
+        .title("Roster Browser")
         .inner_size(880.0, 500.0)
         .min_inner_size(640.0, 400.0)
         .resizable(true)

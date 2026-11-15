@@ -139,17 +139,17 @@
     "defaultBrowser": {
       "title": "デフォルトブラウザ",
       "setAsDefault": "デフォルトブラウザに設定",
-      "description": "デフォルトに設定すると、Donut Browser がウェブリンクを処理し、使用するプロファイルを選択できます。",
-      "setSuccess": "Donut Browser が既定のブラウザーになりました",
+      "description": "デフォルトに設定すると、Roster Browser がウェブリンクを処理し、使用するプロファイルを選択できます。",
+      "setSuccess": "Roster Browser が既定のブラウザーになりました",
       "setFailed": "既定のブラウザーを設定できませんでした",
       "finishInSystemSettings": "Windows の設定で完了してください",
-      "finishInSystemSettingsDescription": "Donut Browser を登録しました。Windows の設定が開いています。「Web ブラウザー」で Donut Browser を選ぶと完了します。",
-      "isDefault": "Donut Browser は既定のブラウザーです",
-      "notDefault": "Donut Browser は既定のブラウザーではありません"
+      "finishInSystemSettingsDescription": "Roster Browser を登録しました。Windows の設定が開いています。「Web ブラウザー」で Roster Browser を選ぶと完了します。",
+      "isDefault": "Roster Browser は既定のブラウザーです",
+      "notDefault": "Roster Browser は既定のブラウザーではありません"
     },
     "permissions": {
       "title": "システム権限",
-      "description": "これらの権限により、Donut Browser から起動したブラウザがシステムリソースにアクセスできます。各ウェブサイトは個別に許可を求めます。",
+      "description": "これらの権限により、Roster Browser から起動したブラウザがシステムリソースにアクセスできます。各ウェブサイトは個別に許可を求めます。",
       "microphone": "マイク",
       "microphoneDescription": "ブラウザアプリケーションのマイクアクセス",
       "camera": "カメラ",
@@ -195,7 +195,7 @@
       "trialExpired": "トライアル期限切れ",
       "trialExpiredDescription": "個人利用は引き続き無料です。商用利用にはライセンスが必要です。",
       "subscriptionActive": "{{plan}} プランが有効です",
-      "subscriptionActiveDescription": "Donut Browser のサブスクリプションが有効です。プランの期間中、商用利用がライセンスされます。"
+      "subscriptionActiveDescription": "Roster Browser のサブスクリプションが有効です。プランの期間中、商用利用がライセンスされます。"
     },
     "advanced": {
       "title": "詳細設定",
@@ -209,7 +209,7 @@
       "logs": "ログ"
     },
     "disableAutoUpdates": "アプリの自動更新を無効にする",
-    "disableAutoUpdatesDescription": "Donut Browser は更新を自動でダウンロード・インストールしません。新しいバージョンがあるときは引き続き通知します。ブラウザの更新には影響しません。",
+    "disableAutoUpdatesDescription": "Roster Browser は更新を自動でダウンロード・インストールしません。新しいバージョンがあるときは引き続き通知します。ブラウザの更新には影響しません。",
     "keepDecryptedProfilesInRam": "復号済みプロファイルをRAMに保持",
     "keepDecryptedProfilesInRamDescription": "起動を高速化するため、パスワード保護されたプロファイルの復号済みコピーをRAMに保持します。ディスク上のコピーは常に暗号化されたままです。",
     "privacy": {
@@ -322,7 +322,7 @@
       "extensions": "拡張機能"
     },
     "newProfile": "新規",
-    "donutLogo": "Donut Browser ロゴ",
+    "donutLogo": "Roster Browser ロゴ",
     "scrollGroupsLeft": "グループを左へスクロール",
     "scrollGroupsRight": "グループを右へスクロール",
     "allGroups": "すべてのグループ"
@@ -2317,7 +2317,7 @@
   },
   "wayfernTerms": {
     "title": "Wayfern 利用規約",
-    "description": "Donut Browser を使用する前に、Wayfern の利用規約を読み、同意する必要があります。",
+    "description": "Roster Browser を使用する前に、Wayfern の利用規約を読み、同意する必要があります。",
     "reviewLabel": "次の URL で利用規約をご確認ください:",
     "agreeNotice": "「同意します」をクリックすると、これらの条項に拘束されることに同意します。",
     "acceptButton": "同意します",
@@ -2328,7 +2328,7 @@
   "commercialTrial": {
     "title": "商用試用期間が終了しました",
     "description": "2 週間の商用試用期間が終了しました。",
-    "body": "商用目的で Donut Browser を使用する場合は、続行するために商用ライセンスを購入する必要があります。個人利用は引き続き無料でお使いいただけます。",
+    "body": "商用目的で Roster Browser を使用する場合は、続行するために商用ライセンスを購入する必要があります。個人利用は引き続き無料でお使いいただけます。",
     "understandButton": "了解しました",
     "failed": "確認の保存に失敗しました",
     "tryAgain": "もう一度お試しください"
@@ -2336,10 +2336,10 @@
   "permissionDialog": {
     "titleMicrophone": "マイクへのアクセスが必要です",
     "titleCamera": "カメラへのアクセスが必要です",
-    "descMicrophone": "Donut Browser はブラウザのマイク機能を有効にするためにマイクへのアクセスを必要とします。マイクを使用するウェブサイトはそれぞれ個別に許可を求めます。",
-    "descCamera": "Donut Browser はブラウザのカメラ機能を有効にするためにカメラへのアクセスを必要とします。カメラを使用するウェブサイトはそれぞれ個別に許可を求めます。",
-    "grantedMicrophone": "許可が付与されました。Donut Browser から起動したブラウザはマイクにアクセスできます。",
-    "grantedCamera": "許可が付与されました。Donut Browser から起動したブラウザはカメラにアクセスできます。",
+    "descMicrophone": "Roster Browser はブラウザのマイク機能を有効にするためにマイクへのアクセスを必要とします。マイクを使用するウェブサイトはそれぞれ個別に許可を求めます。",
+    "descCamera": "Roster Browser はブラウザのカメラ機能を有効にするためにカメラへのアクセスを必要とします。カメラを使用するウェブサイトはそれぞれ個別に許可を求めます。",
+    "grantedMicrophone": "許可が付与されました。Roster Browser から起動したブラウザはマイクにアクセスできます。",
+    "grantedCamera": "許可が付与されました。Roster Browser から起動したブラウザはカメラにアクセスできます。",
     "notGrantedMicrophone": "許可されていません。下のボタンを押してマイクへのアクセスを要求してください。",
     "notGrantedCamera": "許可されていません。下のボタンを押してカメラへのアクセスを要求してください。",
     "doneButton": "完了",
@@ -2506,7 +2506,7 @@
   },
   "appUpdate": {
     "toast": {
-      "updateFailed": "Donut Browser の更新に失敗しました",
+      "updateFailed": "Roster Browser の更新に失敗しました",
       "restartFailed": "再起動に失敗しました",
       "updateReady": "アップデートの準備完了。再起動して適用",
       "manualDownloadRequired": "手動ダウンロードが必要です",
@@ -2600,7 +2600,7 @@
     },
     "warnings": {
       "forgetWarningTitle": "重要: このパスワードは復元できません",
-      "forgetWarningBody": "Donut Browserはこのパスワードをリセット、復元、回避することはできません。忘れた場合、このプロファイルのデータへのアクセスは永続的に失われます。"
+      "forgetWarningBody": "Roster Browserはこのパスワードをリセット、復元、回避することはできません。忘れた場合、このプロファイルのデータへのアクセスは永続的に失われます。"
     },
     "modes": {
       "set": "設定",
@@ -2684,7 +2684,7 @@
     "dnsRulesSaveFailed": "DNS ルールを保存できませんでした。",
     "dnsRulesExportFailed": "DNS ルールをエクスポートできませんでした。",
     "fingerprintMatchFailed": "フィンガープリントをプロキシに合わせられませんでした。",
-    "proxySidecarVersionMismatch": "Donut Browser のファイルに異なるバージョンが混在しています。最新のアップデートを再インストールしてください。プロファイルはそのまま保持されます。",
+    "proxySidecarVersionMismatch": "Roster Browser のファイルに異なるバージョンが混在しています。最新のアップデートを再インストールしてください。プロファイルはそのまま保持されます。",
     "proxySidecarNotResponding": "Donut のプロキシ補助プログラム (donut-proxy) が {{seconds}} 秒以内に完了しませんでした。セキュリティソフトが止めている可能性があります。ウイルス対策ソフトで donut-proxy を許可してから、もう一度お試しください。",
     "wayfernNotResponding": "Wayfern は起動しましたが、{{seconds}} 秒以内に応答しませんでした。セキュリティソフトが止めているか、ウィンドウを開けなかった可能性があります。ウイルス対策ソフトで Wayfern を許可してから、もう一度お試しください。",
     "updateProfilesRunning": "アップデートをインストールする前に、実行中のプロファイルをすべて停止してください。",
@@ -2693,14 +2693,14 @@
     "wayfernTermsRequired": "Wayfernを使用するには、Wayfernの利用規約に同意してください。",
     "apiPortUnavailable": "APIサーバーで利用可能なポートが見つかりませんでした。",
     "mcpAgentUnknown": "このMCPクライアントはサポートされていません。",
-    "mcpAgentInstallFailed": "MCPクライアントにDonut Browserを追加できませんでした：{{detail}}",
-    "mcpAgentRemoveFailed": "MCPクライアントからDonut Browserを削除できませんでした：{{detail}}",
+    "mcpAgentInstallFailed": "MCPクライアントにRoster Browserを追加できませんでした：{{detail}}",
+    "mcpAgentRemoveFailed": "MCPクライアントからRoster Browserを削除できませんでした：{{detail}}",
     "vlessConfigInvalid": "共有リンクが無効です。",
     "xrayUnavailable": "このシステムでは Xray-core を利用できません。",
     "xrayUnsupportedOs": "VLESS、VMess、Trojan、Hysteria2のプロキシにはmacOS 12以降が必要です。",
     "xrayStartFailed": "Xray-core を起動できませんでした。",
-    "cloudNotSignedIn": "この機能を使うには Donut Browser アカウントにサインインしてください。",
-    "cloudUnreachable": "Donut Browser のサーバーに接続できませんでした。接続を確認してもう一度お試しください。",
+    "cloudNotSignedIn": "この機能を使うには Roster Browser アカウントにサインインしてください。",
+    "cloudUnreachable": "Roster Browser のサーバーに接続できませんでした。接続を確認してもう一度お試しください。",
     "cloudRequestFailed": "リクエストに失敗しました。しばらくしてからもう一度お試しください。",
     "cloudBrowserUpdating": "クラウドブラウザーをお使いの Wayfern のバージョンに更新しています。数分後にもう一度お試しください。",
     "remoteRateLimited": "リクエストが多すぎます。少し待ってからもう一度お試しください。",
@@ -2768,7 +2768,7 @@
     "wayfernFingerprintGenerationFailed": "このプロファイルのフィンガープリントを作成できませんでした。{{detail}}",
     "wayfernGenerationLimitReached": "一時的なフィンガープリント生成上限に達しました。しばらくしてから再度お試しください。",
     "wayfernCrossOsRequiresPlan": "このプロファイルは {{detail}} として動作し、このコンピューターでは別のオペレーティングシステムが動作しています。ここで開くには Pro または Team プランが必要です。",
-    "wayfernCrossOsPrimaryDevice": "このプロファイルは {{detail}} として動作します。別のオペレーティングシステムのプロファイルは、プライマリデバイスでのみ実行できます。ほかのコンピューターで Donut Browser からサインアウトしてから、もう一度お試しください。",
+    "wayfernCrossOsPrimaryDevice": "このプロファイルは {{detail}} として動作します。別のオペレーティングシステムのプロファイルは、プライマリデバイスでのみ実行できます。ほかのコンピューターで Roster Browser からサインアウトしてから、もう一度お試しください。",
     "wayfernIdentityRefused": "ブラウザーがこのプロファイルのアイデンティティで起動しなかったため、終了しました。{{detail}}",
     "wayfernInstanceLimitReached": "ご利用のプランでは、開いているブラウザーが多すぎます。ブラウザーを1つ閉じてからもう一度お試しください。",
     "tooManyBrowsersRunning": "続行するには、ブラウザーのウィンドウを1つ閉じてください。",
@@ -2784,7 +2784,7 @@
     "profileExportFailed": "このプロファイルを書き出せませんでした。{{detail}}",
     "profileExportTooLarge": "このプロファイルは大きすぎて書き出せません。閲覧データを一部消してからもう一度お試しください。",
     "profileImportFailed": "このアーカイブを読み取れませんでした。{{detail}}",
-    "profileImportTooNew": "このアーカイブは新しいバージョンの Donut Browser で作成されています。アプリを更新してからもう一度お試しください。",
+    "profileImportTooNew": "このアーカイブは新しいバージョンの Roster Browser で作成されています。アプリを更新してからもう一度お試しください。",
     "profileImportUnsafeArchive": "このアーカイブはプロファイルフォルダーの外に書き込もうとしたため、拒否しました。",
     "recordingAlreadyRunning": "すでに記録中です。別の記録を始める前に停止してください。",
     "profileNotRunning": "このプロファイルのブラウザーは起動していません。先に起動してください。",
@@ -3014,7 +3014,7 @@
       "importProfileHint": "別のツールから取り込む",
       "keyboardShortcuts": "キーボードショートカット",
       "keyboardShortcutsHint": "すべてのショートカットを表示",
-      "about": "Donut Browser について",
+      "about": "Roster Browser について",
       "aboutHint": "バージョンとアプリ情報",
       "trash": "ゴミ箱",
       "trashHint": "削除したプロファイルを復元",
@@ -3178,7 +3178,7 @@
       "stopProfile": "{{name}} を停止",
       "profileInfo": "情報：{{name}}",
       "createProfile": "プロファイルを作成",
-      "about": "Donut Browser について",
+      "about": "Roster Browser について",
       "agentChat": "新しいエージェントチャット",
       "showWindow": "{{name}} のウィンドウを表示"
     },
@@ -3284,13 +3284,13 @@
     "zoomReset": "表示サイズを標準に戻す"
   },
   "closeConfirm": {
-    "title": "Donut Browser を閉じますか？",
+    "title": "Roster Browser を閉じますか？",
     "description": "アプリをシステムトレイに格納しますか、それとも終了しますか？",
     "minimize": "トレイに格納",
     "quit": "終了"
   },
   "tray": {
-    "show": "Donut Browser を表示",
+    "show": "Roster Browser を表示",
     "quit": "終了"
   },
   "onboarding": {
@@ -3300,7 +3300,7 @@
     }
   },
   "welcome": {
-    "title": "Donut Browser へようこそ",
+    "title": "Roster Browser へようこそ",
     "tagline": "複数のIDを同時に管理できるオープンソースのアンチディテクトブラウザ。",
     "skip": "スキップ",
     "next": "次へ",
@@ -3312,7 +3312,7 @@
     },
     "license": {
       "title": "ライセンス",
-      "body": "Donut Browser はオープンソースで、無料で利用できます。",
+      "body": "Roster Browser はオープンソースで、無料で利用できます。",
       "agree": "了解しました",
       "personalTitle": "個人利用",
       "personalDesc": "永久に無料です。",
@@ -3323,7 +3323,7 @@
   },
   "wayfernBlocked": {
     "title": "プライマリデバイスではありません",
-    "description": "ブラウザの自動化と別のオペレーティングシステムのプロファイルは、プライマリデバイスでのみ実行できます。ほかのコンピューターで Donut Browser からサインアウトしてから、もう一度お試しください。"
+    "description": "ブラウザの自動化と別のオペレーティングシステムのプロファイルは、プライマリデバイスでのみ実行できます。ほかのコンピューターで Roster Browser からサインアウトしてから、もう一度お試しください。"
   },
   "profileGenerationLimit": {
     "title": "1時間あたりのプロファイル上限に達しました",
@@ -3979,7 +3979,7 @@
       "waitingTitle": "エージェントを待っています",
       "waitingBody": "エージェントに Donut を追加し、下の指示を貼り付けてください。作業中にエージェントがあなたに確認するようになります。",
       "starterLabel": "エージェントへの指示",
-      "starter": "Donut のツールを使って、私の Donut Browser のプロファイルを操作できます。開始時とステップの合間に get_human_updates を呼び出して、私のメモと、私が使用中のプロファイルを確認してください。どうすればよいか分からないときは ask_human で私に質問してください。サインイン、認証、支払いなど、ページに人の操作が必要なときは request_human_help を呼び出し、私がプロファイルを戻すまで待ってください。長い作業の間は report_progress を呼び出して、進み具合が分かるようにしてください。",
+      "starter": "Donut のツールを使って、私の Roster Browser のプロファイルを操作できます。開始時とステップの合間に get_human_updates を呼び出して、私のメモと、私が使用中のプロファイルを確認してください。どうすればよいか分からないときは ask_human で私に質問してください。サインイン、認証、支払いなど、ページに人の操作が必要なときは request_human_help を呼び出し、私がプロファイルを戻すまで待ってください。長い作業の間は report_progress を呼び出して、進み具合が分かるようにしてください。",
       "starterCopied": "指示をコピーしました"
     },
     "request": {
@@ -4944,10 +4944,10 @@
     },
     "triage": {
       "label": "AI エージェントに原因を調べてもらう",
-      "description": "Donut Browser に接続された AI エージェント用のプロンプトをコピーします。エージェントはログを読み、解決策を探し、あなたの同意を得てからこのレポートを送信します。",
+      "description": "Roster Browser に接続された AI エージェント用のプロンプトをコピーします。エージェントはログを読み、解決策を探し、あなたの同意を得てからこのレポートを送信します。",
       "copy": "プロンプトをコピー",
       "copied": "プロンプトをコピーしました。エージェントに貼り付けてください。",
-      "prompt": "Donut Browser の MCP ツールを使って、Donut Browser が期待どおりに動かない原因を調べてください。{{url}} のトリアージ手順に従ってください。何が起きたかを私に聞き、get_diagnostics を呼び出し、新しいバージョンと既知の問題を確認し、問題の解決を手伝ってください。send_feedback で送信する前に、レポートを私に見せてください。",
+      "prompt": "Roster Browser の MCP ツールを使って、Roster Browser が期待どおりに動かない原因を調べてください。{{url}} のトリアージ手順に従ってください。何が起きたかを私に聞き、get_diagnostics を呼び出し、新しいバージョンと既知の問題を確認し、問題の解決を手伝ってください。send_feedback で送信する前に、レポートを私に見せてください。",
       "problem": "私が見たこと: {{message}}"
     },
     "profile": {

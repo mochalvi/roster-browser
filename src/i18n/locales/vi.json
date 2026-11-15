@@ -139,17 +139,17 @@
     "defaultBrowser": {
       "title": "Trình duyệt mặc định",
       "setAsDefault": "Đặt làm trình duyệt mặc định",
-      "description": "Khi được đặt làm mặc định, Donut Browser sẽ xử lý các liên kết web và cho phép bạn chọn hồ sơ để sử dụng.",
-      "setSuccess": "Donut Browser hiện là trình duyệt mặc định của bạn",
+      "description": "Khi được đặt làm mặc định, Roster Browser sẽ xử lý các liên kết web và cho phép bạn chọn hồ sơ để sử dụng.",
+      "setSuccess": "Roster Browser hiện là trình duyệt mặc định của bạn",
       "setFailed": "Không thể đặt trình duyệt mặc định",
       "finishInSystemSettings": "Hoàn tất trong Cài đặt Windows",
-      "finishInSystemSettingsDescription": "Donut Browser đã được đăng ký. Cài đặt Windows đang mở: chọn Donut Browser trong mục Trình duyệt web để hoàn tất.",
-      "isDefault": "Donut Browser là trình duyệt mặc định của bạn",
-      "notDefault": "Donut Browser không phải là trình duyệt mặc định của bạn"
+      "finishInSystemSettingsDescription": "Roster Browser đã được đăng ký. Cài đặt Windows đang mở: chọn Roster Browser trong mục Trình duyệt web để hoàn tất.",
+      "isDefault": "Roster Browser là trình duyệt mặc định của bạn",
+      "notDefault": "Roster Browser không phải là trình duyệt mặc định của bạn"
     },
     "permissions": {
       "title": "Quyền hệ thống",
-      "description": "Các quyền này cho phép trình duyệt được khởi chạy từ Donut Browser truy cập tài nguyên hệ thống. Mỗi trang web vẫn sẽ yêu cầu quyền riêng lẻ.",
+      "description": "Các quyền này cho phép trình duyệt được khởi chạy từ Roster Browser truy cập tài nguyên hệ thống. Mỗi trang web vẫn sẽ yêu cầu quyền riêng lẻ.",
       "microphone": "Micro",
       "microphoneDescription": "Quyền truy cập micro cho ứng dụng trình duyệt",
       "camera": "Camera",
@@ -195,7 +195,7 @@
       "trialExpired": "Đã hết hạn dùng thử",
       "trialExpiredDescription": "Sử dụng cá nhân vẫn miễn phí. Sử dụng thương mại cần giấy phép.",
       "subscriptionActive": "Gói {{plan}} đang hoạt động",
-      "subscriptionActiveDescription": "Đăng ký Donut Browser của bạn đang hoạt động. Sử dụng thương mại được cấp phép trong thời hạn gói."
+      "subscriptionActiveDescription": "Đăng ký Roster Browser của bạn đang hoạt động. Sử dụng thương mại được cấp phép trong thời hạn gói."
     },
     "advanced": {
       "title": "Nâng cao",
@@ -209,7 +209,7 @@
       "logs": "Nhật ký"
     },
     "disableAutoUpdates": "Tắt tự động cập nhật ứng dụng",
-    "disableAutoUpdatesDescription": "Donut Browser không tự tải xuống hay cài đặt bản cập nhật. Ứng dụng vẫn báo khi có phiên bản mới. Cập nhật trình duyệt không bị ảnh hưởng.",
+    "disableAutoUpdatesDescription": "Roster Browser không tự tải xuống hay cài đặt bản cập nhật. Ứng dụng vẫn báo khi có phiên bản mới. Cập nhật trình duyệt không bị ảnh hưởng.",
     "keepDecryptedProfilesInRam": "Giữ hồ sơ đã giải mã trong RAM",
     "keepDecryptedProfilesInRamDescription": "Giữ bản sao đã giải mã trong RAM của hồ sơ được bảo vệ bằng mật khẩu giữa các lần khởi chạy để khởi động nhanh hơn. Bản sao trên ổ đĩa vẫn được mã hóa.",
     "privacy": {
@@ -322,7 +322,7 @@
       "extensions": "Tiện ích mở rộng"
     },
     "newProfile": "Mới",
-    "donutLogo": "Logo Donut Browser",
+    "donutLogo": "Logo Roster Browser",
     "scrollGroupsLeft": "Cuộn nhóm sang trái",
     "scrollGroupsRight": "Cuộn nhóm sang phải",
     "allGroups": "Tất cả nhóm"
@@ -1687,7 +1687,7 @@
     "launchHook": {
       "title": "URL hook khởi chạy",
       "label": "URL hook khởi chạy",
-      "description": "Donut Browser sẽ gửi yêu cầu GET đến URL này mỗi khi profile được khởi chạy.",
+      "description": "Roster Browser sẽ gửi yêu cầu GET đến URL này mỗi khi profile được khởi chạy.",
       "placeholder": "https://example.com/hooks/profile-launch",
       "invalidUrlHint": "Nhập URL http:// hoặc https:// hợp lệ."
     },
@@ -2317,7 +2317,7 @@
   },
   "wayfernTerms": {
     "title": "Điều khoản và điều kiện Wayfern",
-    "description": "Trước khi sử dụng Donut Browser, bạn phải đọc và đồng ý với Điều khoản và Điều kiện của Wayfern.",
+    "description": "Trước khi sử dụng Roster Browser, bạn phải đọc và đồng ý với Điều khoản và Điều kiện của Wayfern.",
     "reviewLabel": "Xem lại Điều khoản và Điều kiện tại:",
     "agreeNotice": "Bằng cách nhấn \"Tôi chấp nhận\", bạn đồng ý bị ràng buộc bởi các điều khoản này.",
     "acceptButton": "Tôi chấp nhận",
@@ -2328,7 +2328,7 @@
   "commercialTrial": {
     "title": "Thời gian dùng thử thương mại đã hết",
     "description": "Thời gian dùng thử thương mại 2 tuần của bạn đã kết thúc.",
-    "body": "Nếu bạn sử dụng Donut Browser cho mục đích thương mại, bạn cần mua giấy phép thương mại để tiếp tục. Bạn vẫn có thể sử dụng miễn phí cho mục đích cá nhân.",
+    "body": "Nếu bạn sử dụng Roster Browser cho mục đích thương mại, bạn cần mua giấy phép thương mại để tiếp tục. Bạn vẫn có thể sử dụng miễn phí cho mục đích cá nhân.",
     "understandButton": "Tôi hiểu",
     "failed": "Lưu xác nhận thất bại",
     "tryAgain": "Thử lại"
@@ -2336,10 +2336,10 @@
   "permissionDialog": {
     "titleMicrophone": "Yêu cầu quyền truy cập micro",
     "titleCamera": "Yêu cầu quyền truy cập camera",
-    "descMicrophone": "Donut Browser cần quyền truy cập micro để bật tính năng micro trong trình duyệt web. Mỗi trang web muốn sử dụng micro vẫn sẽ hỏi quyền bạn riêng lẻ.",
-    "descCamera": "Donut Browser cần quyền truy cập camera để bật tính năng camera trong trình duyệt web. Mỗi trang web muốn sử dụng camera vẫn sẽ hỏi quyền bạn riêng lẻ.",
-    "grantedMicrophone": "Đã cấp quyền. Trình duyệt khởi chạy từ Donut Browser giờ có thể truy cập micro của bạn.",
-    "grantedCamera": "Đã cấp quyền. Trình duyệt khởi chạy từ Donut Browser giờ có thể truy cập camera của bạn.",
+    "descMicrophone": "Roster Browser cần quyền truy cập micro để bật tính năng micro trong trình duyệt web. Mỗi trang web muốn sử dụng micro vẫn sẽ hỏi quyền bạn riêng lẻ.",
+    "descCamera": "Roster Browser cần quyền truy cập camera để bật tính năng camera trong trình duyệt web. Mỗi trang web muốn sử dụng camera vẫn sẽ hỏi quyền bạn riêng lẻ.",
+    "grantedMicrophone": "Đã cấp quyền. Trình duyệt khởi chạy từ Roster Browser giờ có thể truy cập micro của bạn.",
+    "grantedCamera": "Đã cấp quyền. Trình duyệt khởi chạy từ Roster Browser giờ có thể truy cập camera của bạn.",
     "notGrantedMicrophone": "Chưa cấp quyền. Nhấn nút bên dưới để yêu cầu quyền truy cập micro.",
     "notGrantedCamera": "Chưa cấp quyền. Nhấn nút bên dưới để yêu cầu quyền truy cập camera.",
     "doneButton": "Xong",
@@ -2506,7 +2506,7 @@
   },
   "appUpdate": {
     "toast": {
-      "updateFailed": "Cập nhật Donut Browser thất bại",
+      "updateFailed": "Cập nhật Roster Browser thất bại",
       "restartFailed": "Khởi động lại thất bại",
       "updateReady": "Bản cập nhật sẵn sàng, khởi động lại để áp dụng",
       "manualDownloadRequired": "Cần tải xuống thủ công",
@@ -2600,7 +2600,7 @@
     },
     "warnings": {
       "forgetWarningTitle": "Quan trọng: mật khẩu này không thể khôi phục",
-      "forgetWarningBody": "Donut Browser không thể đặt lại, khôi phục hoặc bỏ qua mật khẩu này. Nếu bạn quên, bạn sẽ mất quyền truy cập vĩnh viễn vào dữ liệu profile này."
+      "forgetWarningBody": "Roster Browser không thể đặt lại, khôi phục hoặc bỏ qua mật khẩu này. Nếu bạn quên, bạn sẽ mất quyền truy cập vĩnh viễn vào dữ liệu profile này."
     },
     "modes": {
       "set": "Đặt",
@@ -2684,23 +2684,23 @@
     "dnsRulesSaveFailed": "Không thể lưu quy tắc DNS.",
     "dnsRulesExportFailed": "Không thể xuất quy tắc DNS.",
     "fingerprintMatchFailed": "Không thể khớp vân tay với proxy.",
-    "proxySidecarVersionMismatch": "Một số tệp Donut Browser thuộc các phiên bản khác nhau. Hãy cài đặt lại bản cập nhật mới nhất; hồ sơ của bạn vẫn được giữ an toàn.",
+    "proxySidecarVersionMismatch": "Một số tệp Roster Browser thuộc các phiên bản khác nhau. Hãy cài đặt lại bản cập nhật mới nhất; hồ sơ của bạn vẫn được giữ an toàn.",
     "proxySidecarNotResponding": "Trình trợ giúp proxy của Donut (donut-proxy) không hoàn tất trong {{seconds}} giây. Có thể phần mềm bảo mật đang giữ nó: hãy cho phép donut-proxy trong phần mềm diệt virus rồi thử lại.",
     "wayfernNotResponding": "Wayfern đã khởi động nhưng không phản hồi trong {{seconds}} giây. Có thể phần mềm bảo mật đang giữ nó, hoặc nó không mở được cửa sổ. Hãy cho phép Wayfern trong phần mềm diệt virus rồi thử lại.",
     "updateProfilesRunning": "Hãy dừng tất cả hồ sơ đang chạy trước khi cài đặt bản cập nhật.",
-    "updatePreparationFailed": "Donut Browser không thể dừng an toàn một tiến trình mạng chạy nền. Hãy khởi động lại máy tính rồi thử cập nhật lại.",
-    "portableUpdateFailed": "Donut Browser không thể thay thế các tệp trong thư mục di động và giữ phiên bản hiện tại. Hãy đóng các chương trình đang dùng tệp trong thư mục đó, rồi khởi động lại lần nữa.",
+    "updatePreparationFailed": "Roster Browser không thể dừng an toàn một tiến trình mạng chạy nền. Hãy khởi động lại máy tính rồi thử cập nhật lại.",
+    "portableUpdateFailed": "Roster Browser không thể thay thế các tệp trong thư mục di động và giữ phiên bản hiện tại. Hãy đóng các chương trình đang dùng tệp trong thư mục đó, rồi khởi động lại lần nữa.",
     "wayfernTermsRequired": "Hãy chấp nhận Điều khoản và Điều kiện của Wayfern để sử dụng Wayfern.",
     "apiPortUnavailable": "Máy chủ API không tìm thấy cổng khả dụng.",
     "mcpAgentUnknown": "Ứng dụng MCP này không được hỗ trợ.",
-    "mcpAgentInstallFailed": "Không thể thêm Donut Browser vào ứng dụng MCP: {{detail}}",
-    "mcpAgentRemoveFailed": "Không thể xóa Donut Browser khỏi ứng dụng MCP: {{detail}}",
+    "mcpAgentInstallFailed": "Không thể thêm Roster Browser vào ứng dụng MCP: {{detail}}",
+    "mcpAgentRemoveFailed": "Không thể xóa Roster Browser khỏi ứng dụng MCP: {{detail}}",
     "vlessConfigInvalid": "Liên kết chia sẻ không hợp lệ.",
     "xrayUnavailable": "Xray-core không khả dụng trên hệ thống này.",
     "xrayUnsupportedOs": "Proxy VLESS, VMess, Trojan và Hysteria2 yêu cầu macOS 12 trở lên.",
     "xrayStartFailed": "Không thể khởi động Xray-core.",
-    "cloudNotSignedIn": "Hãy đăng nhập tài khoản Donut Browser để dùng tính năng này.",
-    "cloudUnreachable": "Không kết nối được tới máy chủ Donut Browser. Hãy kiểm tra kết nối và thử lại.",
+    "cloudNotSignedIn": "Hãy đăng nhập tài khoản Roster Browser để dùng tính năng này.",
+    "cloudUnreachable": "Không kết nối được tới máy chủ Roster Browser. Hãy kiểm tra kết nối và thử lại.",
     "cloudRequestFailed": "Yêu cầu thất bại. Hãy thử lại sau giây lát.",
     "cloudBrowserUpdating": "Trình duyệt đám mây đang cập nhật lên phiên bản Wayfern của bạn. Hãy thử lại sau vài phút.",
     "remoteRateLimited": "Quá nhiều yêu cầu. Hãy đợi một lát rồi thử lại.",
@@ -2768,7 +2768,7 @@
     "wayfernFingerprintGenerationFailed": "Không thể tạo dấu vân tay cho hồ sơ này. {{detail}}",
     "wayfernGenerationLimitReached": "Đã đạt giới hạn tạm thời về tạo dấu vân tay. Thử lại sau.",
     "wayfernCrossOsRequiresPlan": "Hồ sơ này chạy dưới dạng {{detail}}, còn máy tính này dùng hệ điều hành khác. Để mở hồ sơ ở đây, bạn cần gói Pro hoặc Team.",
-    "wayfernCrossOsPrimaryDevice": "Hồ sơ này chạy dưới dạng {{detail}}. Hồ sơ cho hệ điều hành khác chỉ chạy trên thiết bị chính của bạn. Hãy đăng xuất Donut Browser trên các máy tính khác, rồi thử lại.",
+    "wayfernCrossOsPrimaryDevice": "Hồ sơ này chạy dưới dạng {{detail}}. Hồ sơ cho hệ điều hành khác chỉ chạy trên thiết bị chính của bạn. Hãy đăng xuất Roster Browser trên các máy tính khác, rồi thử lại.",
     "wayfernIdentityRefused": "Trình duyệt không khởi động với danh tính của hồ sơ này nên đã bị đóng. {{detail}}",
     "wayfernInstanceLimitReached": "Có quá nhiều trình duyệt đang mở so với gói của bạn. Hãy đóng một trình duyệt rồi thử lại.",
     "tooManyBrowsersRunning": "Hãy đóng một cửa sổ trình duyệt để tiếp tục.",
@@ -2784,7 +2784,7 @@
     "profileExportFailed": "Không thể xuất hồ sơ này. {{detail}}",
     "profileExportTooLarge": "Hồ sơ này quá lớn để xuất. Hãy xóa bớt dữ liệu duyệt web rồi thử lại.",
     "profileImportFailed": "Không thể đọc tệp lưu trữ này. {{detail}}",
-    "profileImportTooNew": "Tệp này được tạo bởi phiên bản Donut Browser mới hơn. Hãy cập nhật ứng dụng rồi thử lại.",
+    "profileImportTooNew": "Tệp này được tạo bởi phiên bản Roster Browser mới hơn. Hãy cập nhật ứng dụng rồi thử lại.",
     "profileImportUnsafeArchive": "Tệp này cố ghi ra ngoài thư mục hồ sơ nên đã bị từ chối.",
     "recordingAlreadyRunning": "Đã có một bản ghi đang chạy. Hãy dừng nó trước khi bắt đầu bản mới.",
     "profileNotRunning": "Trình duyệt của hồ sơ này chưa chạy. Hãy khởi động nó trước.",
@@ -3014,7 +3014,7 @@
       "importProfileHint": "Đưa profile từ công cụ khác",
       "keyboardShortcuts": "Phím tắt",
       "keyboardShortcutsHint": "Xem tất cả phím tắt",
-      "about": "Giới thiệu về Donut Browser",
+      "about": "Giới thiệu về Roster Browser",
       "aboutHint": "Phiên bản và thông tin ứng dụng",
       "trash": "Thùng rác",
       "trashHint": "Khôi phục hồ sơ đã xóa",
@@ -3178,7 +3178,7 @@
       "stopProfile": "Dừng {{name}}",
       "profileInfo": "Thông tin: {{name}}",
       "createProfile": "Tạo hồ sơ",
-      "about": "Giới thiệu về Donut Browser",
+      "about": "Giới thiệu về Roster Browser",
       "agentChat": "Trò chuyện mới với tác tử",
       "showWindow": "Hiện cửa sổ của {{name}}"
     },
@@ -3284,13 +3284,13 @@
     "zoomReset": "Cỡ giao diện mặc định"
   },
   "closeConfirm": {
-    "title": "Đóng Donut Browser?",
+    "title": "Đóng Roster Browser?",
     "description": "Bạn muốn thu nhỏ ứng dụng vào khay hệ thống hay thoát?",
     "minimize": "Thu nhỏ vào khay",
     "quit": "Thoát"
   },
   "tray": {
-    "show": "Hiển thị Donut Browser",
+    "show": "Hiển thị Roster Browser",
     "quit": "Thoát"
   },
   "onboarding": {
@@ -3300,7 +3300,7 @@
     }
   },
   "welcome": {
-    "title": "Chào mừng đến với Donut Browser",
+    "title": "Chào mừng đến với Roster Browser",
     "tagline": "Trình duyệt chống phát hiện mã nguồn mở để quản lý nhiều danh tính cùng lúc.",
     "skip": "Bỏ qua",
     "next": "Tiếp theo",
@@ -3312,7 +3312,7 @@
     },
     "license": {
       "title": "Cấp phép",
-      "body": "Donut Browser là mã nguồn mở và miễn phí sử dụng.",
+      "body": "Roster Browser là mã nguồn mở và miễn phí sử dụng.",
       "agree": "Tôi hiểu",
       "personalTitle": "Sử dụng cá nhân",
       "personalDesc": "Miễn phí vĩnh viễn.",
@@ -3323,7 +3323,7 @@
   },
   "wayfernBlocked": {
     "title": "Không phải thiết bị chính",
-    "description": "Tự động hóa trình duyệt và hồ sơ cho hệ điều hành khác chỉ chạy trên thiết bị chính của bạn. Hãy đăng xuất Donut Browser trên các máy tính khác, rồi thử lại."
+    "description": "Tự động hóa trình duyệt và hồ sơ cho hệ điều hành khác chỉ chạy trên thiết bị chính của bạn. Hãy đăng xuất Roster Browser trên các máy tính khác, rồi thử lại."
   },
   "profileGenerationLimit": {
     "title": "Đã đạt giới hạn hồ sơ mỗi giờ",
@@ -3979,7 +3979,7 @@
       "waitingTitle": "Đang chờ tác nhân của bạn",
       "waitingBody": "Thêm Donut vào tác nhân, rồi dán hướng dẫn bên dưới vào đó để nó trao đổi với bạn trong khi làm việc.",
       "starterLabel": "Hướng dẫn cho tác nhân",
-      "starter": "Bạn có thể điều khiển các hồ sơ Donut Browser của tôi bằng các công cụ Donut. Khi bắt đầu và giữa các bước, hãy gọi get_human_updates để đọc ghi chú của tôi và xem tôi đang dùng hồ sơ nào. Nếu không chắc phải làm gì, hãy hỏi tôi bằng ask_human. Nếu một trang cần đến người thật, chẳng hạn để đăng nhập, xác minh hoặc thanh toán, hãy gọi request_human_help và chờ đến khi tôi trả lại hồ sơ. Trong các công việc dài, hãy gọi report_progress để tôi biết bạn đã làm đến đâu.",
+      "starter": "Bạn có thể điều khiển các hồ sơ Roster Browser của tôi bằng các công cụ Donut. Khi bắt đầu và giữa các bước, hãy gọi get_human_updates để đọc ghi chú của tôi và xem tôi đang dùng hồ sơ nào. Nếu không chắc phải làm gì, hãy hỏi tôi bằng ask_human. Nếu một trang cần đến người thật, chẳng hạn để đăng nhập, xác minh hoặc thanh toán, hãy gọi request_human_help và chờ đến khi tôi trả lại hồ sơ. Trong các công việc dài, hãy gọi report_progress để tôi biết bạn đã làm đến đâu.",
       "starterCopied": "Đã sao chép hướng dẫn"
     },
     "request": {
@@ -4944,10 +4944,10 @@
     },
     "triage": {
       "label": "Để tác nhân AI tìm nguyên nhân",
-      "description": "Sao chép một lời nhắc cho tác nhân AI đã kết nối với Donut Browser. Tác nhân đọc nhật ký, tìm cách khắc phục và gửi báo cáo này sau khi bạn đồng ý.",
+      "description": "Sao chép một lời nhắc cho tác nhân AI đã kết nối với Roster Browser. Tác nhân đọc nhật ký, tìm cách khắc phục và gửi báo cáo này sau khi bạn đồng ý.",
       "copy": "Sao chép lời nhắc",
       "copied": "Đã sao chép lời nhắc. Hãy dán vào tác nhân của bạn.",
-      "prompt": "Hãy dùng các công cụ MCP của Donut Browser để tìm hiểu vì sao Donut Browser không hoạt động như tôi mong đợi. Làm theo hướng dẫn phân loại tại {{url}}: hỏi tôi chuyện gì đã xảy ra, gọi get_diagnostics, tìm phiên bản mới hơn và các sự cố đã biết, rồi giúp tôi khắc phục. Cho tôi xem báo cáo trước khi gửi bằng send_feedback.",
+      "prompt": "Hãy dùng các công cụ MCP của Roster Browser để tìm hiểu vì sao Roster Browser không hoạt động như tôi mong đợi. Làm theo hướng dẫn phân loại tại {{url}}: hỏi tôi chuyện gì đã xảy ra, gọi get_diagnostics, tìm phiên bản mới hơn và các sự cố đã biết, rồi giúp tôi khắc phục. Cho tôi xem báo cáo trước khi gửi bằng send_feedback.",
       "problem": "Những gì tôi thấy: {{message}}"
     },
     "profile": {

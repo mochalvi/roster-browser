@@ -139,17 +139,17 @@
     "defaultBrowser": {
       "title": "Varsayılan Tarayıcı",
       "setAsDefault": "Varsayılan tarayıcı olarak ayarla",
-      "description": "Varsayılan olarak ayarlandığında, Donut Browser web bağlantılarını yönetir ve hangi profilin kullanılacağını seçmenize olanak tanır.",
-      "setSuccess": "Donut Browser artık varsayılan tarayıcınız",
+      "description": "Varsayılan olarak ayarlandığında, Roster Browser web bağlantılarını yönetir ve hangi profilin kullanılacağını seçmenize olanak tanır.",
+      "setSuccess": "Roster Browser artık varsayılan tarayıcınız",
       "setFailed": "Varsayılan tarayıcı ayarlanamadı",
       "finishInSystemSettings": "Windows Ayarları'nda tamamlayın",
-      "finishInSystemSettingsDescription": "Donut Browser kaydedildi. Windows Ayarları açıldı: tamamlamak için Web tarayıcısı bölümünden Donut Browser'ı seçin.",
-      "isDefault": "Donut Browser varsayılan tarayıcınız",
-      "notDefault": "Donut Browser varsayılan tarayıcınız değil"
+      "finishInSystemSettingsDescription": "Roster Browser kaydedildi. Windows Ayarları açıldı: tamamlamak için Web tarayıcısı bölümünden Roster Browser'ı seçin.",
+      "isDefault": "Roster Browser varsayılan tarayıcınız",
+      "notDefault": "Roster Browser varsayılan tarayıcınız değil"
     },
     "permissions": {
       "title": "Sistem izinleri",
-      "description": "Bu izinler, Donut Browser'dan başlatılan tarayıcıların sistem kaynaklarına erişmesine olanak tanır. Her web sitesi yine de sizden ayrı ayrı izin isteyecektir.",
+      "description": "Bu izinler, Roster Browser'dan başlatılan tarayıcıların sistem kaynaklarına erişmesine olanak tanır. Her web sitesi yine de sizden ayrı ayrı izin isteyecektir.",
       "microphone": "Mikrofon",
       "microphoneDescription": "Tarayıcı uygulamaları için mikrofon erişimi",
       "camera": "Kamera",
@@ -195,7 +195,7 @@
       "trialExpired": "Deneme süresi doldu",
       "trialExpiredDescription": "Kişisel kullanım ücretsiz kalır. Ticari kullanım lisans gerektirir.",
       "subscriptionActive": "{{plan}} planı etkin",
-      "subscriptionActiveDescription": "Donut Browser aboneliğiniz etkin. Ticari kullanım, planınızın süresi boyunca lisanslıdır."
+      "subscriptionActiveDescription": "Roster Browser aboneliğiniz etkin. Ticari kullanım, planınızın süresi boyunca lisanslıdır."
     },
     "advanced": {
       "title": "Gelişmiş",
@@ -209,7 +209,7 @@
       "logs": "Günlükler"
     },
     "disableAutoUpdates": "Uygulama otomatik güncellemelerini devre dışı bırak",
-    "disableAutoUpdatesDescription": "Donut Browser güncellemelerini kendisi indirmez ve yüklemez. Yeni bir sürüm çıktığında yine de gösterir. Tarayıcı güncellemeleri bundan etkilenmez.",
+    "disableAutoUpdatesDescription": "Roster Browser güncellemelerini kendisi indirmez ve yüklemez. Yeni bir sürüm çıktığında yine de gösterir. Tarayıcı güncellemeleri bundan etkilenmez.",
     "keepDecryptedProfilesInRam": "Şifresi çözülmüş profilleri RAM'de tut",
     "keepDecryptedProfilesInRamDescription": "Daha hızlı başlatma için parola korumalı profillerin şifresi çözülmüş RAM kopyasını başlatmalar arasında koruyun. Diskteki kopya her durumda şifreli kalır.",
     "privacy": {
@@ -322,7 +322,7 @@
       "extensions": "Uzantılar"
     },
     "newProfile": "Yeni",
-    "donutLogo": "Donut Browser logosu",
+    "donutLogo": "Roster Browser logosu",
     "scrollGroupsLeft": "Grupları sola kaydır",
     "scrollGroupsRight": "Grupları sağa kaydır",
     "allGroups": "Tüm gruplar"
@@ -1687,7 +1687,7 @@
     "launchHook": {
       "title": "Başlatma kancası URL'si",
       "label": "Başlatma kancası URL'si",
-      "description": "Donut Browser, profil her başlatıldığında bu URL'ye bir GET isteği gönderir.",
+      "description": "Roster Browser, profil her başlatıldığında bu URL'ye bir GET isteği gönderir.",
       "placeholder": "https://example.com/hooks/profile-launch",
       "invalidUrlHint": "Geçerli bir http:// veya https:// URL'si girin."
     },
@@ -2317,7 +2317,7 @@
   },
   "wayfernTerms": {
     "title": "Wayfern Şartlar ve Koşulları",
-    "description": "Donut Browser'ı kullanmadan önce Wayfern'ün Şartlar ve Koşullarını okuyup kabul etmelisiniz.",
+    "description": "Roster Browser'ı kullanmadan önce Wayfern'ün Şartlar ve Koşullarını okuyup kabul etmelisiniz.",
     "reviewLabel": "Şartlar ve Koşulları şu adresten inceleyin:",
     "agreeNotice": "\"Kabul Ediyorum\"a tıklayarak bu şartlara bağlı kalmayı kabul edersiniz.",
     "acceptButton": "Kabul Ediyorum",
@@ -2328,7 +2328,7 @@
   "commercialTrial": {
     "title": "Ticari Deneme Süresi Doldu",
     "description": "2 haftalık ticari deneme süreniz sona erdi.",
-    "body": "Donut Browser'ı iş amaçlı kullanıyorsanız devam etmek için ticari lisans satın almanız gerekir. Kişisel kullanım için ücretsiz olarak kullanmaya devam edebilirsiniz.",
+    "body": "Roster Browser'ı iş amaçlı kullanıyorsanız devam etmek için ticari lisans satın almanız gerekir. Kişisel kullanım için ücretsiz olarak kullanmaya devam edebilirsiniz.",
     "understandButton": "Anladım",
     "failed": "Onay kaydedilemedi",
     "tryAgain": "Yeniden deneyin"
@@ -2336,10 +2336,10 @@
   "permissionDialog": {
     "titleMicrophone": "Mikrofon Erişimi Gerekli",
     "titleCamera": "Kamera Erişimi Gerekli",
-    "descMicrophone": "Donut Browser, web tarayıcılarında mikrofon işlevini etkinleştirmek için mikrofonunuza erişmelidir. Mikrofonunuzu kullanmak isteyen her web sitesi yine de sizden ayrıca izin isteyecektir.",
-    "descCamera": "Donut Browser, web tarayıcılarında kamera işlevini etkinleştirmek için kameranıza erişmelidir. Kameranızı kullanmak isteyen her web sitesi yine de sizden ayrıca izin isteyecektir.",
-    "grantedMicrophone": "İzin verildi. Donut Browser'dan başlatılan tarayıcılar artık mikrofonunuza erişebilir.",
-    "grantedCamera": "İzin verildi. Donut Browser'dan başlatılan tarayıcılar artık kameranıza erişebilir.",
+    "descMicrophone": "Roster Browser, web tarayıcılarında mikrofon işlevini etkinleştirmek için mikrofonunuza erişmelidir. Mikrofonunuzu kullanmak isteyen her web sitesi yine de sizden ayrıca izin isteyecektir.",
+    "descCamera": "Roster Browser, web tarayıcılarında kamera işlevini etkinleştirmek için kameranıza erişmelidir. Kameranızı kullanmak isteyen her web sitesi yine de sizden ayrıca izin isteyecektir.",
+    "grantedMicrophone": "İzin verildi. Roster Browser'dan başlatılan tarayıcılar artık mikrofonunuza erişebilir.",
+    "grantedCamera": "İzin verildi. Roster Browser'dan başlatılan tarayıcılar artık kameranıza erişebilir.",
     "notGrantedMicrophone": "İzin verilmedi. Mikrofonunuza erişim istemek için aşağıdaki düğmeye tıklayın.",
     "notGrantedCamera": "İzin verilmedi. Kameranıza erişim istemek için aşağıdaki düğmeye tıklayın.",
     "doneButton": "Bitti",
@@ -2506,7 +2506,7 @@
   },
   "appUpdate": {
     "toast": {
-      "updateFailed": "Donut Browser güncellenemedi",
+      "updateFailed": "Roster Browser güncellenemedi",
       "restartFailed": "Yeniden başlatılamadı",
       "updateReady": "Güncelleme hazır, uygulamak için yeniden başlatın",
       "manualDownloadRequired": "Elle indirme gerekli",
@@ -2600,7 +2600,7 @@
     },
     "warnings": {
       "forgetWarningTitle": "Önemli: bu parola kurtarılamaz",
-      "forgetWarningBody": "Donut Browser bu parolayı sıfırlayamaz, kurtaramaz veya atlayamaz. Unutursanız bu profilin verilerine erişimi kalıcı olarak kaybedersiniz."
+      "forgetWarningBody": "Roster Browser bu parolayı sıfırlayamaz, kurtaramaz veya atlayamaz. Unutursanız bu profilin verilerine erişimi kalıcı olarak kaybedersiniz."
     },
     "modes": {
       "set": "Belirle",
@@ -2684,23 +2684,23 @@
     "dnsRulesSaveFailed": "DNS kuralları kaydedilemedi.",
     "dnsRulesExportFailed": "DNS kuralları dışa aktarılamadı.",
     "fingerprintMatchFailed": "Parmak izi proxy'ye eşlenemedi.",
-    "proxySidecarVersionMismatch": "Bazı Donut Browser dosyaları farklı sürümlere ait. En son güncellemeyi yeniden yükleyin; profilleriniz güvende kalır.",
+    "proxySidecarVersionMismatch": "Bazı Roster Browser dosyaları farklı sürümlere ait. En son güncellemeyi yeniden yükleyin; profilleriniz güvende kalır.",
     "proxySidecarNotResponding": "Donut proxy yardımcısı (donut-proxy) {{seconds}} saniye içinde bitmedi. Bir güvenlik yazılımı onu bekletiyor olabilir: antivirüs programınızda donut-proxy'ye izin verin ve yeniden deneyin.",
     "wayfernNotResponding": "Wayfern başladı ancak {{seconds}} saniye içinde yanıt vermedi. Bir güvenlik yazılımı onu bekletiyor olabilir veya penceresini açamadı. Antivirüs programınızda Wayfern'e izin verin ve yeniden deneyin.",
     "updateProfilesRunning": "Güncellemeyi yüklemeden önce çalışan tüm profilleri durdurun.",
-    "updatePreparationFailed": "Donut Browser arka plandaki bir ağ işlemini güvenli şekilde durduramadı. Bilgisayarınızı yeniden başlatıp güncellemeyi tekrar deneyin.",
-    "portableUpdateFailed": "Donut Browser taşınabilir klasördeki dosyalarını değiştiremedi ve mevcut sürümü korudu. Bu klasördeki dosyaları kullanan programları kapatıp yeniden başlatın.",
+    "updatePreparationFailed": "Roster Browser arka plandaki bir ağ işlemini güvenli şekilde durduramadı. Bilgisayarınızı yeniden başlatıp güncellemeyi tekrar deneyin.",
+    "portableUpdateFailed": "Roster Browser taşınabilir klasördeki dosyalarını değiştiremedi ve mevcut sürümü korudu. Bu klasördeki dosyaları kullanan programları kapatıp yeniden başlatın.",
     "wayfernTermsRequired": "Wayfern'ü kullanmak için Wayfern Hüküm ve Koşullarını kabul edin.",
     "apiPortUnavailable": "API sunucusu kullanılabilir bir bağlantı noktası bulamadı.",
     "mcpAgentUnknown": "Bu MCP istemcisi desteklenmiyor.",
-    "mcpAgentInstallFailed": "Donut Browser MCP istemcisine eklenemedi: {{detail}}",
-    "mcpAgentRemoveFailed": "Donut Browser MCP istemcisinden kaldırılamadı: {{detail}}",
+    "mcpAgentInstallFailed": "Roster Browser MCP istemcisine eklenemedi: {{detail}}",
+    "mcpAgentRemoveFailed": "Roster Browser MCP istemcisinden kaldırılamadı: {{detail}}",
     "vlessConfigInvalid": "Paylaşım bağlantısı geçersiz.",
     "xrayUnavailable": "Xray-core bu sistemde kullanılamıyor.",
     "xrayUnsupportedOs": "VLESS, VMess, Trojan ve Hysteria2 proxy'leri macOS 12 veya daha yenisini gerektirir.",
     "xrayStartFailed": "Xray-core başlatılamadı.",
-    "cloudNotSignedIn": "Bunu kullanmak için Donut Browser hesabınıza giriş yapın.",
-    "cloudUnreachable": "Donut Browser sunucularına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.",
+    "cloudNotSignedIn": "Bunu kullanmak için Roster Browser hesabınıza giriş yapın.",
+    "cloudUnreachable": "Roster Browser sunucularına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.",
     "cloudRequestFailed": "İstek başarısız oldu. Birazdan tekrar deneyin.",
     "cloudBrowserUpdating": "Bulut tarayıcısı Wayfern sürümünüze güncelleniyor. Birkaç dakika sonra tekrar deneyin.",
     "remoteRateLimited": "Çok fazla istek. Biraz bekleyip tekrar deneyin.",
@@ -2768,7 +2768,7 @@
     "wayfernFingerprintGenerationFailed": "Bu profil için parmak izi oluşturulamadı. {{detail}}",
     "wayfernGenerationLimitReached": "Geçici parmak izi oluşturma sınırına ulaşıldı. Daha sonra tekrar deneyin.",
     "wayfernCrossOsRequiresPlan": "Bu profil {{detail}} olarak çalışıyor ve bu bilgisayarda başka bir işletim sistemi var. Burada açmak için Pro veya Team planı gerekir.",
-    "wayfernCrossOsPrimaryDevice": "Bu profil {{detail}} olarak çalışıyor. Başka bir işletim sistemi için olan profiller yalnızca birincil cihazınızda çalışır. Diğer bilgisayarlarınızda Donut Browser oturumunu kapatın, ardından yeniden deneyin.",
+    "wayfernCrossOsPrimaryDevice": "Bu profil {{detail}} olarak çalışıyor. Başka bir işletim sistemi için olan profiller yalnızca birincil cihazınızda çalışır. Diğer bilgisayarlarınızda Roster Browser oturumunu kapatın, ardından yeniden deneyin.",
     "wayfernIdentityRefused": "Tarayıcı bu profilin kimliğiyle başlamadığı için kapatıldı. {{detail}}",
     "wayfernInstanceLimitReached": "Planınız için çok fazla tarayıcı açık. Bir tarayıcıyı kapatıp tekrar deneyin.",
     "tooManyBrowsersRunning": "Devam etmek için bir tarayıcı penceresini kapatın.",
@@ -2784,7 +2784,7 @@
     "profileExportFailed": "Bu profil dışa aktarılamadı. {{detail}}",
     "profileExportTooLarge": "Bu profil dışa aktarmak için fazla büyük. Gezinme verilerinin bir kısmını silip yeniden deneyin.",
     "profileImportFailed": "Bu arşiv okunamadı. {{detail}}",
-    "profileImportTooNew": "Bu arşiv Donut Browser'ın daha yeni bir sürümüyle yazıldı. Uygulamayı güncelleyip yeniden deneyin.",
+    "profileImportTooNew": "Bu arşiv Roster Browser'ın daha yeni bir sürümüyle yazıldı. Uygulamayı güncelleyip yeniden deneyin.",
     "profileImportUnsafeArchive": "Bu arşiv profil klasörünün dışına yazmaya çalıştığı için reddedildi.",
     "recordingAlreadyRunning": "Zaten bir kayıt sürüyor. Yenisine başlamadan önce durdurun.",
     "profileNotRunning": "Bu profilin tarayıcısı çalışmıyor. Önce başlatın.",
@@ -3014,7 +3014,7 @@
       "importProfileHint": "Başka bir araçtan profil getirin",
       "keyboardShortcuts": "Klavye kısayolları",
       "keyboardShortcutsHint": "Tüm kısayolları görüntüle",
-      "about": "Donut Browser Hakkında",
+      "about": "Roster Browser Hakkında",
       "aboutHint": "Sürüm ve uygulama bilgileri",
       "trash": "Çöp Kutusu",
       "trashHint": "Silinen profilleri geri yükle",
@@ -3178,7 +3178,7 @@
       "stopProfile": "{{name}} profilini durdur",
       "profileInfo": "Bilgi: {{name}}",
       "createProfile": "Profil oluştur",
-      "about": "Donut Browser Hakkında",
+      "about": "Roster Browser Hakkında",
       "agentChat": "Yeni ajan sohbeti",
       "showWindow": "{{name}} penceresini göster"
     },
@@ -3284,13 +3284,13 @@
     "zoomReset": "Varsayılan arayüz boyutu"
   },
   "closeConfirm": {
-    "title": "Donut Browser kapatılsın mı?",
+    "title": "Roster Browser kapatılsın mı?",
     "description": "Uygulamayı sistem tepsisine göndermek mi yoksa çıkmak mı istersiniz?",
     "minimize": "Tepsiye Küçült",
     "quit": "Çık"
   },
   "tray": {
-    "show": "Donut Browser'ı Göster",
+    "show": "Roster Browser'ı Göster",
     "quit": "Çık"
   },
   "onboarding": {
@@ -3300,7 +3300,7 @@
     }
   },
   "welcome": {
-    "title": "Donut Browser'a Hoş Geldiniz",
+    "title": "Roster Browser'a Hoş Geldiniz",
     "tagline": "Aynı anda birçok kimliği yönetmek için açık kaynaklı bir anti-detect tarayıcı.",
     "skip": "Atla",
     "next": "İleri",
@@ -3312,7 +3312,7 @@
     },
     "license": {
       "title": "Lisanslama",
-      "body": "Donut Browser açık kaynaklıdır ve kullanımı ücretsizdir.",
+      "body": "Roster Browser açık kaynaklıdır ve kullanımı ücretsizdir.",
       "agree": "Anladım",
       "personalTitle": "Kişisel kullanım",
       "personalDesc": "Sonsuza dek ücretsiz.",
@@ -3323,7 +3323,7 @@
   },
   "wayfernBlocked": {
     "title": "Birincil cihazınız değil",
-    "description": "Tarayıcı otomasyonu ve başka bir işletim sistemi için olan profiller yalnızca birincil cihazınızda çalışır. Diğer bilgisayarlarınızda Donut Browser oturumunu kapatın, ardından yeniden deneyin."
+    "description": "Tarayıcı otomasyonu ve başka bir işletim sistemi için olan profiller yalnızca birincil cihazınızda çalışır. Diğer bilgisayarlarınızda Roster Browser oturumunu kapatın, ardından yeniden deneyin."
   },
   "profileGenerationLimit": {
     "title": "Saatlik profil sınırına ulaşıldı",
@@ -3979,7 +3979,7 @@
       "waitingTitle": "Ajanınız bekleniyor",
       "waitingBody": "Donut'u ajanınıza ekleyin, ardından aşağıdaki talimatları ajana yapıştırın; böylece çalışırken sizinle iletişim kurar.",
       "starterLabel": "Ajanınız için talimatlar",
-      "starter": "Donut araçlarıyla Donut Browser profillerimi kontrol edebilirsin. Başlarken ve adımlar arasında get_human_updates çağır; notlarımı oku ve hangi profilleri kullandığımı gör. Ne yapacağından emin değilsen bana ask_human ile sor. Bir sayfa bir insana ihtiyaç duyarsa, örneğin giriş, doğrulama veya ödeme için, request_human_help çağır ve profili sana geri verene kadar bekle. Uzun işler sırasında report_progress çağır ki ne kadar ilerlediğini göreyim.",
+      "starter": "Donut araçlarıyla Roster Browser profillerimi kontrol edebilirsin. Başlarken ve adımlar arasında get_human_updates çağır; notlarımı oku ve hangi profilleri kullandığımı gör. Ne yapacağından emin değilsen bana ask_human ile sor. Bir sayfa bir insana ihtiyaç duyarsa, örneğin giriş, doğrulama veya ödeme için, request_human_help çağır ve profili sana geri verene kadar bekle. Uzun işler sırasında report_progress çağır ki ne kadar ilerlediğini göreyim.",
       "starterCopied": "Talimatlar kopyalandı"
     },
     "request": {
@@ -4944,10 +4944,10 @@
     },
     "triage": {
       "label": "Nedeni bir yapay zekâ ajanı bulsun",
-      "description": "Donut Browser'a bağlı bir yapay zekâ ajanı için bir istem kopyalayın. Ajan günlükleri okur, bir çözüm arar ve siz onayladıktan sonra bu raporu gönderir.",
+      "description": "Roster Browser'a bağlı bir yapay zekâ ajanı için bir istem kopyalayın. Ajan günlükleri okur, bir çözüm arar ve siz onayladıktan sonra bu raporu gönderir.",
       "copy": "İstemi kopyala",
       "copied": "İstem kopyalandı. Ajanınıza yapıştırın.",
-      "prompt": "Donut Browser'ın neden beklediğim gibi çalışmadığını bulmak için Donut Browser MCP araçlarını kullan. {{url}} adresindeki sorun giderme kılavuzunu izle: bana neyin yanlış gittiğini sor, get_diagnostics çağır, daha yeni bir sürüm ve bilinen sorunlar ara ve sorunu çözmeme yardım et. Raporu send_feedback ile göndermeden önce bana göster.",
+      "prompt": "Roster Browser'ın neden beklediğim gibi çalışmadığını bulmak için Roster Browser MCP araçlarını kullan. {{url}} adresindeki sorun giderme kılavuzunu izle: bana neyin yanlış gittiğini sor, get_diagnostics çağır, daha yeni bir sürüm ve bilinen sorunlar ara ve sorunu çözmeme yardım et. Raporu send_feedback ile göndermeden önce bana göster.",
       "problem": "Gördüğüm: {{message}}"
     },
     "profile": {

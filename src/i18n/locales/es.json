@@ -139,17 +139,17 @@
     "defaultBrowser": {
       "title": "Navegador Predeterminado",
       "setAsDefault": "Establecer como navegador predeterminado",
-      "description": "Cuando se establece como predeterminado, Donut Browser manejará los enlaces web y te permitirá elegir qué perfil usar.",
-      "setSuccess": "Donut Browser ya es tu navegador predeterminado",
+      "description": "Cuando se establece como predeterminado, Roster Browser manejará los enlaces web y te permitirá elegir qué perfil usar.",
+      "setSuccess": "Roster Browser ya es tu navegador predeterminado",
       "setFailed": "No se pudo establecer el navegador predeterminado",
       "finishInSystemSettings": "Termina en la Configuración de Windows",
-      "finishInSystemSettingsDescription": "Donut Browser está registrado. Se abrió la Configuración de Windows: elige Donut Browser en Navegador web para terminar.",
-      "isDefault": "Donut Browser es tu navegador predeterminado",
-      "notDefault": "Donut Browser no es tu navegador predeterminado"
+      "finishInSystemSettingsDescription": "Roster Browser está registrado. Se abrió la Configuración de Windows: elige Roster Browser en Navegador web para terminar.",
+      "isDefault": "Roster Browser es tu navegador predeterminado",
+      "notDefault": "Roster Browser no es tu navegador predeterminado"
     },
     "permissions": {
       "title": "Permisos del sistema",
-      "description": "Estos permisos permiten que los navegadores iniciados desde Donut Browser accedan a los recursos del sistema. Cada sitio web seguirá pidiendo tu permiso individualmente.",
+      "description": "Estos permisos permiten que los navegadores iniciados desde Roster Browser accedan a los recursos del sistema. Cada sitio web seguirá pidiendo tu permiso individualmente.",
       "microphone": "Micrófono",
       "microphoneDescription": "Acceso al micrófono para aplicaciones del navegador",
       "camera": "Cámara",
@@ -195,7 +195,7 @@
       "trialExpired": "Prueba expirada",
       "trialExpiredDescription": "El uso personal sigue siendo gratuito. El uso comercial requiere una licencia.",
       "subscriptionActive": "El plan {{plan}} está activo",
-      "subscriptionActiveDescription": "Tu suscripción a Donut Browser está activa. El uso comercial está autorizado mientras tu plan esté vigente."
+      "subscriptionActiveDescription": "Tu suscripción a Roster Browser está activa. El uso comercial está autorizado mientras tu plan esté vigente."
     },
     "advanced": {
       "title": "Avanzado",
@@ -209,7 +209,7 @@
       "logs": "Registros"
     },
     "disableAutoUpdates": "Desactivar actualizaciones automáticas de la app",
-    "disableAutoUpdatesDescription": "Donut Browser no descarga ni instala sus actualizaciones por sí solo. Sigue avisando cuando hay una versión nueva. Las actualizaciones de navegadores no se ven afectadas.",
+    "disableAutoUpdatesDescription": "Roster Browser no descarga ni instala sus actualizaciones por sí solo. Sigue avisando cuando hay una versión nueva. Las actualizaciones de navegadores no se ven afectadas.",
     "keepDecryptedProfilesInRam": "Mantener perfiles descifrados en RAM",
     "keepDecryptedProfilesInRamDescription": "Conservar la copia descifrada en RAM de los perfiles protegidos por contraseña entre lanzamientos para un inicio más rápido. La copia en disco permanece cifrada en cualquier caso.",
     "privacy": {
@@ -323,7 +323,7 @@
       "extensions": "Extensiones"
     },
     "newProfile": "Nuevo",
-    "donutLogo": "Logotipo de Donut Browser",
+    "donutLogo": "Logotipo de Roster Browser",
     "scrollGroupsLeft": "Desplazar grupos a la izquierda",
     "scrollGroupsRight": "Desplazar grupos a la derecha",
     "allGroups": "Todos los grupos"
@@ -1698,7 +1698,7 @@
     "launchHook": {
       "title": "URL del hook de inicio",
       "label": "URL del hook de inicio",
-      "description": "Donut Browser enviará una solicitud GET a esta URL cada vez que se inicie el perfil.",
+      "description": "Roster Browser enviará una solicitud GET a esta URL cada vez que se inicie el perfil.",
       "placeholder": "https://example.com/hooks/profile-launch",
       "invalidUrlHint": "Introduce una URL válida http:// o https://."
     },
@@ -2336,7 +2336,7 @@
   },
   "wayfernTerms": {
     "title": "Términos y condiciones de Wayfern",
-    "description": "Antes de usar Donut Browser, debes leer y aceptar los Términos y Condiciones de Wayfern.",
+    "description": "Antes de usar Roster Browser, debes leer y aceptar los Términos y Condiciones de Wayfern.",
     "reviewLabel": "Revisa los Términos y Condiciones en:",
     "agreeNotice": "Al hacer clic en \"Acepto\", aceptas estos términos.",
     "acceptButton": "Acepto",
@@ -2347,7 +2347,7 @@
   "commercialTrial": {
     "title": "Periodo de prueba comercial expirado",
     "description": "Tu periodo de prueba comercial de 2 semanas ha terminado.",
-    "body": "Si usas Donut Browser con fines comerciales, debes adquirir una licencia comercial para continuar. Puedes seguir usándolo de forma personal gratis.",
+    "body": "Si usas Roster Browser con fines comerciales, debes adquirir una licencia comercial para continuar. Puedes seguir usándolo de forma personal gratis.",
     "understandButton": "Entendido",
     "failed": "Error al guardar el reconocimiento",
     "tryAgain": "Inténtalo de nuevo"
@@ -2355,10 +2355,10 @@
   "permissionDialog": {
     "titleMicrophone": "Se requiere acceso al micrófono",
     "titleCamera": "Se requiere acceso a la cámara",
-    "descMicrophone": "Donut Browser necesita acceso a tu micrófono para activar la funcionalidad de micrófono en los navegadores. Cada sitio web que quiera usar tu micrófono te lo pedirá individualmente.",
-    "descCamera": "Donut Browser necesita acceso a tu cámara para activar la funcionalidad de cámara en los navegadores. Cada sitio web que quiera usar tu cámara te lo pedirá individualmente.",
-    "grantedMicrophone": "Permiso concedido. Los navegadores lanzados desde Donut Browser ya pueden acceder a tu micrófono.",
-    "grantedCamera": "Permiso concedido. Los navegadores lanzados desde Donut Browser ya pueden acceder a tu cámara.",
+    "descMicrophone": "Roster Browser necesita acceso a tu micrófono para activar la funcionalidad de micrófono en los navegadores. Cada sitio web que quiera usar tu micrófono te lo pedirá individualmente.",
+    "descCamera": "Roster Browser necesita acceso a tu cámara para activar la funcionalidad de cámara en los navegadores. Cada sitio web que quiera usar tu cámara te lo pedirá individualmente.",
+    "grantedMicrophone": "Permiso concedido. Los navegadores lanzados desde Roster Browser ya pueden acceder a tu micrófono.",
+    "grantedCamera": "Permiso concedido. Los navegadores lanzados desde Roster Browser ya pueden acceder a tu cámara.",
     "notGrantedMicrophone": "Permiso no concedido. Haz clic en el botón para solicitar acceso a tu micrófono.",
     "notGrantedCamera": "Permiso no concedido. Haz clic en el botón para solicitar acceso a tu cámara.",
     "doneButton": "Hecho",
@@ -2525,7 +2525,7 @@
   },
   "appUpdate": {
     "toast": {
-      "updateFailed": "Error al actualizar Donut Browser",
+      "updateFailed": "Error al actualizar Roster Browser",
       "restartFailed": "Error al reiniciar",
       "updateReady": "Actualización lista, reinicia para aplicar",
       "manualDownloadRequired": "Descarga manual requerida",
@@ -2619,7 +2619,7 @@
     },
     "warnings": {
       "forgetWarningTitle": "Importante: esta contraseña no se puede recuperar",
-      "forgetWarningBody": "Donut Browser no puede restablecer, recuperar ni omitir esta contraseña. Si la olvidas, perderás permanentemente el acceso a los datos de este perfil."
+      "forgetWarningBody": "Roster Browser no puede restablecer, recuperar ni omitir esta contraseña. Si la olvidas, perderás permanentemente el acceso a los datos de este perfil."
     },
     "modes": {
       "set": "Establecer",
@@ -2703,23 +2703,23 @@
     "dnsRulesSaveFailed": "No se pudieron guardar las reglas DNS.",
     "dnsRulesExportFailed": "No se pudieron exportar las reglas DNS.",
     "fingerprintMatchFailed": "No se pudo ajustar la huella al proxy.",
-    "proxySidecarVersionMismatch": "Algunos archivos de Donut Browser pertenecen a versiones diferentes. Reinstala la última actualización; tus perfiles permanecerán seguros.",
+    "proxySidecarVersionMismatch": "Algunos archivos de Roster Browser pertenecen a versiones diferentes. Reinstala la última actualización; tus perfiles permanecerán seguros.",
     "proxySidecarNotResponding": "El asistente de proxy de Donut (donut-proxy) no terminó en {{seconds}} segundos. Puede que un software de seguridad lo esté reteniendo: permite donut-proxy en tu antivirus y vuelve a intentarlo.",
     "wayfernNotResponding": "Wayfern se inició, pero no respondió en {{seconds}} segundos. Puede que un software de seguridad lo esté reteniendo o que no haya podido abrir su ventana. Permite Wayfern en tu antivirus y vuelve a intentarlo.",
     "updateProfilesRunning": "Detén todos los perfiles en ejecución antes de instalar la actualización.",
-    "updatePreparationFailed": "Donut Browser no pudo detener de forma segura un proceso de red en segundo plano. Reinicia el equipo y vuelve a intentar la actualización.",
-    "portableUpdateFailed": "Donut Browser no pudo reemplazar sus archivos en la carpeta portátil y mantiene la versión actual. Cierra los programas que usan archivos de esa carpeta y vuelve a reiniciar.",
+    "updatePreparationFailed": "Roster Browser no pudo detener de forma segura un proceso de red en segundo plano. Reinicia el equipo y vuelve a intentar la actualización.",
+    "portableUpdateFailed": "Roster Browser no pudo reemplazar sus archivos en la carpeta portátil y mantiene la versión actual. Cierra los programas que usan archivos de esa carpeta y vuelve a reiniciar.",
     "wayfernTermsRequired": "Acepta los Términos y condiciones de Wayfern para usar Wayfern.",
     "apiPortUnavailable": "El servidor API no pudo encontrar un puerto disponible.",
     "mcpAgentUnknown": "Este cliente MCP no es compatible.",
-    "mcpAgentInstallFailed": "No se pudo añadir Donut Browser al cliente MCP: {{detail}}",
-    "mcpAgentRemoveFailed": "No se pudo eliminar Donut Browser del cliente MCP: {{detail}}",
+    "mcpAgentInstallFailed": "No se pudo añadir Roster Browser al cliente MCP: {{detail}}",
+    "mcpAgentRemoveFailed": "No se pudo eliminar Roster Browser del cliente MCP: {{detail}}",
     "vlessConfigInvalid": "El enlace para compartir no es válido.",
     "xrayUnavailable": "Xray-core no está disponible en este sistema.",
     "xrayUnsupportedOs": "Los proxies VLESS, VMess, Trojan y Hysteria2 requieren macOS 12 o posterior.",
     "xrayStartFailed": "No se pudo iniciar Xray-core.",
-    "cloudNotSignedIn": "Inicia sesión en tu cuenta de Donut Browser para usar esto.",
-    "cloudUnreachable": "No se pudo contactar con los servidores de Donut Browser. Comprueba tu conexión e inténtalo de nuevo.",
+    "cloudNotSignedIn": "Inicia sesión en tu cuenta de Roster Browser para usar esto.",
+    "cloudUnreachable": "No se pudo contactar con los servidores de Roster Browser. Comprueba tu conexión e inténtalo de nuevo.",
     "cloudRequestFailed": "La solicitud falló. Inténtalo de nuevo en un momento.",
     "cloudBrowserUpdating": "El navegador en la nube se está actualizando a tu versión de Wayfern. Vuelve a intentarlo en unos minutos.",
     "remoteRateLimited": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
@@ -2787,7 +2787,7 @@
     "wayfernFingerprintGenerationFailed": "No se pudo crear una huella digital para este perfil. {{detail}}",
     "wayfernGenerationLimitReached": "Se alcanzó el límite temporal de generación de huellas digitales. Inténtalo de nuevo más tarde.",
     "wayfernCrossOsRequiresPlan": "Este perfil se ejecuta como {{detail}} y este equipo usa otro sistema operativo. Para abrirlo aquí se necesita un plan Pro o Team.",
-    "wayfernCrossOsPrimaryDevice": "Este perfil se ejecuta como {{detail}}. Los perfiles de otro sistema operativo solo funcionan en tu dispositivo principal. Cierra la sesión de Donut Browser en tus otros equipos y vuelve a intentarlo.",
+    "wayfernCrossOsPrimaryDevice": "Este perfil se ejecuta como {{detail}}. Los perfiles de otro sistema operativo solo funcionan en tu dispositivo principal. Cierra la sesión de Roster Browser en tus otros equipos y vuelve a intentarlo.",
     "wayfernIdentityRefused": "El navegador no se inició con la identidad de este perfil, así que se cerró. {{detail}}",
     "wayfernInstanceLimitReached": "Hay demasiados navegadores abiertos para tu plan. Cierra un navegador e inténtalo de nuevo.",
     "tooManyBrowsersRunning": "Cierra una ventana del navegador para continuar.",
@@ -2803,7 +2803,7 @@
     "profileExportFailed": "No se pudo exportar este perfil. {{detail}}",
     "profileExportTooLarge": "Este perfil es demasiado grande para exportarlo. Borra parte de sus datos de navegación e inténtalo de nuevo.",
     "profileImportFailed": "No se pudo leer este archivo. {{detail}}",
-    "profileImportTooNew": "Este archivo se creó con una versión más reciente de Donut Browser. Actualiza la aplicación e inténtalo de nuevo.",
+    "profileImportTooNew": "Este archivo se creó con una versión más reciente de Roster Browser. Actualiza la aplicación e inténtalo de nuevo.",
     "profileImportUnsafeArchive": "Este archivo intenta escribir fuera de la carpeta del perfil, así que se rechazó.",
     "recordingAlreadyRunning": "Ya hay una grabación en curso. Deténla antes de empezar otra.",
     "profileNotRunning": "El navegador de este perfil no se está ejecutando. Inícialo primero.",
@@ -3034,7 +3034,7 @@
       "importProfileHint": "Trae perfiles de otra herramienta",
       "keyboardShortcuts": "Atajos de teclado",
       "keyboardShortcutsHint": "Ver todos los atajos",
-      "about": "Acerca de Donut Browser",
+      "about": "Acerca de Roster Browser",
       "aboutHint": "Versión e información de la aplicación",
       "trash": "Papelera",
       "trashHint": "Restaurar perfiles eliminados",
@@ -3198,7 +3198,7 @@
       "stopProfile": "Detener {{name}}",
       "profileInfo": "Información: {{name}}",
       "createProfile": "Crear perfil",
-      "about": "Acerca de Donut Browser",
+      "about": "Acerca de Roster Browser",
       "agentChat": "Nuevo chat con el agente",
       "showWindow": "Mostrar la ventana de {{name}}"
     },
@@ -3304,13 +3304,13 @@
     "zoomReset": "Tamaño de interfaz predeterminado"
   },
   "closeConfirm": {
-    "title": "¿Cerrar Donut Browser?",
+    "title": "¿Cerrar Roster Browser?",
     "description": "¿Quieres enviar la aplicación a la bandeja del sistema o salir?",
     "minimize": "Minimizar a la bandeja",
     "quit": "Salir"
   },
   "tray": {
-    "show": "Mostrar Donut Browser",
+    "show": "Mostrar Roster Browser",
     "quit": "Salir"
   },
   "onboarding": {
@@ -3320,7 +3320,7 @@
     }
   },
   "welcome": {
-    "title": "Te damos la bienvenida a Donut Browser",
+    "title": "Te damos la bienvenida a Roster Browser",
     "tagline": "Un navegador antidetección de código abierto para gestionar muchas identidades a la vez.",
     "skip": "Omitir",
     "next": "Siguiente",
@@ -3332,7 +3332,7 @@
     },
     "license": {
       "title": "Licencias",
-      "body": "Donut Browser es de código abierto y de uso gratuito.",
+      "body": "Roster Browser es de código abierto y de uso gratuito.",
       "agree": "Entendido",
       "personalTitle": "Uso personal",
       "personalDesc": "Gratis para siempre.",
@@ -3343,7 +3343,7 @@
   },
   "wayfernBlocked": {
     "title": "No es tu dispositivo principal",
-    "description": "La automatización del navegador y los perfiles de otro sistema operativo solo funcionan en tu dispositivo principal. Cierra la sesión de Donut Browser en tus otros equipos y vuelve a intentarlo."
+    "description": "La automatización del navegador y los perfiles de otro sistema operativo solo funcionan en tu dispositivo principal. Cierra la sesión de Roster Browser en tus otros equipos y vuelve a intentarlo."
   },
   "profileGenerationLimit": {
     "title": "Límite de perfiles por hora alcanzado",
@@ -4027,7 +4027,7 @@
       "waitingTitle": "Esperando a tu agente",
       "waitingBody": "Añade Donut a tu agente y después pégale las instrucciones de abajo para que se comunique contigo mientras trabaja.",
       "starterLabel": "Instrucciones para tu agente",
-      "starter": "Puedes controlar mis perfiles de Donut Browser con las herramientas de Donut. Al empezar, y entre un paso y otro, llama a get_human_updates para leer mis notas y ver qué perfiles estoy usando. Si no sabes qué hacer, pregúntame con ask_human. Si una página necesita a una persona, por ejemplo para iniciar sesión, una verificación o un pago, llama a request_human_help y espera hasta que te devuelva el perfil. En tareas largas, llama a report_progress para que pueda ver cuánto llevas.",
+      "starter": "Puedes controlar mis perfiles de Roster Browser con las herramientas de Donut. Al empezar, y entre un paso y otro, llama a get_human_updates para leer mis notas y ver qué perfiles estoy usando. Si no sabes qué hacer, pregúntame con ask_human. Si una página necesita a una persona, por ejemplo para iniciar sesión, una verificación o un pago, llama a request_human_help y espera hasta que te devuelva el perfil. En tareas largas, llama a report_progress para que pueda ver cuánto llevas.",
       "starterCopied": "Instrucciones copiadas"
     },
     "request": {
@@ -4998,10 +4998,10 @@
     },
     "triage": {
       "label": "Deja que un agente de IA encuentre la causa",
-      "description": "Copia un prompt para un agente de IA conectado a Donut Browser. El agente lee los registros, busca una solución y envía este informe cuando des tu aprobación.",
+      "description": "Copia un prompt para un agente de IA conectado a Roster Browser. El agente lee los registros, busca una solución y envía este informe cuando des tu aprobación.",
       "copy": "Copiar prompt",
       "copied": "Prompt copiado. Pégalo en tu agente.",
-      "prompt": "Usa las herramientas MCP de Donut Browser para averiguar por qué Donut Browser no funciona como espero. Sigue la guía de diagnóstico en {{url}}: pregúntame qué salió mal, llama a get_diagnostics, busca una versión más nueva y problemas conocidos, y ayúdame a resolver el problema. Muéstrame el informe antes de enviarlo con send_feedback.",
+      "prompt": "Usa las herramientas MCP de Roster Browser para averiguar por qué Roster Browser no funciona como espero. Sigue la guía de diagnóstico en {{url}}: pregúntame qué salió mal, llama a get_diagnostics, busca una versión más nueva y problemas conocidos, y ayúdame a resolver el problema. Muéstrame el informe antes de enviarlo con send_feedback.",
       "problem": "Lo que vi: {{message}}"
     },
     "profile": {
