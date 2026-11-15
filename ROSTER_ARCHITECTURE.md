@@ -34,8 +34,11 @@ Every command must be invoked by the frontend or `check-unused-commands` fails.
 
 3. `add_google_account(group_id: Option<String>, capacity: usize)`
    → `usage_by_profile()` → `pick_profile_with_free_slot()`; if `None`, create a
-   hidden slot profile (Donut `create_profile`, browser `"camoufox"`, flagged
-   hidden via a Roster tag or a `group_id`). Launch at `add_session_url()` for a
+   hidden slot profile via `ProfileManager::create_profile_with_group(app,
+   name, "wayfern", version, "stable", proxy_id, None, wayfern_cfg, group_id,
+   false, None, None, None)` — `"wayfern"` is the only supported engine
+   (Camoufox was removed). Flag it hidden via a Roster tag or `group_id`. Launch
+   at `add_session_url()` for a
    profile that already has accounts, else plain `google.com` sign-in. User logs
    in manually; the next refresh detects the new email/avatar.
 
@@ -52,13 +55,17 @@ Every command must be invoked by the frontend or `check-unused-commands` fails.
 7. `import_accounts_from_browser(source, ...)`
    → see Browser import.
 
-## Refresh / sync engine (reuse `cookie_bot`)
+## Refresh / sync engine (local headless launch)
 
-Refresh is per *profile* (one launch warms up to 10 accounts at once):
+Refresh is per *profile* (one launch warms up to 10 accounts at once).
 
-1. Use `cookie_bot::run_now(profile_id)` (or its internal launch path) to open
-   the profile headless and visit a Google page — this is exactly Donut's
-   keep-alive, which rotates the session cookies.
+> Note: `cookie_bot::run_now` POSTs to Donut's **daemon/remote** (`{base}/runs`),
+> so it is not a local launch. Roster refreshes locally instead.
+
+1. Launch the profile headless locally via `browser_runner` with
+   `LaunchOptions::automation(port, headless=true)`, driving it through
+   `wayfern_cdp` (the CDP channel Donut already uses). Visiting a Google page
+   rotates the session cookies, the same keep-alive effect.
 2. Read account state back. Two options, prefer (a):
    - **(a) Network ListAccounts**: while the profile is up, fetch
      `https://accounts.google.com/ListAccounts?json=standard` through the

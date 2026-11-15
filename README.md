@@ -57,8 +57,9 @@ ask for verification at any time. What Roster does to maximise session lifetime:
   until the proxy passes a check — no silent fallback to your home IP.
 - **Fingerprint and timezone stay constant** per account.
 - **Accounts are refreshed just before export** so the moved session is fresh.
-- **Camoufox (Firefox) is the default engine**, which avoids Chrome's
-  device-bound session binding.
+- **Sessions are portable by design.** Roster's engine (Wayfern) keeps each
+  profile's cookie-encryption key *inside the profile folder*, not in the OS
+  keychain, so an exported session can still be decrypted on another machine.
 
 When an account still lands on ⚠️, the safe fallback is a manual re-login in the
 same profile — because the proxy and fingerprint are identical, Google usually
@@ -68,7 +69,7 @@ does not challenge it hard.
 
 | Source | Result |
 |---|---|
-| Firefox / Camoufox | Reliable — sessions move cleanly. |
+| Firefox | Reliable — cookies.sqlite is not device-bound, so sessions move cleanly. |
 | Chrome / Edge | Best-effort — recent Chrome binds data to the device (App-Bound Encryption), so some accounts will still ask for a re-login. |
 
 After importing an account, **do not keep using it in the original browser**. A
@@ -161,8 +162,9 @@ verifikasi kapan pun. Yang Roster lakukan untuk memperpanjang umur sesi:
   sampai proxy lolos cek — tanpa diam-diam jatuh ke IP rumahmu.
 - **Fingerprint dan timezone tetap** untuk tiap akun.
 - **Akun di-refresh tepat sebelum export** supaya sesi yang dipindah masih baru.
-- **Camoufox (Firefox) jadi engine default**, menghindari pengikatan sesi ke
-  perangkat seperti di Chrome.
+- **Sesi memang dirancang portabel.** Engine Roster (Wayfern) menyimpan kunci
+  enkripsi cookie tiap profil *di dalam folder profilnya*, bukan di keychain OS,
+  sehingga sesi yang diekspor tetap bisa dibuka di komputer lain.
 
 Kalau sebuah akun tetap berakhir ⚠️, jalan amannya adalah login ulang manual di
 profil yang sama — karena proxy dan fingerprint-nya identik, Google biasanya
@@ -172,7 +174,7 @@ tidak meminta verifikasi berat.
 
 | Sumber | Hasil |
 |---|---|
-| Firefox / Camoufox | Andal — sesi pindah dengan mulus. |
+| Firefox | Andal — cookies.sqlite tidak terikat perangkat, jadi sesi pindah mulus. |
 | Chrome / Edge | Best-effort — Chrome versi baru mengikat data ke perangkat (App-Bound Encryption), jadi sebagian akun tetap akan minta login ulang. |
 
 Setelah mengimpor sebuah akun, **jangan lagi memakainya di browser asalnya**.
