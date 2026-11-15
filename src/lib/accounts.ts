@@ -26,3 +26,18 @@ export const listGoogleAccounts = () =>
 
 export const openGoogleAccount = (accountId: string) =>
   invoke<void>("open_google_account", { accountId });
+
+export const refreshProfile = (profileId: string) =>
+  invoke<GoogleAccount[]>("refresh_profile", { profileId });
+
+export const refreshAllAccounts = () =>
+  invoke<GoogleAccount[]>("refresh_all_accounts");
+
+export const exportAccounts = (
+  accountIds: string[],
+  destination: string,
+  password: string,
+) => invoke<number>("export_accounts", { accountIds, destination, password });
+
+export const importAccounts = (path: string, password: string) =>
+  invoke<number>("import_accounts", { path, password });

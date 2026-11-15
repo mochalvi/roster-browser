@@ -37,7 +37,7 @@ pub enum AccountStatus {
 /// One Google account, as Roster tracks it. The heavy session data lives in the
 /// profile directory Donut owns; this is only the pointer and the metadata the
 /// account list shows.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GoogleAccount {
   pub id: String,
   pub email: String,
@@ -190,6 +190,53 @@ pub fn parse_list_accounts(body: &str) -> Vec<ListAccountEntry> {
   out
 }
 
+/// Read the accounts a profile currently holds from its Chromium
+/// `Default/Preferences` `account_info` array — the offline source of truth for
+/// *which* accounts are signed in, their names, avatars, and order. It cannot
+/// tell a live session from a stale one (that needs the network ListAccounts),
+/// so every account it returns is reported valid; a later live refresh can
+/// downgrade one to needs-verification.
+///
+/// `authuser_index` is the array position, matching Chromium's own numbering.
+pub fn parse_account_info(preferences_json: &str) -> Vec<ListAccountEntry> {
+  let root: serde_json::Value = match serde_json::from_str(preferences_json) {
+    Ok(v) => v,
+    Err(_) => return Vec::new(),
+  };
+  let Some(list) = root.get("account_info").and_then(|v| v.as_array()) else {
+    return Vec::new();
+  };
+  list
+    .iter()
+    .enumerate()
+    .filter_map(|(index, acct)| {
+      let email = acct.get("email")?.as_str()?.to_string();
+      if email.is_empty() {
+        return None;
+      }
+      let display_name = acct
+        .get("full_name")
+        .or_else(|| acct.get("given_name"))
+        .and_then(|v| v.as_str())
+        .filter(|s| !s.is_empty())
+        .map(str::to_string);
+      let avatar_url = acct
+        .get("picture_url")
+        .or_else(|| acct.get("account_image_url"))
+        .and_then(|v| v.as_str())
+        .filter(|s| s.starts_with("http"))
+        .map(str::to_string);
+      Some(ListAccountEntry {
+        email,
+        display_name,
+        avatar_url,
+        authuser_index: index,
+        valid: true,
+      })
+    })
+    .collect()
+}
+
 fn is_image_url(s: &str) -> bool {
   s.starts_with("http")
     && (s.contains("googleusercontent.com")
@@ -272,6 +319,30 @@ pub fn reconcile_profile_accounts(
   result
 }
 
+/// Rewrite imported accounts to point at the profiles they were imported into.
+///
+/// An import mints a fresh profile id for each archive (two imports of the same
+/// file must not collide), so every account's `profile_id` and its own `id`
+/// are remapped: `id_map` is old-profile-id -> new-profile-id. An account whose
+/// profile is missing from the map is dropped — its session did not come along,
+/// so tracking it would point the UI at nothing.
+pub fn remap_imported_accounts(
+  accounts: &[GoogleAccount],
+  id_map: &std::collections::HashMap<String, String>,
+) -> Vec<GoogleAccount> {
+  accounts
+    .iter()
+    .filter_map(|a| {
+      let new_profile = id_map.get(&a.profile_id)?;
+      Some(GoogleAccount {
+        id: uuid::Uuid::new_v4().to_string(),
+        profile_id: new_profile.clone(),
+        ..a.clone()
+      })
+    })
+    .collect()
+}
+
 // --- Persistence + Tauri surface ------------------------------------------
 
 pub struct AccountManager {
@@ -343,6 +414,15 @@ impl AccountManager {
     data.accounts.extend(reconciled);
     self.save(&data)?;
     Ok(updated)
+  }
+
+  /// Append imported accounts to the store (import is additive: it brings
+  /// accounts onto a machine without disturbing what is already there).
+  pub fn add_accounts(&self, accounts: Vec<GoogleAccount>) -> Result<(), String> {
+    let _g = self.lock.lock().unwrap_or_else(|p| p.into_inner());
+    let mut data = self.load()?;
+    data.accounts.extend(accounts);
+    self.save(&data)
   }
 
   pub fn set_account_meta(
@@ -491,6 +571,51 @@ mod tests {
     assert_eq!(andi.status, AccountStatus::LoggedOut, "gone from Google");
     assert_eq!(andi.tags, vec!["klien-a".to_string()], "but not forgotten");
     assert_eq!(budi.status, AccountStatus::Active, "newly seen");
+  }
+
+  #[test]
+  fn reads_account_info_from_chromium_preferences_in_order() {
+    let prefs = r#"{
+      "account_info": [
+        {"email":"andi@gmail.com","full_name":"Andi Saputra","picture_url":"https://lh3.googleusercontent.com/a/x","gaia":"1"},
+        {"email":"budi@gmail.com","given_name":"Budi","account_image_url":"https://lh3.googleusercontent.com/a/y","gaia":"2"}
+      ],
+      "other": true
+    }"#;
+    let got = parse_account_info(prefs);
+    assert_eq!(got.len(), 2);
+    assert_eq!(got[0].email, "andi@gmail.com");
+    assert_eq!(got[0].display_name.as_deref(), Some("Andi Saputra"));
+    assert_eq!(got[0].authuser_index, 0);
+    assert!(got[0].valid, "offline read reports accounts as valid");
+    assert_eq!(got[1].email, "budi@gmail.com");
+    assert_eq!(got[1].display_name.as_deref(), Some("Budi"), "falls back to given_name");
+    assert_eq!(got[1].authuser_index, 1);
+  }
+
+  #[test]
+  fn preferences_without_account_info_or_garbage_is_empty() {
+    assert!(parse_account_info(r#"{"no_accounts":1}"#).is_empty());
+    assert!(parse_account_info("not json").is_empty());
+    // An entry without an email is skipped, not panicked on.
+    assert!(parse_account_info(r#"{"account_info":[{"gaia":"1"}]}"#).is_empty());
+  }
+
+  #[test]
+  fn import_remaps_profile_ids_and_drops_orphans() {
+    let imported = vec![
+      acct("andi@gmail.com", "old-p1", 0),
+      acct("budi@gmail.com", "old-p2", 1),
+    ];
+    let mut map = std::collections::HashMap::new();
+    map.insert("old-p1".to_string(), "new-p1".to_string());
+    // old-p2 deliberately absent: its archive was not in the bundle.
+    let out = remap_imported_accounts(&imported, &map);
+    assert_eq!(out.len(), 1, "orphan dropped");
+    assert_eq!(out[0].email, "andi@gmail.com");
+    assert_eq!(out[0].profile_id, "new-p1", "repointed to imported profile");
+    assert_ne!(out[0].id, "id-andi@gmail.com", "fresh account id");
+    assert_eq!(out[0].tags, vec!["klien-a".to_string()], "metadata preserved");
   }
 
   #[test]

@@ -167,6 +167,7 @@ fn e2e_automation_profile_dir() -> Option<std::path::PathBuf> {
 
 mod account_commands;
 mod account_manager;
+mod roster_pack;
 mod api_client;
 mod api_server;
 mod app_auto_updater;
@@ -3768,6 +3769,10 @@ pub fn run_with_builder(
       profile::portable::import_profile_archive,
       account_commands::list_google_accounts,
       account_commands::open_google_account,
+      account_commands::refresh_profile,
+      account_commands::refresh_all_accounts,
+      account_commands::export_accounts,
+      account_commands::import_accounts,
       launch_gate::ack_launch_gate,
       window_decorations::get_window_decoration_layout,
       validate_vless_uri,

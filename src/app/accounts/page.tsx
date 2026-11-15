@@ -1,20 +1,41 @@
 "use client";
 
+import {
+  open as openDialog,
+  save as saveDialog,
+} from "@tauri-apps/plugin-dialog";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LuExternalLink, LuRefreshCw, LuSearch } from "react-icons/lu";
+import {
+  LuDownload,
+  LuExternalLink,
+  LuRefreshCw,
+  LuSearch,
+  LuUpload,
+} from "react-icons/lu";
 import { LoadingButton } from "@/components/loading-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   type AccountStatus,
+  exportAccounts,
   type GoogleAccount,
+  importAccounts,
   listGoogleAccounts,
   openGoogleAccount,
+  refreshAllAccounts,
 } from "@/lib/accounts";
 import { translateBackendError } from "@/lib/backend-errors";
-import { showToast } from "@/lib/toast-utils";
+import { showSuccessToast, showToast } from "@/lib/toast-utils";
 
 const STATUS: Record<
   AccountStatus,
@@ -53,6 +74,7 @@ export default function AccountsPage() {
   const [query, setQuery] = useState("");
   const [problemsOnly, setProblemsOnly] = useState(false);
   const [opening, setOpening] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
   const { t } = useTranslation();
 
   async function load() {
@@ -62,6 +84,72 @@ export default function AccountsPage() {
       showToast({ type: "error", title: translateBackendError(t, e) });
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function sync() {
+    setSyncing(true);
+    try {
+      setAccounts(await refreshAllAccounts());
+    } catch (e) {
+      showToast({ type: "error", title: translateBackendError(t, e) });
+    } finally {
+      setSyncing(false);
+    }
+  }
+
+  // Password-gated export/import. `transfer` holds which flow is open and the
+  // file path already chosen; the dialog only collects the password.
+  const [transfer, setTransfer] = useState<{
+    mode: "export" | "import";
+    path: string;
+  } | null>(null);
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function startExport() {
+    const path = await saveDialog({
+      filters: [{ name: "Roster", extensions: ["roster"] }],
+      defaultPath: "accounts.roster",
+    });
+    if (path) {
+      setPassword("");
+      setTransfer({ mode: "export", path });
+    }
+  }
+
+  async function startImport() {
+    const path = await openDialog({
+      filters: [{ name: "Roster", extensions: ["roster"] }],
+      multiple: false,
+    });
+    if (typeof path === "string") {
+      setPassword("");
+      setTransfer({ mode: "import", path });
+    }
+  }
+
+  async function confirmTransfer() {
+    if (!transfer || !password) return;
+    setBusy(true);
+    try {
+      if (transfer.mode === "export") {
+        const n = await exportAccounts(
+          accounts.map((a) => a.id),
+          transfer.path,
+          password,
+        );
+        showSuccessToast(`Exported ${n} account${n === 1 ? "" : "s"}`);
+      } else {
+        const n = await importAccounts(transfer.path, password);
+        showSuccessToast(`Imported ${n} account${n === 1 ? "" : "s"}`);
+        await sync();
+      }
+      setTransfer(null);
+    } catch (e) {
+      showToast({ type: "error", title: translateBackendError(t, e) });
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -122,9 +210,21 @@ export default function AccountsPage() {
         >
           Problems only
         </Button>
-        <Button variant="outline" onClick={() => void load()}>
+        <LoadingButton
+          variant="outline"
+          isLoading={syncing}
+          onClick={() => void sync()}
+        >
           <LuRefreshCw className="size-4" />
-          Reload
+          Sync
+        </LoadingButton>
+        <Button variant="outline" onClick={() => void startExport()}>
+          <LuUpload className="size-4" />
+          Export
+        </Button>
+        <Button variant="outline" onClick={() => void startImport()}>
+          <LuDownload className="size-4" />
+          Import
         </Button>
       </div>
 
@@ -207,6 +307,48 @@ export default function AccountsPage() {
           })
         )}
       </div>
+
+      <Dialog
+        open={transfer !== null}
+        onOpenChange={(o) => !o && setTransfer(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {transfer?.mode === "export"
+                ? "Export accounts"
+                : "Import accounts"}
+            </DialogTitle>
+            <DialogDescription>
+              {transfer?.mode === "export"
+                ? "Choose a password. You will need it to import this file on another computer."
+                : "Enter the password this file was exported with."}
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            type="password"
+            autoFocus
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") void confirmTransfer();
+            }}
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setTransfer(null)}>
+              Cancel
+            </Button>
+            <LoadingButton
+              isLoading={busy}
+              disabled={!password}
+              onClick={() => void confirmTransfer()}
+            >
+              {transfer?.mode === "export" ? "Export" : "Import"}
+            </LoadingButton>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

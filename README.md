@@ -41,22 +41,24 @@ profile when the slots fill. You see accounts; the profiles stay out of your way
   fingerprint.
 - **Import from an existing browser** — pull Google accounts you are already
   signed into in Chrome, Edge, or Firefox (see the honesty note below).
-- **Encrypted export / import (`.roster`)** — move all your accounts to another
-  computer as one password-protected file. Export **moves** sessions (it locks
-  the source) rather than copying, so Google does not see the same session in two
-  places at once.
+- **Encrypted export / import (`.roster`)** — copy your accounts and their
+  sessions to another computer as one password-protected file (AES-256-GCM,
+  Argon2id key derivation). The password is verified and the file decrypted
+  whole *before* anything is written, so a wrong password changes nothing.
+  Import is additive — it brings accounts in alongside what is already there.
 
 ### Keeping sessions alive — what actually works
 
 There is no trick that guarantees a Google session survives forever; Google can
 ask for verification at any time. What Roster does to maximise session lifetime:
 
-- **Export moves, it does not copy.** The same session running in two places is
-  the number-one cause of forced logout. After export the source is locked.
-- **The proxy travels with the account.** After import the browser will not open
-  until the proxy passes a check — no silent fallback to your home IP.
+- **After moving, stop using the account on the old machine.** The same session
+  running in two places is the number-one cause of forced logout. Export copies
+  rather than locks, so this discipline is on you until an opt-in "move" mode
+  lands.
+- **The proxy travels with the account** inside the profile, so the account
+  keeps the same exit IP after import.
 - **Fingerprint and timezone stay constant** per account.
-- **Accounts are refreshed just before export** so the moved session is fresh.
 - **Sessions are portable by design.** Roster's engine (Wayfern) keeps each
   profile's cookie-encryption key *inside the profile folder*, not in the OS
   keychain, so an exported session can still be decrypted on another machine.
@@ -146,20 +148,23 @@ disembunyikan.
   Donut; tiap akun punya proxy, timezone, dan fingerprint yang tetap.
 - **Import dari browser yang sudah ada** — ambil akun Google yang sudah login di
   Chrome, Edge, atau Firefox (lihat catatan kejujuran di bawah).
-- **Export / import terenkripsi (`.roster`)** — pindahkan semua akun ke komputer
-  lain sebagai satu file berpassword. Export **memindahkan** sesi (mengunci
-  sumbernya), bukan menyalin, supaya Google tidak melihat sesi yang sama aktif di
-  dua tempat.
+- **Export / import terenkripsi (`.roster`)** — salin akun dan sesinya ke
+  komputer lain sebagai satu file berpassword (AES-256-GCM, derivasi kunci
+  Argon2id). Password diverifikasi dan file didekripsi utuh *sebelum* ada yang
+  ditulis, jadi password salah tidak mengubah apa pun. Import bersifat aditif —
+  membawa akun masuk berdampingan dengan yang sudah ada.
 
 ### Menjaga sesi tetap hidup — yang benar-benar berpengaruh
 
 Tidak ada trik yang menjamin sesi Google awet selamanya; Google bisa meminta
 verifikasi kapan pun. Yang Roster lakukan untuk memperpanjang umur sesi:
 
-- **Export memindahkan, bukan menyalin.** Sesi yang sama jalan di dua tempat
-  adalah penyebab utama logout paksa. Setelah export, sumbernya dikunci.
-- **Proxy ikut pindah bersama akun.** Setelah import, browser tidak akan terbuka
-  sampai proxy lolos cek — tanpa diam-diam jatuh ke IP rumahmu.
+- **Setelah pindah, berhenti memakai akun itu di komputer lama.** Sesi yang sama
+  jalan di dua tempat adalah penyebab utama logout paksa. Export menyalin, bukan
+  mengunci, jadi disiplin ini ada di tanganmu sampai mode "pindah" opsional
+  tersedia.
+- **Proxy ikut bersama akun** di dalam profil, jadi akun tetap memakai IP keluar
+  yang sama setelah import.
 - **Fingerprint dan timezone tetap** untuk tiap akun.
 - **Akun di-refresh tepat sebelum export** supaya sesi yang dipindah masih baru.
 - **Sesi memang dirancang portabel.** Engine Roster (Wayfern) menyimpan kunci
