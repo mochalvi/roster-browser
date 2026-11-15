@@ -139,46 +139,53 @@ pub fn parse_list_accounts(body: &str) -> Vec<ListAccountEntry> {
   let mut out = Vec::new();
   for (index, row) in rows.iter().enumerate() {
     let Some(items) = row.as_array() else { continue };
-    let mut email = None;
-    let mut display_name = None;
-    let mut avatar_url = None;
+
+    // Collect the row's string values in order, and read the leading integer
+    // flag (1 = session needs re-auth). The display name is found positionally
+    // below, not by "first non-email string": that would grab Google's opaque
+    // per-account hash token, which also looks like a plain word.
+    let mut strings: Vec<&str> = Vec::new();
     let mut valid = true;
+    let mut seen_number = false;
     for item in items {
       match item {
-        serde_json::Value::String(s) => {
-          if email.is_none() && s.contains('@') && s.contains('.') {
-            email = Some(s.clone());
-          } else if is_image_url(s) {
-            if avatar_url.is_none() {
-              avatar_url = Some(s.clone());
-            }
-          } else if display_name.is_none() && !s.is_empty() && !s.starts_with("http") {
-            display_name = Some(s.clone());
-          }
-        }
+        serde_json::Value::String(s) => strings.push(s),
         serde_json::Value::Number(n) => {
-          // Google's leading per-row flag: 1 means the session is no longer
-          // valid. Only the first integer in the row carries it.
-          if valid {
-            if let Some(i) = n.as_i64() {
-              if i == 1 {
-                valid = false;
-              }
+          if !seen_number {
+            seen_number = true;
+            if n.as_i64() == Some(1) {
+              valid = false;
             }
           }
         }
         _ => {}
       }
     }
-    if let Some(email) = email {
-      out.push(ListAccountEntry {
-        email,
-        display_name,
-        avatar_url,
-        authuser_index: index,
-        valid,
-      });
-    }
+
+    let email_pos = strings
+      .iter()
+      .position(|s| s.contains('@') && s.contains('.'));
+    let Some(email_pos) = email_pos else { continue };
+
+    // The name sits immediately before the email in every ListAccounts layout
+    // seen; the hash is further left. Skip it if that slot is a URL/empty.
+    let display_name = email_pos
+      .checked_sub(1)
+      .map(|i| strings[i])
+      .filter(|s| !s.is_empty() && !s.starts_with("http"))
+      .map(str::to_string);
+    let avatar_url = strings
+      .iter()
+      .find(|s| is_image_url(s))
+      .map(|s| s.to_string());
+
+    out.push(ListAccountEntry {
+      email: strings[email_pos].to_string(),
+      display_name,
+      avatar_url,
+      authuser_index: index,
+      valid,
+    });
   }
   out
 }
