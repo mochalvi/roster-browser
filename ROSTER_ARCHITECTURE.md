@@ -10,14 +10,37 @@ exact Donut reuse points so the remaining work stays small.
 
 | Area | State | Where |
 |---|---|---|
-| Account domain model + slot allocation + ListAccounts parser + reconcile | **Done, unit-tested** | `src-tauri/src/account_manager.rs` |
+| Account domain model + slot allocation + ListAccounts/Preferences parsers + reconcile + import-remap | **Done, 13 tests, in-crate green** | `src-tauri/src/account_manager.rs` |
+| Commands: list / open (authuser) / refresh / export / import | **Done, compiles in-crate** | `src-tauri/src/account_commands.rs` |
+| `.roster` encrypted container (Argon2id + AES-GCM) | **Done, 5 tests, in-crate green** | `src-tauri/src/roster_pack.rs` |
+| App icons (full set) | **Done** (`tauri icon`) | `src-tauri/icons/` |
 | Rebrand: name, window title, logo component, locale brand strings, README EN/ID | **Done** | `tauri.conf.json`, `lib.rs`, `src/components/icons/logo.tsx`, `src/i18n/locales/*`, `README.md` |
 | App icons (.ico/.icns/png set) | **Pending** — generate with `pnpm dlx @tauri-apps/cli icon branding/logo.png` at build | `src-tauri/icons/` |
 | Tauri commands (account surface) | **Pending** | new `src-tauri/src/account_commands.rs` |
 | Refresh / sync engine | **Pending** — reuse `cookie_bot` | — |
 | Export / import `.roster` | **Pending** — reuse `profile/portable.rs` + `sync::encryption` | — |
 | Import from Chrome/Edge/Firefox | **Pending** — reuse `profile_importer.rs` + `profile_import/os_crypt.rs` | — |
-| Frontend account dashboard | **Pending** | `src/app/page.tsx` (new account view) |
+| Frontend account dashboard | **Built (standalone route)** — not yet a rail-nav view | `src/app/accounts/page.tsx` |
+
+### Making the dashboard a first-class in-app view (next wiring)
+
+The app is a static export (`output: "export"`) that navigates by internal view
+state, not URLs: `RailNav` + the `AppPage` union in `src/components/rail-nav.tsx`
+and a big view switch in `src/app/page.tsx`. `/accounts` compiles and
+type-checks as a standalone page but is not in that nav. To make it first-class:
+
+1. Add a key (e.g. `"googleAccounts"`) to the `AppPage` union in `rail-nav.tsx`
+   (do not reuse `"account"`, which is the Donut cloud account).
+2. Add a rail entry (icon + label) for it in `RailNav`, and place it in
+   `pageDirection`'s ordering.
+3. Add a title key to `PAGE_TITLE_KEYS` in `page.tsx` **and the same key to all
+   11 `src/i18n/locales/*.json`** — the i18n-parity test fails otherwise.
+4. Extract the dashboard JSX from `src/app/accounts/page.tsx` into
+   `src/components/account-dashboard.tsx` and render it from the `page.tsx` view
+   switch for the new `AppPage`.
+
+Known-good touch-points (verified by reading): `AppPage` union (rail-nav.tsx:40),
+`PAGE_TITLE_KEYS` (page.tsx:194), `currentPage` switch (page.tsx:628+).
 | Indonesian UI locale (`id.json`) | **Deferred** — i18n-parity test needs full key coverage | `src/i18n/locales/id.json` |
 
 ## Commands to add (`account_commands.rs`)
