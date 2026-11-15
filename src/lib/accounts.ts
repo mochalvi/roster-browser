@@ -26,10 +26,3 @@ export const listGoogleAccounts = () =>
 
 export const openGoogleAccount = (accountId: string) =>
   invoke<void>("open_google_account", { accountId });
-
-export const setGoogleAccountMeta = (
-  accountId: string,
-  tags?: string[],
-  note?: string,
-) =>
-  invoke<void>("set_google_account_meta", { accountId, tags, note });

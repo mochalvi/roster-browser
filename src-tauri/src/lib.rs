@@ -165,6 +165,7 @@ fn e2e_automation_profile_dir() -> Option<std::path::PathBuf> {
     .flatten()
 }
 
+mod account_commands;
 mod account_manager;
 mod api_client;
 mod api_server;
@@ -3765,6 +3766,8 @@ pub fn run_with_builder(
       profile::portable::export_profile,
       profile::portable::preview_profile_archive,
       profile::portable::import_profile_archive,
+      account_commands::list_google_accounts,
+      account_commands::open_google_account,
       launch_gate::ack_launch_gate,
       window_decorations::get_window_decoration_layout,
       validate_vless_uri,

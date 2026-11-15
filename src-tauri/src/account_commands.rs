@@ -47,13 +47,3 @@ pub async fn open_google_account(
   .await
   .map(|_| ())
 }
-
-/// Edit an account's tags and/or note from the dashboard.
-#[tauri::command]
-pub async fn set_google_account_meta(
-  account_id: String,
-  tags: Option<Vec<String>>,
-  note: Option<String>,
-) -> Result<(), String> {
-  AccountManager::instance().set_account_meta(&account_id, tags, note)
-}
