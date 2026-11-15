@@ -4,6 +4,7 @@
  * becomes an anchor with one attribute and no wiring.
  */
 export const COACH_ANCHORS = [
+  "rail-googleAccounts",
   "rail-profiles",
   "rail-proxies",
   "rail-extensions",

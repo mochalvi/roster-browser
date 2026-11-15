@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "ライブプレビューには Pro 以上のプランが必要です。"
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "プロファイル",
     "extensions": "拡張機能",
     "groups": "グループ",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "エージェント、対応待ちのリクエスト: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "ネットワーク",
     "extensions": "拡張機能",
     "groups": "グループ",

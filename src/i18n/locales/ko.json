@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "실시간 미리보기에는 Pro 이상 요금제가 필요합니다."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "프로필",
     "extensions": "확장 프로그램",
     "groups": "그룹",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "에이전트, 기다리는 요청: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "네트워크",
     "extensions": "확장 프로그램",
     "groups": "그룹",

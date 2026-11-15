@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "Live previews need the Pro plan or higher."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Profiles",
     "extensions": "Extensions",
     "groups": "Groups",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "Agent, requests waiting: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Network",
     "extensions": "Extensions",
     "groups": "Groups",

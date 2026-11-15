@@ -7,6 +7,7 @@ import { useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AboutDialog } from "@/components/about-dialog";
+import { AccountDashboard } from "@/components/account-dashboard";
 import { AccountPage } from "@/components/account-page";
 import type { ChatSeed } from "@/components/agent-chat/workspace";
 import { AgentPage, type AgentView } from "@/components/agent-page";
@@ -187,6 +188,7 @@ const PAGE_TITLE_KEYS = {
   settings: "pageTitle.settings",
   integrations: "pageTitle.integrations",
   account: "pageTitle.account",
+  googleAccounts: "pageTitle.googleAccounts",
   import: "pageTitle.import",
   shortcuts: "pageTitle.shortcuts",
   previews: "pageTitle.previews",
@@ -3236,6 +3238,12 @@ export default function Home() {
                     page={currentPage}
                     onAction={runTipAction}
                   />
+                </div>
+              )}
+
+              {currentPage === "googleAccounts" && (
+                <div className="flex min-h-0 flex-1 flex-col">
+                  <AccountDashboard />
                 </div>
               )}
 

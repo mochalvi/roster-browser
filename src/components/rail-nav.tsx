@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  LuAtSign,
   LuBot,
   LuCloud,
   LuCookie,
@@ -38,6 +39,7 @@ import { FOCUS_RING } from "./ui/focus-ring";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export type AppPage =
+  | "googleAccounts"
   | "profiles"
   | "proxies"
   | "extensions"
@@ -230,6 +232,7 @@ type PageIcon = React.ComponentType<{ className?: string }>;
 
 /** The icon each page wears in the rail and in the header title. */
 export const PAGE_ICONS: Record<AppPage, PageIcon> = {
+  googleAccounts: LuAtSign,
   profiles: LuUser,
   proxies: LuWifi,
   vpns: LuWifi,
@@ -248,6 +251,7 @@ export const PAGE_ICONS: Record<AppPage, PageIcon> = {
 
 /** Rail order, top to bottom: page transitions move in this direction. */
 const PAGE_ORDER: AppPage[] = [
+  "googleAccounts",
   "profiles",
   "proxies",
   "extensions",
@@ -397,6 +401,11 @@ interface RailItem {
 }
 
 const TOP_ITEMS: RailItem[] = [
+  {
+    page: "googleAccounts",
+    labelKey: "rail.googleAccounts",
+    anchor: "rail-googleAccounts",
+  },
   { page: "profiles", labelKey: "rail.profiles", anchor: "rail-profiles" },
   { page: "proxies", labelKey: "rail.network", anchor: "rail-proxies" },
   {

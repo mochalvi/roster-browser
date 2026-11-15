@@ -3023,6 +3023,7 @@
     "previewsNotEntitled": "Las vistas previas en vivo necesitan el plan Pro o superior."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Perfiles",
     "extensions": "Extensiones",
     "groups": "Grupos",
@@ -3054,6 +3055,7 @@
     "agentWaiting": "Agente, solicitudes en espera: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Red",
     "extensions": "Extensiones",
     "groups": "Grupos",

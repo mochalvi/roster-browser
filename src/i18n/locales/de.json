@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "Die Live-Vorschau braucht den Pro-Tarif oder höher."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Profile",
     "extensions": "Erweiterungen",
     "groups": "Gruppen",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "Agent, wartende Anfragen: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Netzwerk",
     "extensions": "Erweiterungen",
     "groups": "Gruppen",

@@ -68,7 +68,7 @@ function initial(account: GoogleAccount): string {
   return (account.display_name || account.email || "?").charAt(0).toUpperCase();
 }
 
-export default function AccountsPage() {
+export function AccountDashboard() {
   const [accounts, setAccounts] = useState<GoogleAccount[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -185,7 +185,7 @@ export default function AccountsPage() {
   const problemCount = accounts.filter((a) => STATUS[a.status].problem).length;
 
   return (
-    <div className="mx-auto flex h-screen w-full max-w-4xl flex-col gap-4 p-4">
+    <div className="mx-auto flex h-full w-full max-w-4xl flex-col gap-4 p-4">
       <header className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">Accounts</h1>
         <p className="text-sm text-muted-foreground">

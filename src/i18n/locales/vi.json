@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "Xem trước trực tiếp cần gói Pro trở lên."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Profile",
     "extensions": "Tiện ích",
     "groups": "Nhóm",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "Tác nhân, yêu cầu đang chờ: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Mạng",
     "extensions": "Tiện ích",
     "groups": "Nhóm",

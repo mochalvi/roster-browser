@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "实时预览需要 Pro 或更高套餐。"
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "配置文件",
     "extensions": "扩展",
     "groups": "分组",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "智能体，等待处理的请求：{{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "网络",
     "extensions": "扩展",
     "groups": "分组",

@@ -3043,6 +3043,7 @@
     "previewsNotEntitled": "Для живого просмотра нужен тариф Pro или выше."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Профили",
     "extensions": "Расширения",
     "groups": "Группы",
@@ -3074,6 +3075,7 @@
     "agentWaiting": "Агент, ожидающих запросов: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Сеть",
     "extensions": "Расширения",
     "groups": "Группы",

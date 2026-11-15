@@ -3023,6 +3023,7 @@
     "previewsNotEntitled": "Les aperçus en direct nécessitent le forfait Pro ou supérieur."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Profils",
     "extensions": "Extensions",
     "groups": "Groupes",
@@ -3054,6 +3055,7 @@
     "agentWaiting": "Agent, demandes en attente : {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Réseau",
     "extensions": "Extensions",
     "groups": "Groupes",

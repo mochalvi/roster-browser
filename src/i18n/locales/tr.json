@@ -3003,6 +3003,7 @@
     "previewsNotEntitled": "Canlı önizlemeler için Pro veya üstü plan gerekir."
   },
   "rail": {
+    "googleAccounts": "Accounts",
     "profiles": "Profiller",
     "extensions": "Uzantılar",
     "groups": "Gruplar",
@@ -3034,6 +3035,7 @@
     "agentWaiting": "Ajan, bekleyen istekler: {{count}}"
   },
   "pageTitle": {
+    "googleAccounts": "Accounts",
     "proxies": "Ağ",
     "extensions": "Uzantılar",
     "groups": "Gruplar",
