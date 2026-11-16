@@ -5,11 +5,142 @@
 //! later iterations; this file is the first verified slice: list accounts, open
 //! one signed-in, and edit an account's tags/note.
 
+use std::time::Duration;
+
 use crate::account_manager::{
-  open_account_url, parse_account_info, remap_imported_accounts, AccountManager, GoogleAccount,
+  open_account_url, parse_account_info, parse_list_accounts, remap_imported_accounts,
+  AccountManager, GoogleAccount, ListAccountEntry,
 };
-use crate::profile::ProfileManager;
+use crate::browser_runner::BrowserRunner;
+use crate::launch_gate::FingerprintGate;
+use crate::profile::{BrowserProfile, ProfileManager};
 use crate::roster_pack::{pack, unpack, ProfileBlob, RosterBundle};
+use crate::wayfern_cdp::WayfernSession;
+
+/// Google's own endpoint for "which accounts are signed in here", read with the
+/// profile's cookies. `json=standard` returns the array `parse_list_accounts`
+/// expects.
+const LIST_ACCOUNTS_URL: &str =
+  "https://accounts.google.com/ListAccounts?listPages=0&json=standard";
+
+/// Ask Google, through the browser, which accounts a profile is signed into.
+///
+/// Offline `Preferences` cannot see web logins — Wayfern disables Chrome's own
+/// sign-in, so `account_info` stays empty — so a real Sync launches the profile
+/// (headless if it is not already open), reads `ListAccounts` inside it (which
+/// authenticates with the profile's cookies and fingerprint, the way Google
+/// expects), reconciles the result, and returns that profile's accounts. The
+/// visit also keeps the session warm.
+#[tauri::command]
+pub async fn sync_profile_live(
+  app_handle: tauri::AppHandle,
+  profile_id: String,
+) -> Result<Vec<GoogleAccount>, String> {
+  let uuid = uuid::Uuid::parse_str(&profile_id).map_err(|_| "PROFILE_NOT_FOUND".to_string())?;
+  let manager = ProfileManager::instance();
+  let profile = manager
+    .lookup_profile(&uuid)
+    .map_err(|e| e.to_string())?
+    .ok_or("PROFILE_NOT_FOUND")?;
+
+  let we_launched = !profile
+    .process_id
+    .is_some_and(crate::proxy_storage::is_process_running);
+
+  if we_launched {
+    BrowserRunner::instance()
+      .launch_browser_with_debugging(
+        app_handle.clone(),
+        &profile,
+        None,
+        None,
+        true,
+        &FingerprintGate::Advisory,
+      )
+      .await
+      .map_err(|e| e.to_string())?;
+  }
+
+  // Re-read: a launch fills in the process id and the CDP port.
+  let profile = manager
+    .lookup_profile(&uuid)
+    .map_err(|e| e.to_string())?
+    .ok_or("PROFILE_NOT_FOUND")?;
+
+  let entries = read_list_accounts(&profile).await;
+
+  // Stop the browser only if this Sync started it: an already-open window is
+  // left alone, but a headless one we launched is not leaked.
+  if we_launched {
+    let _ = crate::browser_runner::kill_browser_profile(app_handle, profile).await;
+  }
+
+  let entries = entries?;
+  AccountManager::instance().apply_profile_refresh(
+    &profile_id,
+    &entries,
+    crate::proxy_manager::now_secs(),
+  )
+}
+
+/// Live-Sync every Wayfern profile and return all accounts. A freshly created
+/// profile has no tracked accounts yet, so this iterates Donut's profiles
+/// directly rather than the ones Roster already knows.
+///
+/// shortcut: launches each profile in turn; fine for a handful, add a bound and
+/// concurrency when fleets get large.
+#[tauri::command]
+pub async fn sync_all_accounts_live(
+  app_handle: tauri::AppHandle,
+) -> Result<Vec<GoogleAccount>, String> {
+  let profiles = ProfileManager::instance()
+    .list_profiles()
+    .map_err(|e| e.to_string())?;
+  for profile in profiles.into_iter().filter(|p| p.browser == "wayfern") {
+    // One profile failing (not logged in, launch refused) must not abort the
+    // rest; its accounts simply stay as they were.
+    let _ = sync_profile_live(app_handle.clone(), profile.id.to_string()).await;
+  }
+  AccountManager::instance().list()
+}
+
+async fn read_list_accounts(profile: &BrowserProfile) -> Result<Vec<ListAccountEntry>, String> {
+  let target = crate::cdp_target::resolve(profile)
+    .await
+    .map_err(|e| format!("{e:?}"))?;
+  let mut session = WayfernSession::open(&target)
+    .await
+    .map_err(|e| format!("{e:?}"))?;
+  let _ = session.call("Page.enable", serde_json::json!({})).await;
+  let nav = session
+    .call_then_await_navigation(
+      "Page.navigate",
+      serde_json::json!({ "url": LIST_ACCOUNTS_URL }),
+      Duration::from_secs(25),
+    )
+    .await;
+  let body = match nav {
+    Ok(_) => {
+      let reply = session
+        .call(
+          "Runtime.evaluate",
+          serde_json::json!({ "expression": "document.body.innerText", "returnByValue": true }),
+        )
+        .await
+        .map_err(|e| format!("{e:?}"));
+      reply.map(|r| {
+        r.get("result")
+          .and_then(|v| v.get("value"))
+          .and_then(|v| v.as_str())
+          .unwrap_or("")
+          .to_string()
+      })
+    }
+    Err(e) => Err(format!("{e:?}")),
+  };
+  session.close().await;
+  Ok(parse_list_accounts(&body?))
+}
 
 /// Read the accounts a profile currently holds from its on-disk Chromium
 /// `Preferences`. Returns an empty list (not an error) when the profile has

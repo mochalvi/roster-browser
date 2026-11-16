@@ -3771,6 +3771,8 @@ pub fn run_with_builder(
       account_commands::open_google_account,
       account_commands::refresh_profile,
       account_commands::refresh_all_accounts,
+      account_commands::sync_profile_live,
+      account_commands::sync_all_accounts_live,
       account_commands::export_accounts,
       account_commands::import_accounts,
       launch_gate::ack_launch_gate,

@@ -33,6 +33,13 @@ export const refreshProfile = (profileId: string) =>
 export const refreshAllAccounts = () =>
   invoke<GoogleAccount[]>("refresh_all_accounts");
 
+/** Live Sync: launches each profile and reads ListAccounts from Google. */
+export const syncAllAccountsLive = () =>
+  invoke<GoogleAccount[]>("sync_all_accounts_live");
+
+export const syncProfileLive = (profileId: string) =>
+  invoke<GoogleAccount[]>("sync_profile_live", { profileId });
+
 export const exportAccounts = (
   accountIds: string[],
   destination: string,

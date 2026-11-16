@@ -32,7 +32,7 @@ import {
   importAccounts,
   listGoogleAccounts,
   openGoogleAccount,
-  refreshAllAccounts,
+  syncAllAccountsLive,
 } from "@/lib/accounts";
 import { translateBackendError } from "@/lib/backend-errors";
 import { showSuccessToast, showToast } from "@/lib/toast-utils";
@@ -90,7 +90,9 @@ export function AccountDashboard() {
   async function sync() {
     setSyncing(true);
     try {
-      setAccounts(await refreshAllAccounts());
+      // Live: launches each profile and asks Google who is signed in. Takes a
+      // few seconds per profile because it drives a real browser.
+      setAccounts(await syncAllAccountsLive());
     } catch (e) {
       showToast({ type: "error", title: translateBackendError(t, e) });
     } finally {
