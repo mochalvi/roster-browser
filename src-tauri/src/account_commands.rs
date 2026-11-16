@@ -48,6 +48,10 @@ pub async fn sync_profile_live(
     .is_some_and(crate::proxy_storage::is_process_running);
 
   if we_launched {
+    // Enforce, not Advisory: a Sync must never launch a profile whose proxy
+    // fails to resolve or whose fingerprint mismatches, or the ListAccounts
+    // request would leave over the real IP and flag the account. A blocked
+    // profile errors out here and the caller skips it.
     BrowserRunner::instance()
       .launch_browser_with_debugging(
         app_handle.clone(),
@@ -55,7 +59,7 @@ pub async fn sync_profile_live(
         None,
         None,
         true,
-        &FingerprintGate::Advisory,
+        &FingerprintGate::Enforce,
       )
       .await
       .map_err(|e| e.to_string())?;
