@@ -105,6 +105,10 @@ export function AccountDashboard() {
     setWarming(true);
     try {
       const n = await keepAliveAll();
+      // Re-sync so the list reflects the just-refreshed sessions: statuses are
+      // re-checked and each row's timestamp flips to "just now" — the visible
+      // proof that keep-alive ran.
+      setAccounts(await syncAllAccountsLive());
       showSuccessToast(`Refreshed ${n} profile${n === 1 ? "" : "s"}`);
     } catch (e) {
       showToast({ type: "error", title: translateBackendError(t, e) });

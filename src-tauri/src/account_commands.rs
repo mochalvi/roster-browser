@@ -22,16 +22,6 @@ use crate::roster_pack::{pack, unpack, ProfileBlob, RosterBundle};
 const LIST_ACCOUNTS_URL: &str =
   "https://accounts.google.com/ListAccounts?listPages=0&json=standard&source=ChromiumBrowser";
 
-/// TEMP diagnostics for the live-Sync bring-up: appends a line to
-/// `%TEMP%/roster-sync-debug.txt`. Remove once Sync is confirmed working.
-fn sync_dbg(msg: &str) {
-  use std::io::Write;
-  let path = std::env::temp_dir().join("roster-sync-debug.txt");
-  if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
-    let _ = writeln!(f, "{} {msg}", crate::proxy_manager::now_secs());
-  }
-}
-
 /// Ask Google which accounts a profile is signed into, by reading the profile's
 /// cookies and calling `ListAccounts` directly.
 ///
@@ -48,24 +38,15 @@ pub async fn sync_profile_live(profile_id: String) -> Result<Vec<GoogleAccount>,
     .lookup_profile(&uuid)
     .map_err(|e| e.to_string())?
     .ok_or("PROFILE_NOT_FOUND")?;
-  sync_dbg(&format!(
-    "profile={profile_id} name={} proxy={:?} vpn={:?}",
-    profile.name, profile.proxy_id, profile.vpn_id
-  ));
 
   // shortcut: a proxied/VPN profile's ListAccounts call must go out its proxy,
   // not the real IP; routing reqwest through the profile proxy is not wired yet,
   // so such profiles are skipped (never leaked). Upgrade: add proxy routing.
   if profile.proxy_id.is_some() || profile.vpn_id.is_some() {
-    sync_dbg("skip: proxied profile (reqwest proxy routing not wired yet)");
     return Err("PROXY_ROUTING_NOT_SUPPORTED".to_string());
   }
 
   let entries = fetch_list_accounts(&profile_id).await;
-  match &entries {
-    Ok(v) => sync_dbg(&format!("parsed {} accounts", v.len())),
-    Err(e) => sync_dbg(&format!("fetch ERR: {e}")),
-  }
   AccountManager::instance().apply_profile_refresh(
     &profile_id,
     &entries?,
@@ -148,7 +129,10 @@ async fn fetch_list_accounts(profile_id: &str) -> Result<Vec<ListAccountEntry>, 
   // ASCII, so a stray binary value is skipped rather than breaking the request.
   let mut jar: std::collections::BTreeMap<String, String> = std::collections::BTreeMap::new();
   for domain in &result.domains {
-    if !domain.domain.contains("google.com") {
+    // Browser-style domain match: only genuine google.com hosts, so a lookalike
+    // cookie (e.g. "google.com.evil.example") is never merged in and sent along.
+    let host = domain.domain.trim_start_matches('.');
+    if host != "google.com" && !host.ends_with(".google.com") {
       continue;
     }
     for cookie in &domain.cookies {
@@ -187,13 +171,6 @@ async fn fetch_list_accounts(profile_id: &str) -> Result<Vec<ListAccountEntry>, 
 
   let status = resp.status();
   let body = resp.text().await.map_err(|e| format!("read body: {e}"))?;
-  // PII-safe: log only the response shape and counts, never emails/names.
-  let shape: String = body.chars().take(30).collect();
-  sync_dbg(&format!(
-    "http={status} len={} at={} starts={shape:?}",
-    body.len(),
-    body.matches('@').count()
-  ));
   if !status.is_success() {
     return Err(format!("ListAccounts HTTP {status}"));
   }

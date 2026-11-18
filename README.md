@@ -5,6 +5,14 @@
   <p><em>Kelola ratusan akun Google per akun, bukan per profil.</em></p>
 </div>
 
+<div align="center">
+  <img src="docs/screenshot.jpg" alt="Roster Browser — account dashboard (demo data)" width="820" />
+  <p><sub>Demo data — real accounts are not shown. · Data contoh — bukan akun asli.</sub></p>
+  <p>
+    <a href="https://github.com/mochalvi/roster-browser/releases/latest"><strong>⬇️ Download for Windows</strong></a>
+  </p>
+</div>
+
 ---
 
 > **English below · [Bahasa Indonesia di bawah](#bahasa-indonesia)**
@@ -81,6 +89,15 @@ session active in two places looks suspicious to Google and can log out both.
 
 This is an active fork in development. The account layer, launcher, refresh, and
 export/import are being built on top of Donut's profile engine.
+
+### Download
+
+A pre-built Windows installer (`.exe`) is on the
+**[Releases page](https://github.com/mochalvi/roster-browser/releases/latest)** —
+download `Roster_<version>_x64-setup.exe`, run it, and launch Roster.
+
+> Windows SmartScreen may warn because the build is not code-signed yet. Choose
+> *More info → Run anyway*, or build it yourself (below).
 
 ### Build
 
@@ -190,6 +207,16 @@ keduanya logout.
 
 Ini fork yang sedang aktif dikembangkan. Lapisan akun, launcher, refresh, dan
 export/import sedang dibangun di atas mesin profil Donut.
+
+### Unduh
+
+Installer Windows (`.exe`) siap pakai ada di
+**[halaman Releases](https://github.com/mochalvi/roster-browser/releases/latest)** —
+unduh `Roster_<versi>_x64-setup.exe`, jalankan, lalu buka Roster.
+
+> Windows SmartScreen mungkin memberi peringatan karena build-nya belum
+> ditandatangani (code-signing). Pilih *More info → Run anyway*, atau build
+> sendiri (di bawah).
 
 ### Build
 
