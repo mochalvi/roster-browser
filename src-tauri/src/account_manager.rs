@@ -140,25 +140,20 @@ pub fn parse_list_accounts(body: &str) -> Vec<ListAccountEntry> {
   for (index, row) in rows.iter().enumerate() {
     let Some(items) = row.as_array() else { continue };
 
-    // Collect the row's string values in order, and read the leading integer
-    // flag (1 = session needs re-auth). The display name is found positionally
-    // below, not by "first non-email string": that would grab Google's opaque
-    // per-account hash token, which also looks like a plain word.
+    // Collect the row's string values in order. The display name is found
+    // positionally below, not by "first non-email string": that would grab
+    // Google's opaque per-account hash token, which also looks like a word.
+    //
+    // shortcut: a listed account is reported Active. ListAccounts does carry a
+    // per-row valid-session flag, but its index drifts and the leading integer
+    // is NOT it (it is 1 for normal accounts, which wrongly flagged every
+    // account as needing re-auth). Upgrade: parse the real flag to detect a
+    // genuinely stale-but-listed session.
+    let valid = true;
     let mut strings: Vec<&str> = Vec::new();
-    let mut valid = true;
-    let mut seen_number = false;
     for item in items {
-      match item {
-        serde_json::Value::String(s) => strings.push(s),
-        serde_json::Value::Number(n) => {
-          if !seen_number {
-            seen_number = true;
-            if n.as_i64() == Some(1) {
-              valid = false;
-            }
-          }
-        }
-        _ => {}
+      if let serde_json::Value::String(s) = item {
+        strings.push(s);
       }
     }
 
@@ -508,11 +503,14 @@ mod tests {
   }
 
   #[test]
-  fn a_row_flagged_invalid_is_not_valid() {
+  fn a_listed_account_is_reported_active() {
+    // The leading integer is 1 for a normal account; it is NOT a validity flag,
+    // so a listed account must come back valid (Active), not needs-verification.
     let body = r#"["gaia",[[1,"h","Cici","cici@gmail.com","https://lh3.googleusercontent.com/a/z",0]]]"#;
     let got = parse_list_accounts(body);
     assert_eq!(got.len(), 1);
-    assert!(!got[0].valid, "leading 1 flag marks the session invalid");
+    assert!(got[0].valid, "a listed account is active");
+    assert_eq!(got[0].display_name.as_deref(), Some("Cici"));
   }
 
   #[test]

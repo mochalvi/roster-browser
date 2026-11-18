@@ -40,6 +40,9 @@ export const syncAllAccountsLive = () =>
 export const syncProfileLive = (profileId: string) =>
   invoke<GoogleAccount[]>("sync_profile_live", { profileId });
 
+/** Keep sessions warm: briefly open each profile at a Google page. */
+export const keepAliveAll = () => invoke<number>("keep_alive_all");
+
 export const exportAccounts = (
   accountIds: string[],
   destination: string,

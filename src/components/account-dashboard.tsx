@@ -30,6 +30,7 @@ import {
   exportAccounts,
   type GoogleAccount,
   importAccounts,
+  keepAliveAll,
   listGoogleAccounts,
   openGoogleAccount,
   syncAllAccountsLive,
@@ -75,6 +76,7 @@ export function AccountDashboard() {
   const [problemsOnly, setProblemsOnly] = useState(false);
   const [opening, setOpening] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
+  const [warming, setWarming] = useState(false);
   const { t } = useTranslation();
 
   async function load() {
@@ -90,13 +92,24 @@ export function AccountDashboard() {
   async function sync() {
     setSyncing(true);
     try {
-      // Live: launches each profile and asks Google who is signed in. Takes a
-      // few seconds per profile because it drives a real browser.
+      // Reads each profile's cookies and asks Google who is signed in.
       setAccounts(await syncAllAccountsLive());
     } catch (e) {
       showToast({ type: "error", title: translateBackendError(t, e) });
     } finally {
       setSyncing(false);
+    }
+  }
+
+  async function keepAlive() {
+    setWarming(true);
+    try {
+      const n = await keepAliveAll();
+      showSuccessToast(`Refreshed ${n} profile${n === 1 ? "" : "s"}`);
+    } catch (e) {
+      showToast({ type: "error", title: translateBackendError(t, e) });
+    } finally {
+      setWarming(false);
     }
   }
 
@@ -219,6 +232,14 @@ export function AccountDashboard() {
         >
           <LuRefreshCw className="size-4" />
           Sync
+        </LoadingButton>
+        <LoadingButton
+          variant="outline"
+          isLoading={warming}
+          onClick={() => void keepAlive()}
+          title="Open each profile briefly so Google keeps the session alive"
+        >
+          Keep alive
         </LoadingButton>
         <Button variant="outline" onClick={() => void startExport()}>
           <LuUpload className="size-4" />

@@ -13,137 +13,191 @@ use crate::account_manager::{
 };
 use crate::browser_runner::BrowserRunner;
 use crate::launch_gate::FingerprintGate;
-use crate::profile::{BrowserProfile, ProfileManager};
+use crate::profile::ProfileManager;
 use crate::roster_pack::{pack, unpack, ProfileBlob, RosterBundle};
-use crate::wayfern_cdp::WayfernSession;
 
 /// Google's own endpoint for "which accounts are signed in here", read with the
 /// profile's cookies. `json=standard` returns the array `parse_list_accounts`
 /// expects.
 const LIST_ACCOUNTS_URL: &str =
-  "https://accounts.google.com/ListAccounts?listPages=0&json=standard";
+  "https://accounts.google.com/ListAccounts?listPages=0&json=standard&source=ChromiumBrowser";
 
-/// Ask Google, through the browser, which accounts a profile is signed into.
+/// TEMP diagnostics for the live-Sync bring-up: appends a line to
+/// `%TEMP%/roster-sync-debug.txt`. Remove once Sync is confirmed working.
+fn sync_dbg(msg: &str) {
+  use std::io::Write;
+  let path = std::env::temp_dir().join("roster-sync-debug.txt");
+  if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
+    let _ = writeln!(f, "{} {msg}", crate::proxy_manager::now_secs());
+  }
+}
+
+/// Ask Google which accounts a profile is signed into, by reading the profile's
+/// cookies and calling `ListAccounts` directly.
 ///
-/// Offline `Preferences` cannot see web logins — Wayfern disables Chrome's own
-/// sign-in, so `account_info` stays empty — so a real Sync launches the profile
-/// (headless if it is not already open), reads `ListAccounts` inside it (which
-/// authenticates with the profile's cookies and fingerprint, the way Google
-/// expects), reconciles the result, and returns that profile's accounts. The
-/// visit also keeps the session warm.
+/// Offline `Preferences` cannot see web logins (Wayfern disables Chrome's own
+/// sign-in, so `account_info` stays empty), and driving the browser to fetch it
+/// is blocked behind Wayfern's paid automation. So Roster decrypts the profile's
+/// own Google cookies (Donut's `os_crypt`) and makes the same POST Chromium's
+/// `GaiaAuthFetcher::StartListAccounts` makes — `Origin: www.google.com`, a
+/// one-space form body to force a POST. No browser launch needed.
 #[tauri::command]
-pub async fn sync_profile_live(
-  app_handle: tauri::AppHandle,
-  profile_id: String,
-) -> Result<Vec<GoogleAccount>, String> {
+pub async fn sync_profile_live(profile_id: String) -> Result<Vec<GoogleAccount>, String> {
   let uuid = uuid::Uuid::parse_str(&profile_id).map_err(|_| "PROFILE_NOT_FOUND".to_string())?;
-  let manager = ProfileManager::instance();
-  let profile = manager
+  let profile = ProfileManager::instance()
     .lookup_profile(&uuid)
     .map_err(|e| e.to_string())?
     .ok_or("PROFILE_NOT_FOUND")?;
+  sync_dbg(&format!(
+    "profile={profile_id} name={} proxy={:?} vpn={:?}",
+    profile.name, profile.proxy_id, profile.vpn_id
+  ));
 
-  let we_launched = !profile
-    .process_id
-    .is_some_and(crate::proxy_storage::is_process_running);
-
-  if we_launched {
-    // Enforce, not Advisory: a Sync must never launch a profile whose proxy
-    // fails to resolve or whose fingerprint mismatches, or the ListAccounts
-    // request would leave over the real IP and flag the account. A blocked
-    // profile errors out here and the caller skips it.
-    BrowserRunner::instance()
-      .launch_browser_with_debugging(
-        app_handle.clone(),
-        &profile,
-        None,
-        None,
-        true,
-        &FingerprintGate::Enforce,
-      )
-      .await
-      .map_err(|e| e.to_string())?;
+  // shortcut: a proxied/VPN profile's ListAccounts call must go out its proxy,
+  // not the real IP; routing reqwest through the profile proxy is not wired yet,
+  // so such profiles are skipped (never leaked). Upgrade: add proxy routing.
+  if profile.proxy_id.is_some() || profile.vpn_id.is_some() {
+    sync_dbg("skip: proxied profile (reqwest proxy routing not wired yet)");
+    return Err("PROXY_ROUTING_NOT_SUPPORTED".to_string());
   }
 
-  // Re-read: a launch fills in the process id and the CDP port.
-  let profile = manager
-    .lookup_profile(&uuid)
-    .map_err(|e| e.to_string())?
-    .ok_or("PROFILE_NOT_FOUND")?;
-
-  let entries = read_list_accounts(&profile).await;
-
-  // Stop the browser only if this Sync started it: an already-open window is
-  // left alone, but a headless one we launched is not leaked.
-  if we_launched {
-    let _ = crate::browser_runner::kill_browser_profile(app_handle, profile).await;
+  let entries = fetch_list_accounts(&profile_id).await;
+  match &entries {
+    Ok(v) => sync_dbg(&format!("parsed {} accounts", v.len())),
+    Err(e) => sync_dbg(&format!("fetch ERR: {e}")),
   }
-
-  let entries = entries?;
   AccountManager::instance().apply_profile_refresh(
     &profile_id,
-    &entries,
+    &entries?,
     crate::proxy_manager::now_secs(),
   )
 }
 
-/// Live-Sync every Wayfern profile and return all accounts. A freshly created
-/// profile has no tracked accounts yet, so this iterates Donut's profiles
-/// directly rather than the ones Roster already knows.
-///
-/// shortcut: launches each profile in turn; fine for a handful, add a bound and
-/// concurrency when fleets get large.
+/// Live-Sync every direct (un-proxied) Wayfern profile and return all accounts.
+/// A freshly created profile has no tracked accounts yet, so this iterates
+/// Donut's profiles directly rather than the ones Roster already knows.
 #[tauri::command]
-pub async fn sync_all_accounts_live(
-  app_handle: tauri::AppHandle,
-) -> Result<Vec<GoogleAccount>, String> {
+pub async fn sync_all_accounts_live() -> Result<Vec<GoogleAccount>, String> {
   let profiles = ProfileManager::instance()
     .list_profiles()
     .map_err(|e| e.to_string())?;
   for profile in profiles.into_iter().filter(|p| p.browser == "wayfern") {
-    // One profile failing (not logged in, launch refused) must not abort the
-    // rest; its accounts simply stay as they were.
-    let _ = sync_profile_live(app_handle.clone(), profile.id.to_string()).await;
+    // One profile failing (not logged in, proxied, no cookies) must not abort
+    // the rest; its accounts simply stay as they were.
+    let _ = sync_profile_live(profile.id.to_string()).await;
   }
   AccountManager::instance().list()
 }
 
-async fn read_list_accounts(profile: &BrowserProfile) -> Result<Vec<ListAccountEntry>, String> {
-  let target = crate::cdp_target::resolve(profile)
-    .await
-    .map_err(|e| format!("{e:?}"))?;
-  let mut session = WayfernSession::open(&target)
-    .await
-    .map_err(|e| format!("{e:?}"))?;
-  let _ = session.call("Page.enable", serde_json::json!({})).await;
-  let nav = session
-    .call_then_await_navigation(
-      "Page.navigate",
-      serde_json::json!({ "url": LIST_ACCOUNTS_URL }),
-      Duration::from_secs(25),
-    )
-    .await;
-  let body = match nav {
-    Ok(_) => {
-      let reply = session
-        .call(
-          "Runtime.evaluate",
-          serde_json::json!({ "expression": "document.body.innerText", "returnByValue": true }),
-        )
-        .await
-        .map_err(|e| format!("{e:?}"));
-      reply.map(|r| {
-        r.get("result")
-          .and_then(|v| v.get("value"))
-          .and_then(|v| v.as_str())
-          .unwrap_or("")
-          .to_string()
-      })
+/// Keep sessions from going stale: open each direct Wayfern profile briefly at
+/// a Google page (headless) so Chromium refreshes and persists its session
+/// cookies, then close it. Returns how many profiles were refreshed.
+///
+/// shortcut: sequential, ~18s per profile, un-proxied profiles only (a proxied
+/// launch is gated the same as Sync). Upgrade: schedule it and bound it.
+#[tauri::command]
+pub async fn keep_alive_all(app_handle: tauri::AppHandle) -> Result<usize, String> {
+  let profiles = ProfileManager::instance()
+    .list_profiles()
+    .map_err(|e| e.to_string())?;
+  let mut refreshed = 0usize;
+  for profile in profiles.into_iter().filter(|p| p.browser == "wayfern") {
+    if profile.proxy_id.is_some() || profile.vpn_id.is_some() {
+      continue;
     }
-    Err(e) => Err(format!("{e:?}")),
-  };
-  session.close().await;
-  Ok(parse_list_accounts(&body?))
+    // Already open means already warm; leave it alone.
+    if profile
+      .process_id
+      .is_some_and(crate::proxy_storage::is_process_running)
+    {
+      refreshed += 1;
+      continue;
+    }
+    let launched = BrowserRunner::instance()
+      .launch_browser_with_debugging(
+        app_handle.clone(),
+        &profile,
+        Some("https://myaccount.google.com/".to_string()),
+        None,
+        true,
+        &FingerprintGate::Enforce,
+      )
+      .await;
+    if let Ok(running) = launched {
+      // Let the page load so Chromium rotates and flushes the session cookies.
+      tokio::time::sleep(Duration::from_secs(18)).await;
+      let _ = crate::browser_runner::kill_browser_profile(app_handle.clone(), running).await;
+      refreshed += 1;
+    }
+  }
+  Ok(refreshed)
+}
+
+/// Decrypt the profile's Google cookies and POST ListAccounts, exactly as
+/// Chromium does. Returns the signed-in accounts parsed from the response.
+async fn fetch_list_accounts(profile_id: &str) -> Result<Vec<ListAccountEntry>, String> {
+  let pid = profile_id.to_string();
+  let result = tokio::task::spawn_blocking(move || {
+    crate::cookie_manager::CookieManager::read_cookies(&pid)
+  })
+  .await
+  .map_err(|e| e.to_string())??;
+
+  // Build the Cookie header from google.com cookies, deduping by name (the same
+  // auth cookie appears under several google subdomains). Header values must be
+  // ASCII, so a stray binary value is skipped rather than breaking the request.
+  let mut jar: std::collections::BTreeMap<String, String> = std::collections::BTreeMap::new();
+  for domain in &result.domains {
+    if !domain.domain.contains("google.com") {
+      continue;
+    }
+    for cookie in &domain.cookies {
+      if cookie.value.is_empty() || !cookie.name.is_ascii() || !cookie.value.is_ascii() {
+        continue;
+      }
+      jar.insert(cookie.name.clone(), cookie.value.clone());
+    }
+  }
+  if jar.is_empty() {
+    return Err("NO_GOOGLE_COOKIES".to_string());
+  }
+  let cookie_header = jar
+    .iter()
+    .map(|(k, v)| format!("{k}={v}"))
+    .collect::<Vec<_>>()
+    .join("; ");
+
+  let client = reqwest::Client::builder()
+    .build()
+    .map_err(|e| e.to_string())?;
+  let resp = client
+    .post(LIST_ACCOUNTS_URL)
+    .header("Origin", "https://www.google.com")
+    .header("Content-Type", "application/x-www-form-urlencoded")
+    .header(
+      "User-Agent",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+       (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    )
+    .header("Cookie", cookie_header)
+    .body(" ") // one space forces a POST, as Chromium does
+    .send()
+    .await
+    .map_err(|e| format!("request failed: {e}"))?;
+
+  let status = resp.status();
+  let body = resp.text().await.map_err(|e| format!("read body: {e}"))?;
+  // PII-safe: log only the response shape and counts, never emails/names.
+  let shape: String = body.chars().take(30).collect();
+  sync_dbg(&format!(
+    "http={status} len={} at={} starts={shape:?}",
+    body.len(),
+    body.matches('@').count()
+  ));
+  if !status.is_success() {
+    return Err(format!("ListAccounts HTTP {status}"));
+  }
+  Ok(parse_list_accounts(&body))
 }
 
 /// Read the accounts a profile currently holds from its on-disk Chromium
