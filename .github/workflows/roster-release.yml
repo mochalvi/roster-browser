@@ -24,8 +24,6 @@ on:
 jobs:
   windows-installer:
     runs-on: windows-latest
-    permissions:
-      contents: write
     env:
       # LLVM is pre-installed on windows-latest; winfsp-sys/bindgen needs libclang.
       LIBCLANG_PATH: "C:\\Program Files\\LLVM\\bin"
@@ -53,20 +51,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build installer and publish release
+      # Build only — the default fork GITHUB_TOKEN is read-only and cannot create
+      # a release, so the installer is uploaded as an artifact and the release is
+      # published separately by a maintainer with write access.
+      - name: Build Windows installer
         uses: tauri-apps/tauri-action@84b9d35b5fc46c1e45415bdb6144030364f7ebc5 # v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ inputs.tag }}
-          releaseName: "Roster Browser ${{ inputs.tag }}"
-          releaseBody: |
-            Windows installer for Roster Browser.
-
-            Download **`Roster_<version>_x64-setup.exe`** below, run it, and launch Roster.
-
-            > Windows SmartScreen may warn because the build is not code-signed yet.
-            > Choose **More info → Run anyway**.
-          releaseDraft: false
-          prerelease: ${{ inputs.prerelease }}
           args: --bundles nsis
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: roster-windows-installer
+          path: src-tauri/target/release/bundle/nsis/*-setup.exe
+          if-no-files-found: error
