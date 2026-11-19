@@ -47,7 +47,6 @@ export type ShortcutId =
   | "openTips"
   | "sendFeedback"
   | "openTotp"
-  | "importProfile"
   | "goProfiles"
   | "goProxies"
   | "goExtensions"
@@ -127,13 +126,6 @@ export const SHORTCUTS: ShortcutDef[] = [
     key: "o",
     mod: true,
     shift: true,
-  },
-  {
-    id: "importProfile",
-    labelKey: "shortcuts.importProfile",
-    group: "actions",
-    key: "o",
-    mod: true,
   },
   {
     // "+" is Shift+"=" on most layouts; both work.

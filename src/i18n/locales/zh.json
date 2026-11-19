@@ -426,7 +426,7 @@
       "cantModifyStopping": "停止期间无法修改配置文件",
       "cantModifyUpdating": "浏览器更新期间无法修改配置文件",
       "emptyTitle": "暂无配置文件",
-      "emptyHint": "创建您的第一个配置文件,或从其他浏览器导入现有配置文件。",
+      "emptyHint": "创建你的第一个配置文件以开始使用。",
       "emptyCreate": "创建配置文件",
       "emptyImport": "导入配置文件",
       "emptyFilteredTitle": "未找到配置文件",

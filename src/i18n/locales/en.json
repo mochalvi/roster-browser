@@ -426,7 +426,7 @@
       "cantModifyStopping": "Can't modify profile while stopping",
       "cantModifyUpdating": "Can't modify profile while browser is updating",
       "emptyTitle": "No profiles yet",
-      "emptyHint": "Create your first profile or import existing ones from another browser.",
+      "emptyHint": "Create your first profile to get started.",
       "emptyCreate": "Create profile",
       "emptyImport": "Import profiles",
       "emptyFilteredTitle": "No profiles found",

@@ -426,7 +426,7 @@
       "cantModifyStopping": "Durdurulurken profil değiştirilemez",
       "cantModifyUpdating": "Tarayıcı güncellenirken profil değiştirilemez",
       "emptyTitle": "Henüz profil yok",
-      "emptyHint": "İlk profilinizi oluşturun veya başka bir tarayıcıdan mevcut profilleri içe aktarın.",
+      "emptyHint": "Başlamak için ilk profilinizi oluşturun.",
       "emptyCreate": "Profil oluştur",
       "emptyImport": "Profilleri içe aktar",
       "emptyFilteredTitle": "Profil bulunamadı",

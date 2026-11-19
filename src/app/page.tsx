@@ -27,7 +27,6 @@ import { FeedbackDialog } from "@/components/feedback-dialog";
 import { GroupAssignmentDialog } from "@/components/group-assignment-dialog";
 import { GroupManagementDialog } from "@/components/group-management-dialog";
 import HomeHeader from "@/components/home-header";
-import { ImportProfileDialog } from "@/components/import-profile-dialog";
 import { IntegrationsDialog } from "@/components/integrations-dialog";
 import { LeavePromptDialog } from "@/components/leave-prompt-dialog";
 import { MoveProfilesDialog } from "@/components/move-profiles-dialog";
@@ -189,7 +188,6 @@ const PAGE_TITLE_KEYS = {
   integrations: "pageTitle.integrations",
   account: "pageTitle.account",
   googleAccounts: "pageTitle.googleAccounts",
-  import: "pageTitle.import",
   shortcuts: "pageTitle.shortcuts",
   previews: "pageTitle.previews",
   trash: "pageTitle.trash",
@@ -486,7 +484,6 @@ export default function Home() {
   >(null);
   const [trashPageOpen, setTrashPageOpen] = useState(false);
   const [integrationsDialogOpen, setIntegrationsDialogOpen] = useState(false);
-  const [importProfileDialogOpen, setImportProfileDialogOpen] = useState(false);
   const [proxyManagementDialogOpen, setProxyManagementDialogOpen] =
     useState(false);
   const [wayfernConfigDialogOpen, setWayfernConfigDialogOpen] = useState(false);
@@ -636,7 +633,6 @@ export default function Home() {
     setExtensionManagementDialogOpen(false);
     setGroupManagementDialogOpen(false);
     setIntegrationsDialogOpen(false);
-    setImportProfileDialogOpen(false);
     setAccountDialogOpen(false);
     setCookieBotDialogOpen(false);
     setAgentDialogOpen(false);
@@ -668,9 +664,6 @@ export default function Home() {
         break;
       case "integrations":
         setIntegrationsDialogOpen(true);
-        break;
-      case "import":
-        setImportProfileDialogOpen(true);
         break;
       case "vpns":
         // VPNs share the proxy management page; pre-select the VPN tab so
@@ -854,9 +847,6 @@ export default function Home() {
           break;
         case "openShortcuts":
           handleRailNavigate("shortcuts");
-          break;
-        case "importProfile":
-          handleRailNavigate("import");
           break;
         case "goProfiles":
           handleRailNavigate("profiles");
@@ -3213,9 +3203,6 @@ export default function Home() {
                       setSyncLeaderProfile(profile);
                     }}
                     onCreateProfile={openCreateProfile}
-                    onImportProfiles={() => {
-                      handleRailNavigate("import");
-                    }}
                     launchErrors={launchErrors}
                     onCreateProfileInGroup={openCreateProfile}
                     onMoveProfilesHere={handleMoveProfilesHere}
@@ -3324,17 +3311,6 @@ export default function Home() {
                   limitedMode={false}
                   subPage={currentPage === "extensions"}
                   initialTab={extensionManagementInitialTab}
-                />
-              )}
-
-              {importProfileDialogOpen && (
-                <ImportProfileDialog
-                  isOpen={importProfileDialogOpen}
-                  onClose={() => {
-                    closeSubPage(() => setImportProfileDialogOpen(false));
-                  }}
-                  crossOsUnlocked={crossOsUnlocked}
-                  subPage={currentPage === "import"}
                 />
               )}
 

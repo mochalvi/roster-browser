@@ -427,7 +427,7 @@
       "cantModifyStopping": "Impossible de modifier le profil pendant l'arrêt",
       "cantModifyUpdating": "Impossible de modifier le profil pendant la mise à jour du navigateur",
       "emptyTitle": "Aucun profil pour l'instant",
-      "emptyHint": "Créez votre premier profil ou importez des profils existants depuis un autre navigateur.",
+      "emptyHint": "Créez votre premier profil pour commencer.",
       "emptyCreate": "Créer un profil",
       "emptyImport": "Importer des profils",
       "emptyFilteredTitle": "Aucun profil trouvé",

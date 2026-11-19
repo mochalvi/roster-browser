@@ -426,7 +426,7 @@
       "cantModifyStopping": "Không thể chỉnh sửa profile khi đang dừng",
       "cantModifyUpdating": "Không thể chỉnh sửa profile khi trình duyệt đang cập nhật",
       "emptyTitle": "Chưa có hồ sơ nào",
-      "emptyHint": "Tạo hồ sơ đầu tiên của bạn hoặc nhập hồ sơ hiện có từ trình duyệt khác.",
+      "emptyHint": "Tạo hồ sơ đầu tiên của bạn để bắt đầu.",
       "emptyCreate": "Tạo hồ sơ",
       "emptyImport": "Nhập hồ sơ",
       "emptyFilteredTitle": "Không tìm thấy hồ sơ",

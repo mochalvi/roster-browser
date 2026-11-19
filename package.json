@@ -2,7 +2,7 @@
   "name": "roster-browser",
   "private": true,
   "license": "AGPL-3.0",
-  "version": "0.36.0",
+  "version": "0.37.0",
   "type": "module",
   "scripts": {
     "predev": "pnpm licenses:generate",

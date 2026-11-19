@@ -8,8 +8,9 @@
 use std::time::Duration;
 
 use crate::account_manager::{
-  open_account_url, parse_account_info, parse_list_accounts, remap_imported_accounts,
-  AccountManager, GoogleAccount, ListAccountEntry,
+  antigravity_appeal_url, open_account_url, parse_account_info, parse_account_plan,
+  parse_list_accounts, remap_imported_accounts, AccountManager, AntigravityStatus, GoogleAccount,
+  ListAccountEntry,
 };
 use crate::browser_runner::BrowserRunner;
 use crate::launch_gate::FingerprintGate;
@@ -114,9 +115,68 @@ pub async fn keep_alive_all(app_handle: tauri::AppHandle) -> Result<usize, Strin
   Ok(refreshed)
 }
 
+const CHROME_UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+  (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36";
+
 /// Decrypt the profile's Google cookies and POST ListAccounts, exactly as
-/// Chromium does. Returns the signed-in accounts parsed from the response.
+/// Chromium does, then read each account's Google AI plan from Google's own
+/// account menu. Returns the signed-in accounts.
 async fn fetch_list_accounts(profile_id: &str) -> Result<Vec<ListAccountEntry>, String> {
+  let cookie_header = google_cookie_header(profile_id).await?;
+  let client = reqwest::Client::builder()
+    .build()
+    .map_err(|e| e.to_string())?;
+  let resp = client
+    .post(LIST_ACCOUNTS_URL)
+    .header("Origin", "https://www.google.com")
+    .header("Content-Type", "application/x-www-form-urlencoded")
+    .header("User-Agent", CHROME_UA)
+    .header("Cookie", &cookie_header)
+    .body(" ") // one space forces a POST, as Chromium does
+    .send()
+    .await
+    .map_err(|e| format!("request failed: {e}"))?;
+
+  let status = resp.status();
+  let body = resp.text().await.map_err(|e| format!("read body: {e}"))?;
+  if !status.is_success() {
+    return Err(format!("ListAccounts HTTP {status}"));
+  }
+  let mut entries = parse_list_accounts(&body);
+  for entry in &mut entries {
+    // A plan that cannot be read stays None, which keeps the last known one.
+    let plan = fetch_plan(&client, &cookie_header, entry).await;
+    entry.plan = plan;
+  }
+  Ok(entries)
+}
+
+/// One account's plan from the account-menu widget Google shows at the avatar,
+/// selected by authuser index and confirmed against the email in its header.
+async fn fetch_plan(
+  client: &reqwest::Client,
+  cookie_header: &str,
+  entry: &ListAccountEntry,
+) -> Option<String> {
+  let url = format!(
+    "https://ogs.google.com/u/{}/widget/account?cn=account&origin=https%3A%2F%2Fwww.google.com&hl=en",
+    entry.authuser_index
+  );
+  let resp = client
+    .get(url)
+    .header("User-Agent", CHROME_UA)
+    .header("Cookie", cookie_header)
+    .send()
+    .await
+    .ok()?;
+  if !resp.status().is_success() {
+    return None;
+  }
+  parse_account_plan(&resp.text().await.ok()?, &entry.email)
+}
+
+/// The profile's google.com cookies as one `Cookie` header value.
+async fn google_cookie_header(profile_id: &str) -> Result<String, String> {
   let pid = profile_id.to_string();
   let result = tokio::task::spawn_blocking(move || {
     crate::cookie_manager::CookieManager::read_cookies(&pid)
@@ -145,36 +205,13 @@ async fn fetch_list_accounts(profile_id: &str) -> Result<Vec<ListAccountEntry>, 
   if jar.is_empty() {
     return Err("NO_GOOGLE_COOKIES".to_string());
   }
-  let cookie_header = jar
-    .iter()
-    .map(|(k, v)| format!("{k}={v}"))
-    .collect::<Vec<_>>()
-    .join("; ");
-
-  let client = reqwest::Client::builder()
-    .build()
-    .map_err(|e| e.to_string())?;
-  let resp = client
-    .post(LIST_ACCOUNTS_URL)
-    .header("Origin", "https://www.google.com")
-    .header("Content-Type", "application/x-www-form-urlencoded")
-    .header(
-      "User-Agent",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
-       (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
-    )
-    .header("Cookie", cookie_header)
-    .body(" ") // one space forces a POST, as Chromium does
-    .send()
-    .await
-    .map_err(|e| format!("request failed: {e}"))?;
-
-  let status = resp.status();
-  let body = resp.text().await.map_err(|e| format!("read body: {e}"))?;
-  if !status.is_success() {
-    return Err(format!("ListAccounts HTTP {status}"));
-  }
-  Ok(parse_list_accounts(&body))
+  Ok(
+    jar
+      .iter()
+      .map(|(k, v)| format!("{k}={v}"))
+      .collect::<Vec<_>>()
+      .join("; "),
+  )
 }
 
 /// Read the accounts a profile currently holds from its on-disk Chromium
@@ -216,12 +253,52 @@ pub async fn open_google_account(
   app_handle: tauri::AppHandle,
   account_id: String,
 ) -> Result<(), String> {
-  let account = AccountManager::instance()
+  let account = find_account(&account_id)?;
+  let url = open_account_url(account.authuser_index);
+  launch_account_profile(app_handle, &account, url).await
+}
+
+/// Open Google's Antigravity ToS-suspension appeal form in the account's own
+/// profile, signed in as that account.
+#[tauri::command]
+pub async fn open_antigravity_appeal(
+  app_handle: tauri::AppHandle,
+  account_id: String,
+) -> Result<(), String> {
+  let account = find_account(&account_id)?;
+  let url = antigravity_appeal_url(&account.email);
+  launch_account_profile(app_handle, &account, url).await
+}
+
+/// Record the account's Antigravity standing (set by the user). Returns every
+/// account so the dashboard can redraw from one source.
+#[tauri::command]
+pub async fn set_antigravity_status(
+  account_id: String,
+  status: AntigravityStatus,
+) -> Result<Vec<GoogleAccount>, String> {
+  AccountManager::instance().set_antigravity_status(
+    &account_id,
+    status,
+    crate::proxy_manager::now_secs(),
+  )
+}
+
+fn find_account(account_id: &str) -> Result<GoogleAccount, String> {
+  AccountManager::instance()
     .list()?
     .into_iter()
     .find(|a| a.id == account_id)
-    .ok_or("ACCOUNT_NOT_FOUND")?;
+    .ok_or_else(|| "ACCOUNT_NOT_FOUND".to_string())
+}
 
+/// Launch (or reuse) the account's slot profile at `url`. If the profile is
+/// already running, Donut opens the URL as a new tab in that window.
+async fn launch_account_profile(
+  app_handle: tauri::AppHandle,
+  account: &GoogleAccount,
+  url: String,
+) -> Result<(), String> {
   let profile_uuid =
     uuid::Uuid::parse_str(&account.profile_id).map_err(|_| "PROFILE_NOT_FOUND".to_string())?;
   let profile = ProfileManager::instance()
@@ -229,14 +306,9 @@ pub async fn open_google_account(
     .map_err(|e| e.to_string())?
     .ok_or("PROFILE_NOT_FOUND")?;
 
-  crate::browser_runner::launch_browser_profile(
-    app_handle,
-    profile,
-    Some(open_account_url(account.authuser_index)),
-    None,
-  )
-  .await
-  .map(|_| ())
+  crate::browser_runner::launch_browser_profile(app_handle, profile, Some(url), None)
+    .await
+    .map(|_| ())
 }
 
 /// Re-read one profile's accounts from disk and reconcile them into the store.

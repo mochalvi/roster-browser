@@ -427,7 +427,7 @@
       "cantModifyStopping": "Não é possível modificar o perfil durante a parada",
       "cantModifyUpdating": "Não é possível modificar o perfil enquanto o navegador é atualizado",
       "emptyTitle": "Nenhum perfil ainda",
-      "emptyHint": "Crie seu primeiro perfil ou importe perfis existentes de outro navegador.",
+      "emptyHint": "Crie seu primeiro perfil para começar.",
       "emptyCreate": "Criar perfil",
       "emptyImport": "Importar perfis",
       "emptyFilteredTitle": "Nenhum perfil encontrado",

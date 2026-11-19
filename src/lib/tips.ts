@@ -52,7 +52,6 @@ export type TipId =
   | "statuses"
   | "templates"
   | "extensionGroups"
-  | "importProfiles"
   | "proxyCheck"
   | "vpn"
   | "dnsBlocklist"
@@ -81,12 +80,7 @@ export type TipId =
  */
 export type NotedFeature = Extract<
   TipId,
-  | "commandPalette"
-  | "searchSyntax"
-  | "shortcuts"
-  | "importProfiles"
-  | "totp"
-  | "synchronizer"
+  "commandPalette" | "searchSyntax" | "shortcuts" | "totp" | "synchronizer"
 >;
 
 /** The profile fields the relevance checks read. */
@@ -243,14 +237,6 @@ export const TIPS: readonly TipDefinition[] = [
     inUse: (usage) =>
       usage.extensionGroupCount > 0 ||
       anyProfile(usage, (profile) => !!profile.extension_group_id),
-  },
-  {
-    id: "importProfiles",
-    section: "everyday",
-    editsTeamData: true,
-    action: { kind: "page", page: "import" },
-    anchors: ["rail-more"],
-    inUse: noted("importProfiles"),
   },
   {
     id: "proxyCheck",

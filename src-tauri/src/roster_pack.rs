@@ -116,6 +116,9 @@ mod tests {
         last_refresh: Some(100),
         tags: vec!["klien-a".to_string()],
         note: None,
+        plan: None,
+        antigravity: Default::default(),
+        antigravity_since: None,
       }],
       vec![ProfileBlob {
         profile_id: "p1".to_string(),

@@ -363,11 +363,6 @@ use app_auto_updater::{
   restart_application,
 };
 
-use profile_importer::{
-  cancel_profile_import, cleanup_profile_import_scratch, detect_existing_profiles,
-  import_browser_profiles, scan_folder_for_profiles, scan_profile_archive,
-};
-
 use extension_fetch::fetch_extension_from_url;
 
 use extension_manager::{
@@ -3687,12 +3682,6 @@ pub fn run_with_builder(
       download_and_prepare_app_update,
       restart_application,
       whats_new::take_whats_new,
-      detect_existing_profiles,
-      import_browser_profiles,
-      cancel_profile_import,
-      scan_folder_for_profiles,
-      scan_profile_archive,
-      cleanup_profile_import_scratch,
       check_missing_binaries,
       check_missing_geoip_database,
       ensure_all_binaries_exist,
@@ -3769,6 +3758,8 @@ pub fn run_with_builder(
       profile::portable::import_profile_archive,
       account_commands::list_google_accounts,
       account_commands::open_google_account,
+      account_commands::open_antigravity_appeal,
+      account_commands::set_antigravity_status,
       account_commands::refresh_profile,
       account_commands::refresh_all_accounts,
       account_commands::sync_profile_live,

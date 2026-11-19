@@ -34,6 +34,24 @@ pub enum AccountStatus {
   Unknown,
 }
 
+/// The account's standing in Google Antigravity, set by the user. Google only
+/// reports a suspension through Antigravity's own OAuth API, and calling that
+/// API from a third-party tool is itself a documented ban trigger, so Roster
+/// never checks it automatically.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum AntigravityStatus {
+  #[default]
+  Normal,
+  Banned,
+  /// Google allows one appeal per account; this records that it was used.
+  AppealSent,
+}
+
+/// Google's ToS-suspension appeal form for Antigravity, Gemini CLI and Gemini
+/// Code Assist. It must be submitted while signed in as the suspended account.
+const ANTIGRAVITY_APPEAL_FORM: &str =
+  "https://docs.google.com/forms/d/e/1FAIpQLScOJWibQ_-hYuVv63kJTgEqlgAaOwRLGFTbXm-QY1gz8U0CGA/viewform";
+
 /// One Google account, as Roster tracks it. The heavy session data lives in the
 /// profile directory Donut owns; this is only the pointer and the metadata the
 /// account list shows.
@@ -60,6 +78,15 @@ pub struct GoogleAccount {
   pub tags: Vec<String>,
   #[serde(default)]
   pub note: Option<String>,
+  /// Google AI plan as Google's own account menu badges it ("Pro", "Ultra",
+  /// ...), or "Free" when it shows none. `None` until a Sync could read it.
+  #[serde(default)]
+  pub plan: Option<String>,
+  #[serde(default)]
+  pub antigravity: AntigravityStatus,
+  /// When `antigravity` last changed, so a ban or appeal can be followed up.
+  #[serde(default)]
+  pub antigravity_since: Option<u64>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -78,6 +105,9 @@ pub struct ListAccountEntry {
   /// Google's "valid session" flag for the row, when present. `false` means the
   /// cookie is there but the session needs re-auth.
   pub valid: bool,
+  /// Filled in by a live Sync from Google's account menu; parsers leave it
+  /// `None`, which keeps whatever plan was known before.
+  pub plan: Option<String>,
 }
 
 // --- Pure domain logic (no I/O) -------------------------------------------
@@ -180,6 +210,7 @@ pub fn parse_list_accounts(body: &str) -> Vec<ListAccountEntry> {
       avatar_url,
       authuser_index: index,
       valid,
+      plan: None,
     });
   }
   out
@@ -227,9 +258,44 @@ pub fn parse_account_info(preferences_json: &str) -> Vec<ListAccountEntry> {
         avatar_url,
         authuser_index: index,
         valid: true,
+        plan: None,
       })
     })
     .collect()
+}
+
+/// Read one account's Google AI plan from Google's account-menu widget
+/// (`ogs.google.com/u/<n>/widget/account?hl=en`). The widget's expanded header
+/// is labelled `"<name>, <email>, AI Pro account. Collapse accounts list"`, and
+/// carries no plan phrase for an account without one.
+///
+/// Returns `None` when the header is missing or belongs to another email (so a
+/// renumbered or unreadable account keeps its previous plan, never a wrong
+/// one), `Some("Free")` when the header has no plan, else the plan word(s).
+///
+/// shortcut: scrapes an undocumented page in English; if Google reshapes it this
+/// returns `None` and the UI shows the plan as unknown. Upgrade: an official API.
+pub fn parse_account_plan(widget_html: &str, email: &str) -> Option<String> {
+  let end = widget_html.find("Collapse accounts list\"")?;
+  let start = widget_html[..end].rfind("aria-label=\"")? + "aria-label=\"".len();
+  let label = widget_html[start..end].trim().trim_end_matches('.');
+  let at = label.find(email)?;
+  let after = label[at + email.len()..].trim_start_matches([',', ' ']);
+  let plan = after
+    .strip_prefix("AI ")
+    .and_then(|rest| rest.strip_suffix(" account"))
+    .map(str::trim)
+    .filter(|p| !p.is_empty());
+  Some(plan.unwrap_or("Free").to_string())
+}
+
+/// The appeal form, opened as `email` so Google pre-selects the suspended
+/// account in a profile that holds several.
+pub fn antigravity_appeal_url(email: &str) -> String {
+  format!(
+    "{ANTIGRAVITY_APPEAL_FORM}?authuser={}",
+    urlencoding::encode(email)
+  )
 }
 
 fn is_image_url(s: &str) -> bool {
@@ -280,6 +346,7 @@ pub fn reconcile_profile_accounts(
         last_refresh: Some(now),
         display_name: entry.display_name.clone().or_else(|| prev.display_name.clone()),
         avatar_url: entry.avatar_url.clone().or_else(|| prev.avatar_url.clone()),
+        plan: entry.plan.clone().or_else(|| prev.plan.clone()),
         ..prev.clone()
       });
     } else {
@@ -294,6 +361,9 @@ pub fn reconcile_profile_accounts(
         last_refresh: Some(now),
         tags: Vec::new(),
         note: None,
+        plan: entry.plan.clone(),
+        antigravity: AntigravityStatus::Normal,
+        antigravity_since: None,
       });
     }
   }
@@ -441,6 +511,27 @@ impl AccountManager {
     }
     self.save(&data)
   }
+
+  pub fn set_antigravity_status(
+    &self,
+    account_id: &str,
+    status: AntigravityStatus,
+    now: u64,
+  ) -> Result<Vec<GoogleAccount>, String> {
+    let _g = self.lock.lock().unwrap_or_else(|p| p.into_inner());
+    let mut data = self.load()?;
+    let account = data
+      .accounts
+      .iter_mut()
+      .find(|a| a.id == account_id)
+      .ok_or("ACCOUNT_NOT_FOUND")?;
+    if account.antigravity != status {
+      account.antigravity = status;
+      account.antigravity_since = Some(now);
+    }
+    self.save(&data)?;
+    Ok(data.accounts)
+  }
 }
 
 #[cfg(test)]
@@ -532,6 +623,9 @@ mod tests {
       last_refresh: None,
       tags: vec!["klien-a".to_string()],
       note: Some("penting".to_string()),
+      plan: Some("Pro".to_string()),
+      antigravity: AntigravityStatus::Banned,
+      antigravity_since: Some(7),
     }
   }
 
@@ -542,7 +636,48 @@ mod tests {
       avatar_url: Some("https://lh3.googleusercontent.com/a/x".to_string()),
       authuser_index: idx,
       valid,
+      plan: None,
     }
+  }
+
+  // Trimmed from a real ogs.google.com/u/0/widget/account?hl=en response.
+  const WIDGET: &str = r#"<div aria-expanded="true" aria-label="Andi Saputra, andi@gmail.com, AI Pro account. Collapse accounts list" jsaction="x"><span class="YzbLde">Pro</span>"#;
+
+  #[test]
+  fn reads_the_plan_from_the_account_menu_header() {
+    assert_eq!(parse_account_plan(WIDGET, "andi@gmail.com").as_deref(), Some("Pro"));
+    let ultra = WIDGET.replace("AI Pro account", "AI Ultra account");
+    assert_eq!(parse_account_plan(&ultra, "andi@gmail.com").as_deref(), Some("Ultra"));
+  }
+
+  #[test]
+  fn a_header_without_a_plan_is_free() {
+    let free = WIDGET.replace(", AI Pro account", "");
+    assert_eq!(parse_account_plan(&free, "andi@gmail.com").as_deref(), Some("Free"));
+  }
+
+  #[test]
+  fn another_accounts_header_or_no_header_gives_no_plan() {
+    assert_eq!(parse_account_plan(WIDGET, "budi@gmail.com"), None, "wrong account");
+    assert_eq!(parse_account_plan("<html>403</html>", "andi@gmail.com"), None);
+  }
+
+  #[test]
+  fn appeal_url_selects_the_account_by_email() {
+    assert!(antigravity_appeal_url("a.b+x@gmail.com").ends_with("viewform?authuser=a.b%2Bx%40gmail.com"));
+  }
+
+  #[test]
+  fn sync_keeps_the_known_plan_and_never_touches_antigravity_status() {
+    // A Sync that could not read the plan (None) must not erase the old one,
+    // and the user-set Antigravity status survives every refresh.
+    let out = reconcile_profile_accounts("p1", &[acct("andi@gmail.com", "p1", 0)], &[entry("andi@gmail.com", 0, true)], 9);
+    assert_eq!(out[0].plan.as_deref(), Some("Pro"));
+    assert_eq!(out[0].antigravity, AntigravityStatus::Banned);
+    let mut fresh = entry("andi@gmail.com", 0, true);
+    fresh.plan = Some("Ultra".to_string());
+    let out = reconcile_profile_accounts("p1", &[acct("andi@gmail.com", "p1", 0)], &[fresh], 9);
+    assert_eq!(out[0].plan.as_deref(), Some("Ultra"), "a fresh read wins");
   }
 
   #[test]

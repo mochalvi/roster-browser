@@ -386,7 +386,6 @@ export function useTips({
     if (activity.paletteOpen) noteFeature("commandPalette");
     if (fieldSearch) noteFeature("searchSyntax");
     if (activity.page === "shortcuts") noteFeature("shortcuts");
-    if (activity.page === "import") noteFeature("importProfiles");
     if (activity.totpOpen) noteFeature("totp");
     if (activity.synchronizing) noteFeature("synchronizer");
   }, [

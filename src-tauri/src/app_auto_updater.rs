@@ -113,6 +113,10 @@ fn null_as_empty<'de, D: serde::Deserializer<'de>>(deserializer: D) -> Result<St
   Ok(Option::<String>::deserialize(deserializer)?.unwrap_or_default())
 }
 
+/// Off in Roster: the release sources below are Donut's. Turning it on needs
+/// them pointed at Roster's own releases (with SHA256SUMS.txt) first.
+const ROSTER_SELF_UPDATE_ENABLED: bool = false;
+
 /// GitHub's API for this repository.
 const GITHUB_REPO_API: &str = "https://api.github.com/repos/donutbrowser/donutbrowser";
 /// Donut's copy of the newest stable and nightly releases, which the cloud
@@ -259,6 +263,12 @@ impl AppAutoUpdater {
     &self,
     manual: bool,
   ) -> Result<Option<AppUpdateInfo>, Box<dyn std::error::Error + Send + Sync>> {
+    // Roster never self-updates from Donut's feeds: every source below is
+    // Donut's own releases, and installing one replaces Roster with Donut.
+    // Every check (startup, periodic, manual) passes through here.
+    if !ROSTER_SELF_UPDATE_ENABLED {
+      return Ok(None);
+    }
     let started = std::time::Instant::now();
     let current_version = Self::get_current_version();
     let channel = if Self::is_nightly_build() {

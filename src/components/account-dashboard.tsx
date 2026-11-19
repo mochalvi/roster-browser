@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import {
   LuDownload,
   LuExternalLink,
+  LuFlag,
   LuRefreshCw,
   LuSearch,
   LuUpload,
@@ -26,13 +27,23 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   type AccountStatus,
+  type AntigravityStatus,
   exportAccounts,
   type GoogleAccount,
   importAccounts,
   keepAliveAll,
   listGoogleAccounts,
+  openAntigravityAppeal,
   openGoogleAccount,
+  setAntigravityStatus,
   syncAllAccountsLive,
 } from "@/lib/accounts";
 import { translateBackendError } from "@/lib/backend-errors";
@@ -55,6 +66,17 @@ const STATUS: Record<
     problem: false,
   },
 };
+
+const ANTIGRAVITY: Record<AntigravityStatus, string> = {
+  Normal: "Antigravity OK",
+  Banned: "Antigravity banned",
+  AppealSent: "Appeal sent",
+};
+
+/** A session problem or an Antigravity ban: both need the user to act. */
+function needsAttention(account: GoogleAccount): boolean {
+  return STATUS[account.status].problem || account.antigravity === "Banned";
+}
 
 function relativeTime(epochSeconds: number | null): string {
   if (!epochSeconds) return "never refreshed";
@@ -114,6 +136,30 @@ export function AccountDashboard() {
       showToast({ type: "error", title: translateBackendError(t, e) });
     } finally {
       setWarming(false);
+    }
+  }
+
+  async function changeAntigravity(
+    account: GoogleAccount,
+    status: AntigravityStatus,
+  ) {
+    try {
+      setAccounts(await setAntigravityStatus(account.id, status));
+    } catch (e) {
+      showToast({ type: "error", title: translateBackendError(t, e) });
+    }
+  }
+
+  // Google allows one appeal per account, so opening the form is confirmed.
+  const [appealFor, setAppealFor] = useState<GoogleAccount | null>(null);
+
+  async function confirmAppeal() {
+    if (!appealFor) return;
+    try {
+      await openAntigravityAppeal(appealFor.id);
+      setAppealFor(null);
+    } catch (e) {
+      showToast({ type: "error", title: translateBackendError(t, e) });
     }
   }
 
@@ -180,11 +226,12 @@ export function AccountDashboard() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return accounts.filter((a) => {
-      if (problemsOnly && !STATUS[a.status].problem) return false;
+      if (problemsOnly && !needsAttention(a)) return false;
       if (!q) return true;
       return (
         a.email.toLowerCase().includes(q) ||
         (a.display_name || "").toLowerCase().includes(q) ||
+        (a.plan || "").toLowerCase().includes(q) ||
         a.tags.some((t) => t.toLowerCase().includes(q))
       );
     });
@@ -201,7 +248,7 @@ export function AccountDashboard() {
     }
   }
 
-  const problemCount = accounts.filter((a) => STATUS[a.status].problem).length;
+  const problemCount = accounts.filter(needsAttention).length;
 
   return (
     <div className="mx-auto flex h-full w-full max-w-4xl flex-col gap-4 p-4">
@@ -288,8 +335,25 @@ export function AccountDashboard() {
                 )}
 
                 <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="truncate font-medium text-sm">
-                    {account.display_name || account.email}
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <span className="truncate font-medium text-sm">
+                      {account.display_name || account.email}
+                    </span>
+                    <Badge
+                      variant={
+                        account.plan && account.plan !== "Free"
+                          ? "default"
+                          : "outline"
+                      }
+                      className="shrink-0 text-[10px]"
+                      title={
+                        account.plan
+                          ? "Google AI plan, read from Google's account menu"
+                          : "Plan not read yet — run Sync"
+                      }
+                    >
+                      {account.plan ?? "?"}
+                    </Badge>
                   </span>
                   <span className="truncate text-muted-foreground text-xs">
                     {account.email}
@@ -320,6 +384,43 @@ export function AccountDashboard() {
                   <span className="hidden text-muted-foreground text-xs sm:inline">
                     {relativeTime(account.last_refresh)}
                   </span>
+                  <Select
+                    value={account.antigravity}
+                    onValueChange={(v) =>
+                      void changeAntigravity(account, v as AntigravityStatus)
+                    }
+                  >
+                    <SelectTrigger
+                      size="sm"
+                      aria-label="Antigravity status"
+                      className={`h-8 w-40 text-xs ${
+                        account.antigravity === "Banned"
+                          ? "border-red-500 text-red-600"
+                          : ""
+                      }`}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(Object.keys(ANTIGRAVITY) as AntigravityStatus[]).map(
+                        (s) => (
+                          <SelectItem key={s} value={s} className="text-xs">
+                            {ANTIGRAVITY[s]}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
+                  {account.antigravity === "Banned" && (
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => setAppealFor(account)}
+                    >
+                      <LuFlag className="size-4" />
+                      Appeal
+                    </Button>
+                  )}
                   <LoadingButton
                     size="sm"
                     isLoading={opening === account.id}
@@ -334,6 +435,32 @@ export function AccountDashboard() {
           })
         )}
       </div>
+
+      <Dialog
+        open={appealFor !== null}
+        onOpenChange={(o) => !o && setAppealFor(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Appeal Antigravity suspension</DialogTitle>
+            <DialogDescription>
+              Opens Google's appeal form in {appealFor?.email}'s own profile,
+              signed in as that account. Google allows only one appeal per
+              account, so fill it in completely before submitting. After you
+              submit, set the status to "Appeal sent".
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setAppealFor(null)}>
+              Cancel
+            </Button>
+            <Button onClick={() => void confirmAppeal()}>
+              <LuExternalLink className="size-4" />
+              Open appeal form
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog
         open={transfer !== null}

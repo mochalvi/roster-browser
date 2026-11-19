@@ -8,7 +8,6 @@ import {
   LuBot,
   LuCloud,
   LuCookie,
-  LuDownload,
   LuEllipsis,
   LuInfo,
   LuKeyboard,
@@ -50,7 +49,6 @@ export type AppPage =
   | "settings"
   | "integrations"
   | "account"
-  | "import"
   | "shortcuts"
   | "previews"
   | "trash";
@@ -242,7 +240,6 @@ export const PAGE_ICONS: Record<AppPage, PageIcon> = {
   agent: LuBot,
   integrations: LuPlug,
   account: LuCloud,
-  import: LuDownload,
   shortcuts: LuKeyboard,
   previews: LuLayoutGrid,
   trash: LuTrash2,
@@ -260,7 +257,6 @@ const PAGE_ORDER: AppPage[] = [
   "agent",
   "integrations",
   "account",
-  "import",
   "shortcuts",
   "previews",
   "trash",
@@ -433,13 +429,6 @@ interface MoreMenuItem {
 }
 
 const MORE_PAGES: Array<MoreMenuItem & { page: AppPage }> = [
-  {
-    id: "import",
-    page: "import",
-    Icon: PAGE_ICONS.import,
-    labelKey: "rail.more.importProfile",
-    hintKey: "rail.more.importProfileHint",
-  },
   {
     id: "shortcuts",
     page: "shortcuts",
