@@ -47,8 +47,13 @@ profile when the slots fill. You see accounts; the profiles stay out of your way
 - **Per-profile proxy & consistent fingerprint** — inherited from Donut's
   anti-detect engine; each account keeps a stable proxy, timezone, and
   fingerprint.
-- **Import from an existing browser** — pull Google accounts you are already
-  signed into in Chrome, Edge, or Firefox (see the honesty note below).
+- **Google AI plan badge** — every Sync reads each account's plan (Pro, Ultra,
+  …) from Google's own account menu, the same badge Google shows under your
+  avatar. Accounts without a plan show **Free**.
+- **Antigravity status + appeal** — mark an account as *Antigravity OK*,
+  *banned*, or *appeal sent*. A banned account gets an **Appeal** button that
+  opens Google's official suspension appeal form in that account's own profile,
+  already signed in. Google allows only one appeal per account.
 - **Encrypted export / import (`.roster`)** — copy your accounts and their
   sessions to another computer as one password-protected file (AES-256-GCM,
   Argon2id key derivation). The password is verified and the file decrypted
@@ -75,15 +80,22 @@ When an account still lands on ⚠️, the safe fallback is a manual re-login in
 same profile — because the proxy and fingerprint are identical, Google usually
 does not challenge it hard.
 
-### Import from Chrome / Edge / Firefox — honesty note
+### Why there is no "import from Chrome / Edge"
 
-| Source | Result |
-|---|---|
-| Firefox | Reliable — cookies.sqlite is not device-bound, so sessions move cleanly. |
-| Chrome / Edge | Best-effort — recent Chrome binds data to the device (App-Bound Encryption), so some accounts will still ask for a re-login. |
+Roster used to offer importing a profile from another browser. It was removed:
+Chrome, Edge, and Brave on Windows seal their cookies with App-Bound Encryption,
+which only the original browser can open, so Google sign-ins never came along.
+Sign in to each account inside its Roster profile instead — a session created
+there keeps a consistent fingerprint and proxy from the start, which is also
+what makes it last.
 
-After importing an account, **do not keep using it in the original browser**. A
-session active in two places looks suspicious to Google and can log out both.
+### Why Antigravity status is set by hand
+
+Google reports an Antigravity suspension only through Antigravity's own API,
+which needs Antigravity's sign-in token. Using that token from a third-party
+tool is itself a widely reported ban trigger, so Roster never checks it for
+you. Set the status yourself when Antigravity shows the "disabled … violation
+of Terms of Service" error.
 
 ### Status
 
@@ -92,12 +104,26 @@ export/import are being built on top of Donut's profile engine.
 
 ### Download
 
-A pre-built Windows installer (`.exe`) is on the
-**[Releases page](https://github.com/mochalvi/roster-browser/releases/latest)** —
-download `Roster_<version>_x64-setup.exe`, run it, and launch Roster.
+Pre-built installers are on the
+**[Releases page](https://github.com/mochalvi/roster-browser/releases/latest)**:
 
-> Windows SmartScreen may warn because the build is not code-signed yet. Choose
-> *More info → Run anyway*, or build it yourself (below).
+| Platform | File |
+|---|---|
+| Windows 10/11 (x64) | `Roster_<version>_x64-setup.exe` |
+| macOS (Apple Silicon M1–M4) | `Roster_<version>_aarch64.dmg` |
+| Linux (x64) | `.AppImage`, `.deb`, or `.rpm` |
+
+Intel Macs and ARM Linux are not supported: Roster's browser engine (Wayfern)
+is not published for them.
+
+The builds are not code-signed yet:
+
+- **Windows:** SmartScreen may warn — choose *More info → Run anyway*.
+- **macOS:** after moving Roster to Applications, run this once in Terminal,
+  otherwise macOS reports the app as damaged:
+  `xattr -cr /Applications/Roster.app`
+
+Roster does not update itself; download new versions from the Releases page.
 
 ### Build
 
@@ -163,8 +189,13 @@ disembunyikan.
   ⚠️ perlu verifikasi · ❌ logout).
 - **Proxy per profil & fingerprint konsisten** — diwarisi dari mesin anti-detect
   Donut; tiap akun punya proxy, timezone, dan fingerprint yang tetap.
-- **Import dari browser yang sudah ada** — ambil akun Google yang sudah login di
-  Chrome, Edge, atau Firefox (lihat catatan kejujuran di bawah).
+- **Badge paket Google AI** — setiap Sync membaca paket tiap akun (Pro, Ultra,
+  …) dari menu akun Google sendiri, badge yang sama dengan yang Google tampilkan
+  di bawah foto profilmu. Akun tanpa paket tampil **Free**.
+- **Status Antigravity + appeal** — tandai akun sebagai *Antigravity OK*,
+  *banned*, atau *appeal terkirim*. Akun yang banned mendapat tombol **Appeal**
+  yang membuka form appeal resmi Google di profil akun itu sendiri, sudah dalam
+  keadaan login. Google hanya mengizinkan satu kali appeal per akun.
 - **Export / import terenkripsi (`.roster`)** — salin akun dan sesinya ke
   komputer lain sebagai satu file berpassword (AES-256-GCM, derivasi kunci
   Argon2id). Password diverifikasi dan file didekripsi utuh *sebelum* ada yang
@@ -192,16 +223,22 @@ Kalau sebuah akun tetap berakhir ⚠️, jalan amannya adalah login ulang manual
 profil yang sama — karena proxy dan fingerprint-nya identik, Google biasanya
 tidak meminta verifikasi berat.
 
-### Import dari Chrome / Edge / Firefox — catatan kejujuran
+### Kenapa tidak ada "import dari Chrome / Edge"
 
-| Sumber | Hasil |
-|---|---|
-| Firefox | Andal — cookies.sqlite tidak terikat perangkat, jadi sesi pindah mulus. |
-| Chrome / Edge | Best-effort — Chrome versi baru mengikat data ke perangkat (App-Bound Encryption), jadi sebagian akun tetap akan minta login ulang. |
+Roster dulu punya fitur import profil dari browser lain. Fitur itu dihapus:
+Chrome, Edge, dan Brave di Windows mengunci cookie dengan App-Bound Encryption
+yang hanya bisa dibuka browser aslinya, jadi login Google tidak pernah ikut
+terbawa. Login-lah ke tiap akun langsung di profil Roster-nya — sesi yang dibuat
+di sana punya fingerprint dan proxy yang konsisten sejak awal, dan itulah yang
+membuatnya awet.
 
-Setelah mengimpor sebuah akun, **jangan lagi memakainya di browser asalnya**.
-Sesi yang aktif di dua tempat terlihat mencurigakan bagi Google dan bisa membuat
-keduanya logout.
+### Kenapa status Antigravity diisi manual
+
+Google hanya memberi tahu suspensi Antigravity lewat API Antigravity sendiri,
+yang butuh token login Antigravity. Memakai token itu dari aplikasi pihak ketiga
+justru banyak dilaporkan sebagai pemicu banned, jadi Roster tidak pernah
+mengeceknya otomatis. Ubah statusnya sendiri saat Antigravity menampilkan error
+"disabled … violation of Terms of Service".
 
 ### Status
 
@@ -210,13 +247,27 @@ export/import sedang dibangun di atas mesin profil Donut.
 
 ### Unduh
 
-Installer Windows (`.exe`) siap pakai ada di
-**[halaman Releases](https://github.com/mochalvi/roster-browser/releases/latest)** —
-unduh `Roster_<versi>_x64-setup.exe`, jalankan, lalu buka Roster.
+Installer siap pakai ada di
+**[halaman Releases](https://github.com/mochalvi/roster-browser/releases/latest)**:
 
-> Windows SmartScreen mungkin memberi peringatan karena build-nya belum
-> ditandatangani (code-signing). Pilih *More info → Run anyway*, atau build
-> sendiri (di bawah).
+| Platform | File |
+|---|---|
+| Windows 10/11 (x64) | `Roster_<versi>_x64-setup.exe` |
+| macOS (Apple Silicon M1–M4) | `Roster_<versi>_aarch64.dmg` |
+| Linux (x64) | `.AppImage`, `.deb`, atau `.rpm` |
+
+Mac Intel dan Linux ARM tidak didukung, karena mesin browser Roster (Wayfern)
+tidak dirilis untuk platform itu.
+
+Build-nya belum ditandatangani (code-signing):
+
+- **Windows:** SmartScreen mungkin memberi peringatan — pilih *More info → Run
+  anyway*.
+- **macOS:** setelah memindahkan Roster ke Applications, jalankan sekali perintah
+  ini di Terminal, kalau tidak macOS akan menyebut aplikasinya rusak:
+  `xattr -cr /Applications/Roster.app`
+
+Roster tidak meng-update dirinya sendiri; unduh versi baru dari halaman Releases.
 
 ### Build
 
