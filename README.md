@@ -110,11 +110,20 @@ Pre-built installers are on the
 | Platform | File |
 |---|---|
 | Windows 10/11 (x64) | `Roster_<version>_x64-setup.exe` |
-| macOS (Apple Silicon M1–M4) | `Roster_<version>_aarch64.dmg` |
+| macOS — **Apple Silicon only** (M1–M4) | `Roster_<version>_aarch64.dmg` |
 | Linux (x64) | `.AppImage`, `.deb`, or `.rpm` |
 
-Intel Macs and ARM Linux are not supported: Roster's browser engine (Wayfern)
-is not published for them.
+> [!IMPORTANT]
+> **The macOS build runs only on Apple Silicon Macs (M1, M2, M3, M4). It does
+> not run on Intel Macs** — macOS shows *"You can't open the application Roster
+> because this application is not supported on this Mac."*
+> To check your Mac: **Apple menu → About This Mac**. *Chip: Apple M…* means
+> Apple Silicon (supported); *Processor: Intel…* means Intel (not supported).
+> Intel Macs and ARM Linux cannot be supported because Roster's browser engine
+> (Wayfern) is not published for them.
+
+Step-by-step install instructions for every platform are on the
+[release page](https://github.com/mochalvi/roster-browser/releases/latest).
 
 The builds are not code-signed yet:
 
@@ -253,11 +262,20 @@ Installer siap pakai ada di
 | Platform | File |
 |---|---|
 | Windows 10/11 (x64) | `Roster_<versi>_x64-setup.exe` |
-| macOS (Apple Silicon M1–M4) | `Roster_<versi>_aarch64.dmg` |
+| macOS — **khusus Apple Silicon** (M1–M4) | `Roster_<versi>_aarch64.dmg` |
 | Linux (x64) | `.AppImage`, `.deb`, atau `.rpm` |
 
-Mac Intel dan Linux ARM tidak didukung, karena mesin browser Roster (Wayfern)
-tidak dirilis untuk platform itu.
+> [!IMPORTANT]
+> **Versi macOS hanya bisa berjalan di Mac Apple Silicon (M1, M2, M3, M4).
+> Tidak bisa di Mac Intel** — macOS akan menampilkan *"You can't open the
+> application Roster because this application is not supported on this Mac."*
+> Cara mengecek Mac-mu: **menu Apple → About This Mac**. Tertulis *Chip: Apple
+> M…* berarti Apple Silicon (didukung); *Processor: Intel…* berarti Intel (tidak
+> didukung). Mac Intel dan Linux ARM tidak bisa didukung karena mesin browser
+> Roster (Wayfern) tidak dirilis untuk platform itu.
+
+Langkah instalasi lengkap untuk tiap platform ada di
+[halaman rilis](https://github.com/mochalvi/roster-browser/releases/latest).
 
 Build-nya belum ditandatangani (code-signing):
 
